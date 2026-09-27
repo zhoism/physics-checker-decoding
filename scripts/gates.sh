@@ -110,6 +110,7 @@ unfilled_holes() {
 # ---------------------------------------------------------------------------
 # --- checks begin ---
 run_gate "CLAUDE.md has no unfilled holes" unfilled_holes CLAUDE.md
+run_gate --needs uv "checker tests" uv run --quiet pytest -q -p no:cacheprovider
 # --- checks end ---
 
 TOTAL=$((PASS+FAIL+SKIP))
