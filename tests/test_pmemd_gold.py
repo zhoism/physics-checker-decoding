@@ -14,6 +14,11 @@ def test_accepts_a_legal_restart():
     assert pmemd_gold.accepts(RESTART) == (True, "")
 
 
+def test_a_title_cannot_forge_the_results_header():
+    ok, msg = pmemd_gold.accepts(RESTART.replace("Restart", "4.  RESULTS").replace("ig=-1", "ig=-1, ntr=2"))
+    assert not ok and "ntr must be set to 0 or 1" in msg, msg
+
+
 @pytest.mark.parametrize("change, error", [
     ("ig=-1, ntsx=1", "Cannot match namelist object name ntsx"),
     ("ig=-1, nmropt=1", 'No "wt" namelist with TYPE=END found'),

@@ -16,8 +16,9 @@ pmemd -O -i t.in -p complex.parm7 -c complex.rst7 -o t.out -r t.rst7
 
 The pmemd value is the one printed in mdout's `CONTROL DATA FOR THE RUN` section, not the input
 echo above it. My first pass read the echo and got the duplicate-key case backwards. Every run
-goes NaN at step 1 because the structure is not minimized. That happens after the input is
-parsed, so it does not affect anything below.
+blows up in the first steps (NaN temperatures, then `Coordinate resetting (shake) was not
+accomplished`) because the structure is not minimized. That happens after the input is parsed,
+so it does not affect anything below.
 
 Baseline (legal, passes both):
 `imin=0, irest=0, ntx=1, nstlim=2, dt=0.002, ntc=2, ntf=2, cut=9.0, ntb=1, ntt=3, gamma_ln=2.0,
@@ -37,7 +38,8 @@ temp0=300.0, tempi=300.0, ig=71277, ntpr=1`.
    reads them. The restart rule works around this by re-parsing comment-stripped text, but the
    dt, SHAKE, cut, thermostat and temp0 rules use the truncated parse. This one is already
    known: `Gap_Gate_Coverage.md` (2026-06-27) records it with the shared-parser fix deferred.
-   It is still present.
+   It is still present. It hides a violation only when the keys a rule needs come before the
+   comment: with `ntc`/`ntf` after it, SHAKE reads as off and the file FAILs, for the wrong reason.
 2. **Unknown keys pass.** The checker only reads the keys it knows. A hallucinated key is
    invisible to it and fatal to pmemd. That matters here, because inventing keys is the most
    common thing the 7B model does wrong (`ntfout`, `nsa`, `icell`, `nmd` in the smoke run).
@@ -111,4 +113,4 @@ the onboarding report warns about: a decoder or a GRPO policy optimized against 
 satisfy it with a file pmemd rejects, and hallucinated keys (case 2) are the 7B model's commonest
 error. The grammar's key whitelist closes case 2 for the decoding arms only. The gold evaluator
 should be the pmemd parse itself (does mdout's CONTROL DATA show the intended values, and does
-pmemd get past input processing), which takes about a second per file on this machine.
+pmemd get past input processing), which takes 0.2–0.4 s per file on this machine.

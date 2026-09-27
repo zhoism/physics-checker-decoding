@@ -81,21 +81,38 @@ def passes(text: str) -> bool:
 
 # ---- prefix ------------------------------------------------------------------
 
+# Regexes below scan text in which every closed string has been blanked to '#'s of
+# the same length: a mask such as '!:WAT & !@H=' or 'dt= ' holds '&', '=', ',' and
+# spaces that must not read as structure. In the grammar strings never span lines,
+# so a quote left on the last line after blanking opens a string still being written.
+_STR = re.compile(r"'[^'\n]*'|\"[^\"\n]*\"")
 # A pair whose value may still grow ("dt = 0.00" can become 0.002 or 0.004e-1;
 # "dt =" can take its value on the next line), or a trailing token not yet ended
 # by whitespace, ',' or '/'. \Z, not $: $ also matches before a final newline.
 _TAIL_PAIR = re.compile(r"\w+\s*=\s*[^\s,/]*\Z")
 _TAIL_TOKEN = re.compile(r"[^\s,/]*\Z")
-_OPEN_STR = re.compile(r"\w+\s*=\s*[\"'][^\"'\n]*\Z")
-_STR = re.compile(r"'[^'\n]*'|\"[^\"\n]*\"")
+_BARE_KEY = re.compile(r"[A-Za-z]\w*\s+\Z")  # a key already ended, its '=' not yet typed
+_PAIR_START = re.compile(r"\w+\s*=\s*\Z")
+
+
+def _blank(text: str) -> str:
+    return _STR.sub(lambda m: "#" * len(m.group()), text)
 
 
 def committed(text: str) -> str:
     """The longest prefix whose tokens can no longer change meaning."""
-    m = _TAIL_PAIR.search(text) or _TAIL_TOKEN.search(text)
-    p = text[: m.start()]
-    m = _OPEN_STR.search(p)  # a string value still open: the whole pair is
-    return p[: m.start()] if m else p
+    s = _blank(text)
+    line = s.rfind("\n") + 1
+    quote = min((i for i in (s.find("'", line), s.find('"', line)) if i >= 0), default=-1)
+    if quote >= 0:  # a string still open: its whole pair is
+        m = _PAIR_START.search(s, 0, quote)
+        return text[: m.start() if m else quote]
+    m = _TAIL_PAIR.search(s)
+    if m is None:
+        m = _BARE_KEY.search(s)
+        if m and s[: m.start()].rstrip()[-1:] == "=":  # a value, not a key
+            m = None
+    return text[: (m or _TAIL_TOKEN.search(s)).start()]
 
 
 # Values that can only help. imin=1 switches off every dynamics rule; ntc=ntf=2
@@ -106,9 +123,8 @@ _BLOCK = re.compile(r"&(\w+)")
 
 
 def _open_block(p: str) -> tuple[str, str] | None:
-    """(name, body so far) of the namelist block p ends inside, if any.
-    Quoted strings are blanked first: a mask like '!:WAT & !@H=' holds an '&'."""
-    s = _STR.sub("''", p)
+    """(name, blanked body so far) of the namelist block p ends inside, if any."""
+    s = _blank(p)
     starts = list(_BLOCK.finditer(s))
     if not starts or "/" in s[starts[-1].end():]:
         return None
@@ -116,22 +132,21 @@ def _open_block(p: str) -> tuple[str, str] | None:
 
 
 def witnesses(p: str) -> list[str]:
-    if not re.search(r"&cntrl\b", _STR.sub("''", p), re.I):
+    if not re.search(r"&cntrl\b", _blank(p), re.I):
         return ["\n &cntrl\n  imin=1,\n /\n"]
     block = _open_block(p)
     if block is None:
         return [""]
     name, body = block
+    if name != "cntrl":  # an open &wt: closing it adds no key a rule could need
+        return ["\n /\n"]
     keys = {k.lower() for k, _ in ca.KV_RE.findall(body)}
-    if name == "cntrl":
-        unset = [k for k in _RESCUERS if k not in keys]
-        out = []
-        for chosen in itertools.product([False, True], repeat=len(unset)):
-            pairs = "".join(f"  {k}={_RESCUERS[k]},\n" for k, c in zip(unset, chosen) if c)
-            out.append("\n" + pairs + " /\n")
-        return sorted(out, key=lambda w: "imin" not in w)  # the usual rescuer first
-    # an open &wt: a type other than TEMP0 skips its value check
-    return ["\n /\n"] + ([] if "type" in keys else ["\n  type='END',\n /\n"])
+    unset = [k for k in _RESCUERS if k not in keys]
+    out = []
+    for chosen in itertools.product([False, True], repeat=len(unset)):
+        pairs = "".join(f"  {k}={_RESCUERS[k]},\n" for k, c in zip(unset, chosen) if c)
+        out.append("\n" + pairs + " /\n")
+    return sorted(out, key=lambda w: "imin" not in w)  # the usual rescuer first
 
 
 @functools.lru_cache(maxsize=65536)
@@ -145,7 +160,7 @@ def _key_is_duplicate(text: str, p: str) -> bool:
     duplicate as soon as every grammar key it could still become is already set.
     Waiting for its value instead leaves a token-level mask a dead end to walk into."""
     block = _open_block(p)
-    m = re.match(r"\s*(\w+)(\s*=)?", text[len(p):])
+    m = re.match(r"\s*([A-Za-z]\w*)(\s*=|\s+)?", _blank(text)[len(p):])
     if block is None or m is None:
         return False
     name, body = block

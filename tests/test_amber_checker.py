@@ -60,8 +60,21 @@ def test_duplicate_key_dies_at_the_key():
     head = "Test\n &cntrl\n  imin = 0, ntf = 2,\n  "
     assert amber.prefix_ok(head + "nt")          # could still become ntc, ntx, ...
     assert not amber.prefix_ok(head + "ntf")     # no other grammar key starts with ntf
+    assert not amber.prefix_ok(head + "ntf ")    # a trailing space must not revive it
     assert not amber.prefix_ok(head + "NTF =")
     assert amber.prefix_ok(head + "ntc =")
+
+
+@pytest.mark.parametrize("prefix, rest", [
+    # string contents that read as structure if scanned raw (review findings A and B)
+    ("T\n &cntrl\n  imin=1, dt=0.002,\n  restraintmask='dt= ', ", "/\n"),
+    ("T\n &cntrl\n  dt=0.004, ntc=2, ntf=2, restraintmask='&wt x= ', ", "\n  imin=1,\n /\n"),
+    ("T\n &cntrl\n  imin=1, restraintmask='ntf = 2', ntf", " = 2,\n /\n"),
+    ("T\n &cntrl\n  imin=1, restraintmask='!:WA", "T',\n /\n"),
+])
+def test_string_contents_are_not_structure(prefix, rest):
+    assert in_language(prefix + rest) and amber.passes(prefix + rest)
+    assert amber.prefix_ok(prefix)
 
 
 # ---- soundness on real files ---------------------------------------------------
@@ -137,13 +150,19 @@ def test_prefix_matches_brute_force():
 def _random_mdin(rng: random.Random) -> str:
     keys = rng.sample(["imin", "irest", "ntx", "dt", "ntc", "ntf", "cut", "ntt", "nmropt",
                        "temp0", "nstlim", "restraintmask", "gamma_ln"], k=rng.randint(0, 9))
+    if keys and rng.random() < 0.2:  # a repeated key: the file fails, monotonicity still holds
+        keys.insert(rng.randint(0, len(keys)), rng.choice(keys))
     vals = {"imin": ["0", "1"], "irest": ["0", "1"], "ntx": ["1", "5", "7"],
             "dt": ["0.001", "0.002", "0.004", "2e-3", ".0005"], "ntc": ["1", "2", "3"],
             "ntf": ["1", "2"], "cut": ["8.0", "9", "12.0", "15.0"], "ntt": ["1", "3"],
             "nmropt": ["0", "1"], "temp0": ["300.0", "310"], "nstlim": ["5000", "5000000"],
-            "restraintmask": ["'!:WAT & !@H='", '":1-20@CA"'], "gamma_ln": ["2.0", "0.5"]}
-    sep = lambda: rng.choice([",\n  ", ", ", ",\n\n  ", " \n  ", ",  "])
-    body = sep().join(f"{k}{rng.choice(['=', ' = '])}{rng.choice(vals[k])}" for k in keys)
+            # string contents that look like structure
+            "restraintmask": ["'!:WAT & !@H='", '":1-20@CA"', "'dt= '", "'&wt x= '",
+                              "'ntf = 2, cut'", '"a,b c"'],
+            "gamma_ln": ["2.0", "0.5"]}
+    sep = lambda: rng.choice([",\n  ", ", ", ",\n\n  ", " \n  ", ",  ", "  "])
+    case = lambda k: k.upper() if rng.random() < 0.3 else k
+    body = sep().join(f"{case(k)}{rng.choice(['=', ' = '])}{rng.choice(vals[k])}" for k in keys)
     text = f"Random run\n &cntrl\n  {body}\n /\n"
     if rng.random() < 0.4:
         v2 = rng.choice(["300.0", "310.0", "1e400"])
@@ -155,7 +174,7 @@ def _random_mdin(rng: random.Random) -> str:
 def test_random_grammar_strings_sound_and_monotone():
     rng = random.Random(0)
     n_pass = 0
-    for _ in range(300):
+    for _ in range(400):
         text = _random_mdin(rng)
         assert in_language(text), text
         alive = [amber.prefix_ok(text[:i]) for i in range(len(text) + 1)]
@@ -164,4 +183,4 @@ def test_random_grammar_strings_sound_and_monotone():
             assert all(alive), (text, alive.index(False))
         first_dead = alive.index(False) if False in alive else len(alive)
         assert not any(alive[first_dead:]), f"prefix revived after dying: {text!r}"
-    assert 30 < n_pass < 270  # both outcomes are exercised
+    assert 40 < n_pass < 360  # both outcomes are exercised

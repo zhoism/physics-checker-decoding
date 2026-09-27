@@ -3,6 +3,7 @@
 Coerce either to an LLM with `.coerce(llm, f=b"".join)`.
 """
 import functools
+from collections import Counter
 
 from genlm.control import Potential
 
@@ -10,6 +11,7 @@ from checkers import amber
 from checkers.amber_grammar import in_language, prefix_in_language
 
 NEG_INF = float("-inf")
+CALLS = Counter()  # checker evaluations during decoding; run_arms resets it per arm
 
 
 def _text(context) -> str:
@@ -28,11 +30,13 @@ class AmberChecker(Potential):
         self.terminal_only = terminal_only
 
     async def complete(self, context):
+        CALLS["checker"] += 1
         return 0.0 if amber.passes(_text(context)) else NEG_INF
 
     async def prefix(self, context):
         if self.terminal_only:
             return 0.0
+        CALLS["checker"] += 1
         return 0.0 if amber.prefix_ok(_text(context)) else NEG_INF
 
     def is_terminal_only(self) -> bool:
