@@ -110,6 +110,7 @@ EMPTY_MSG="summary: no artifact checks registered. The artifact has never been e
 # Slow is allowed here; that is what this tier is for. Unreliable is not.
 # ---------------------------------------------------------------------------
 # --- checks begin ---
+run_gate --needs uv "smoke table re-verifies" uv run --quiet python run_arms.py --verify results/amber_smoke.jsonl
 # --- checks end ---
 
 TOTAL=$((PASS+FAIL+SKIP))

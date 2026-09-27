@@ -2,6 +2,14 @@
 
 Dead ends and first occurrences only; newest first. Decisions live in commit messages.
 
+## 2026-09-27 — listing the allowed &cntrl keys in the system prompt
+
+**Tried:** appending the grammar's 71 &cntrl keys to the system prompt, so the 7B model would stop inventing keys (invented keys are what strand a masked model: after `nta` only `ntave` fits, and AWRS runs out of rejections).
+**Failed because:** the model copies the list in order (`imin, irest, ntx, ntxo, nstlim, nscm, nrespa, …`), setting every key, and runs out of tokens. Validity fell on the first 8 rows (0 valid, where the run without the list had 2), so the run was stopped.
+**Do not retry unless:** the list is short and task-specific (the keys a stage of this kind needs), or the model is trained, not prompted.
+
+watch: 2026-09-27 genlm-control 0.4.0 `recursive_awrs` crashed on `assert log_q <= error_tolerance` (Qwen2.5-7B-Instruct-4bit on MLX, smc arm, heat-nvt, seed 0, max_rejects=2000, key-list prompt). run_arms.py now logs a sampler crash as that arm's failure (`sampler_error`) and keeps going. If it recurs, reproduce outside run_arms and report upstream.
+
 ## 2026-09-27 — AWRS with default proper weights for the single-sample arms
 
 **Tried:** `AWRS(llm, condition)` with its defaults as the grammar and mask arms: one particle, no resampling.

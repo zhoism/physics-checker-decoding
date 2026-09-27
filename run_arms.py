@@ -115,18 +115,24 @@ async def run(args):
                 counter.calls = 0
                 CALLS.clear()
                 t0 = time.time()
-                if arm in ("free", "grammar", "mask"):
-                    seqs = await samplers[arm]().smc(n_particles=1, ess_threshold=0.0,
-                                                     max_tokens=args.max_tokens)
-                elif arm == "bestofn":
-                    seqs = await samplers["grammar"]().smc(n_particles=args.n, ess_threshold=0.0,
-                                                           max_tokens=args.max_tokens)
-                else:  # smc
-                    seqs = await AWRS(llm, grammar, max_rejects=args.max_rejects).smc(
-                        n_particles=args.n, ess_threshold=0.5, max_tokens=args.max_tokens, critic=checker)
+                error = ""
+                try:
+                    if arm in ("free", "grammar", "mask"):
+                        seqs = await samplers[arm]().smc(n_particles=1, ess_threshold=0.0,
+                                                         max_tokens=args.max_tokens)
+                    elif arm == "bestofn":
+                        seqs = await samplers["grammar"]().smc(n_particles=args.n, ess_threshold=0.0,
+                                                               max_tokens=args.max_tokens)
+                    else:  # smc
+                        seqs = await AWRS(llm, grammar, max_rejects=args.max_rejects).smc(
+                            n_particles=args.n, ess_threshold=0.5, max_tokens=args.max_tokens,
+                            critic=checker)
+                    contexts, log_weights = seqs.contexts, seqs.log_weights
+                except Exception as e:  # a sampler crash counts as a failed sample, logged
+                    error, contexts, log_weights = repr(e)[:300], [[]], [float("-inf")]
                 seconds = time.time() - t0
                 parts = []
-                for ctx, lw in zip(seqs.contexts, seqs.log_weights):
+                for ctx, lw in zip(contexts, log_weights):
                     # genlm forces EOS at the token budget, so a full-length context was cut off
                     truncated = len(ctx) >= args.max_tokens
                     text = b"".join(t for t in ctx if isinstance(t, bytes)).decode("utf-8", "replace")
@@ -142,7 +148,7 @@ async def run(args):
                 rec = {"prompt": p["id"], "arm": arm, "seed": seed, "model": args.model,
                        "temperature": args.temperature, "max_rejects": args.max_rejects,
                        "n_particles": len(parts), **pick[1],
-                       "logw": pick[2],
+                       "logw": pick[2], "sampler_error": error,
                        "particles_valid": sum(q[1]["valid"] for q in parts),
                        "llm_calls": counter.calls, "checker_calls": CALLS["checker"],
                        "seconds": round(seconds, 2), "text": pick[0]}
@@ -160,7 +166,7 @@ def table(path: str):
         by[r["arm"]].append(r)
     print(f"{path}: {len({r['prompt'] for r in rows})} prompts, "
           f"{len({r['seed'] for r in rows})} seeds, model {rows[0]['model']}, "
-          f"temperature {rows[0].get('temperature', 1.0)}")
+          f"temperature {rows[0].get('temperature', 1.0)}, max_rejects {rows[0].get('max_rejects')}")
     print("| arm | n | valid | grammar ok | checker ok | has duplicate keys | pmemd ok "
           "| valid, pmemd rejects | LLM queries / sample | LLM queries / valid | checker calls "
           "/ sample | s / sample |")
