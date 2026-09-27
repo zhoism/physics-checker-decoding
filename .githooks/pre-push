@@ -1,0 +1,102 @@
+#!/bin/sh
+# Pre-push plumbing. The check lists are NOT here: they live in scripts/gates.sh
+# (every push) and scripts/ship.sh (the ship branch), both tracked, so `grep`
+# and a fresh clone can both see them. Adding or removing a check means editing
+# those files, never this one.
+#
+# Enable once per clone or worktree:
+#
+#     git config core.hooksPath .githooks
+#
+# TWO TIERS, TWO TREES - decided, not discovered:
+#   scripts/gates.sh runs on every push, against the WORKING TREE. It has
+#   seconds; a scratch checkout with a fresh install does not fit in them.
+#   scripts/ship.sh runs after it, only when a pushed ref is the branch named
+#   by SHIP_BRANCH="..." in the PUSHED COMMIT's ship.sh, and it runs against
+#   that commit: checked out detached into a scratch worktree, ship.sh run from
+#   inside it, the worktree removed. What is checked is what ships. A
+#   SHIP_BRANCH that is set but not committed does nothing yet. SHIP_BRANCH
+#   empty: shipping is a command, and the repo chains ship.sh by hand.
+#
+# EXIT CONTRACT, deliberately not git's default "any nonzero blocks":
+#   roster 0 -> proceed; every check passed.
+#   roster 1 -> BLOCK. A check found something real.
+#   roster 2 -> WARN, ALLOW. A bare-name tool a check names is not on PATH, or
+#               nothing is registered. Fails open on purpose so a bare machine
+#               never wedges a push. A declared blind spot, loud on stderr, not
+#               a silent pass.
+#
+# The GATES_OK=1 override is implemented HERE rather than in the rosters, so
+# the rosters stay pure reporters. Advertise an escape hatch only where it is
+# actually wired.
+set -u
+
+if [ "${GATES_OK:-}" = "1" ]; then
+  echo "[warn] GATES_OK=1 - pre-push checks skipped by explicit override." >&2
+  exit 0
+fi
+
+ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
+ROSTER="$ROOT/scripts/gates.sh"
+
+# git hands the pushed refs on stdin, one per line:
+#   <local ref> <local sha> <remote ref> <remote sha>
+# Read them now, before any roster can consume stdin. Run by hand at a
+# terminal there is nothing to read, so do not block waiting for it.
+REFS=""
+[ -t 0 ] || REFS=$(cat)
+
+run_tier() { # run_tier <label> <command...>; returns on 0 or 2, exits 1 on a finding
+  label="$1"; shift
+  "$@"
+  case "$?" in
+    0) ;;
+    2)
+      echo "[warn] $label did NOT fully run (exit 2) - push allowed unchecked." >&2
+      echo "       This is the declared fail-open path, not a pass." >&2
+      ;;
+    *)
+      echo "" >&2
+      echo "Push blocked by $label." >&2
+      echo "Fix the finding above. To override once:  GATES_OK=1 git push ..." >&2
+      exit 1
+      ;;
+  esac
+}
+
+fast_tier() { bash "$ROSTER"; }
+
+ship_tier() { # ship_tier <sha>: the pushed commit, in a scratch worktree, removed after
+  W=$(mktemp -d) || return 2
+  if ! git worktree add --detach "$W" "$1" >/dev/null 2>&1; then
+    rm -rf "$W"; echo "[ship] could not check $1 out into a scratch worktree" >&2; return 2
+  fi
+  (cd "$W" && bash scripts/ship.sh); s=$?
+  git worktree remove --force "$W" >/dev/null 2>&1 || rm -rf "$W"
+  return $s
+}
+
+# No roster in this tree (old commit, partial checkout): nothing to enforce,
+# and that is said out loud rather than passed in silence.
+if [ -f "$ROSTER" ]; then
+  run_tier "scripts/gates.sh" fast_tier
+else
+  echo "[warn] no scripts/gates.sh in this tree - nothing is checked on this push." >&2
+fi
+
+# Branch pushes only. The pushed commit's own ship.sh says whether the branch
+# it is going to is the ship branch. The line is read tolerantly: double or
+# single quotes or none, a trailing comment, trailing space. A repo that
+# reformats it must not lose its ship gate in silence.
+# A delete pushes the null sha, which resolves to no commit, so the lookup
+# below skips it without a special case.
+Q="\"'"
+for pair in $(printf '%s\n' "$REFS" | awk '$3 ~ /^refs\/heads\// {print $2 ":" $3}'); do
+  sha=${pair%%:*}; rref=${pair#*:}
+  b=$(git show "$sha:scripts/ship.sh" 2>/dev/null | sed -n -E "s/^SHIP_BRANCH=[$Q]?([^$Q #]+)[$Q]?[[:space:]]*(#.*)?\$/\1/p" | head -n 1)
+  [ -n "$b" ] && [ "$rref" = "refs/heads/$b" ] || continue
+  echo "[ship] pushing $b is the shipping event: running scripts/ship.sh at $(git rev-parse --short "$sha") in a scratch worktree" >&2
+  run_tier "scripts/ship.sh" ship_tier "$sha"
+done
+
+exit 0
