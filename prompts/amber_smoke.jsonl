@@ -1,0 +1,8 @@
+{"id": "min-restrained", "text": "Energy-minimize a solvated protein for 10000 cycles (steepest descent for the first 5000), with a 9 Angstrom cutoff and 5 kcal/mol/A^2 restraints on the protein heavy atoms."}
+{"id": "heat-nvt", "text": "Heat a solvated protein from 0 K to 300 K over 50 ps at constant volume with SHAKE on bonds to hydrogen, a Langevin thermostat and a 9 Angstrom cutoff, using a TEMP0 ramp."}
+{"id": "npt-restart", "text": "Continue from the previous heating run (read coordinates and velocities) with 100 ps of NPT equilibration at 300 K and 1 bar, Monte Carlo barostat, Langevin thermostat, SHAKE on bonds to hydrogen and a 2 fs timestep."}
+{"id": "prod-10ns", "text": "Write a 10 ns NPT production run restarted from the equilibrated system, 2 fs timestep with SHAKE, Langevin thermostat at 300 K, Monte Carlo barostat, 9 Angstrom cutoff, saving coordinates every 10 ps in NetCDF format."}
+{"id": "noshake-1fs", "text": "Run 20 ps of NVT dynamics at 300 K without any bond constraints, using a 1 fs timestep, a Langevin thermostat and a 10 Angstrom cutoff, starting fresh from minimized coordinates."}
+{"id": "relax-unrestrained", "text": "Release all restraints and run 1 ns of NPT relaxation continuing from the last restart file, 300 K Langevin thermostat, Monte Carlo barostat, 2 fs timestep with SHAKE."}
+{"id": "min-norestraint", "text": "Minimize the whole solvated system with no restraints for 5000 cycles using a 10 Angstrom cutoff."}
+{"id": "heat-fast", "text": "Quickly heat the system to 310 K in 20 ps at constant volume, starting from minimized coordinates with no velocities, using the largest timestep that is safe with SHAKE."}

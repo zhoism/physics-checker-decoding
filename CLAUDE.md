@@ -13,6 +13,13 @@ repo (`~/Downloads/Single Particle/Single Particle/.claude/skills/md-param-check
 `checks/check_amber.py`; that repo also holds the past MD work). This repo wraps it and does not fork it. If the two disagree about a rule, the checker
 repo wins.
 
+The code: `checkers/amber.py` (the checker with prefix semantics and a duplicate-key ban),
+`checkers/amber_grammar.py` (the mdin grammar the decoder is held to),
+`checkers/pmemd_gold.py` (the gold verdict: does pmemd accept the file),
+`decoding/potentials.py` (both as genlm-control potentials) and `run_arms.py` (every decoding
+arm on a prompt set; `--table` and `--verify` read a results file). The environment is
+`uv sync`; the decode arms run Qwen2.5-7B-Instruct-4bit on MLX.
+
 ## The artifact
 
 The study's results: the per-phase tables and figures (`results/`, `figs/`). Each one is
