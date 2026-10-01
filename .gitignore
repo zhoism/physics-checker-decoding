@@ -1,3 +1,6 @@
 .venv/
 __pycache__/
 *.pyc
+.env
+masks/pilot/system/
+masks/pilot/runs/

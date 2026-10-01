@@ -171,7 +171,7 @@ def table(path: str):
           "| valid, pmemd rejects | LLM queries / sample | LLM queries / valid | checker calls "
           "/ sample | s / sample |")
     print("|---|---|---|---|---|---|---|---|---|---|---|---|")
-    for arm in [a for a in ARMS if a in by]:
+    for arm in [a for a in ARMS if a in by] + sorted(set(by) - set(ARMS)):  # run_api.py's arms last
         rs = by[arm]
         n, v = len(rs), sum(r["valid"] for r in rs)
         calls = sum(r["llm_calls"] for r in rs)
