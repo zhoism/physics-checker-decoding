@@ -1,0 +1,15 @@
+Initial Solvent Energy Minimization Stage
+&cntrl
+  imin = 1,
+  ntmin = 0,
+  maxcyc = 500,
+  ntx = 1,
+  ntpr = 50,
+  ntwx = 0,
+  ntr = 1,
+  restraint_wt = 50.0,
+  restraintmask = '!@H= & !:NA,CL,MG,WAT',
+  cut = 12.0,
+/
+&wt type = 'DUMPFREQ', istep1 = 10000, /
+&wt type='END' /

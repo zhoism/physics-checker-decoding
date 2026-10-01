@@ -1,0 +1,12 @@
+Heating
+&cntrl
+ntt=1,
+tempi=150, temp0=300, tautp=1,
+ntp=0,
+ntpr=100,
+ntwx=1000,
+nstlim=10000,
+ntr=1,
+restraint_wt=10,
+restraintmask="(:1-96)&(@CA,N,O)",
+/

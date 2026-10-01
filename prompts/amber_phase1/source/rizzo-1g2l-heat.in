@@ -1,0 +1,28 @@
+MD equilibration under NPT with heavy atoms restrained
+&cntrl
+  imin=0,                  ! molecular dynamics (not minimization)
+  irest=0,                 ! new simulation (no restart)
+  ntx=1,                   ! read coordinates only (no velocities)
+  nstlim=50000,            ! number of MD steps
+  dt=0.001,                ! timestep (ps)
+  ntb=2,                   ! constant pressure periodic boundaries (NPT)
+  ntp=1,                   ! isotropic pressure scaling
+  barostat=1,              ! Berendsen barostat
+  taup=0.5,                ! pressure relaxation time
+  ntc=1,                   ! no SHAKE (all bonds flexible)
+  ntf=1,                   ! calculate all forces
+  ntt=3,                   ! Langevin thermostat
+  gamma_ln=2.0,            ! collision frequency
+  ig=-1,                   ! random seed
+  temp0=298.15,            ! target temperature (K)
+  ntwx=1000,               ! write trajectory every 1000 steps
+  ntpr=1000,               ! print energies every 1000 steps
+  ntwr=1000,               ! write restart file every 1000 steps
+  cut=8.0,                 ! nonbonded cutoff (Å)
+  ntr=1,                   ! apply positional restraints
+  restraintmask=':1-292 & !@H=', ! restrain all heavy atoms (non-hydrogen)
+  restraint_wt=5.0,        ! restraint force constant
+  ntxo=1,                  ! ASCII restart file
+  ioutfm=0,                ! ASCII trajectory
+  iwrap=1,                 ! wrap coordinates into box
+/

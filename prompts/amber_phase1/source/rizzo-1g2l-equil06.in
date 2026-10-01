@@ -1,0 +1,28 @@
+Equilibration MD with weak heavy-atom restraints
+&cntrl
+  imin=0,           ! molecular dynamics
+  irest=0,          ! new MD run
+  ntx=1,            ! read coordinates only
+  nstlim=50000,     ! number of MD steps
+  dt=0.002,         ! 2 fs timestep (with SHAKE)
+  ntb=2,            ! constant pressure periodic box
+  ntp=1,            ! isotropic pressure scaling
+  pres0=1.0,        ! target pressure (atm)
+  taup=0.5,         ! pressure relaxation time
+  ntc=2,            ! SHAKE on bonds involving H
+  ntf=2,            ! no force on constrained bonds
+  ntt=3,            ! Langevin thermostat
+  gamma_ln=2.0,     ! collision frequency
+  ig=-1,            ! random seed
+  temp0=298.15,     ! target temperature
+  ntpr=1000,        ! print frequency
+  ntwx=1000,        ! trajectory write
+  ntwr=1000,        ! restart write
+  cut=8.0,          ! nonbonded cutoff
+  ntr=1,            ! positional restraints
+  restraintmask=':1-292 & !@H=', ! restrain all heavy atoms (non-hydrogen)
+  restraint_wt=1.0, ! weak restraint force
+  ntxo=1,           ! ASCII restart
+  ioutfm=0,         ! ASCII trajectory
+  iwrap=1           ! wrap coordinates
+/

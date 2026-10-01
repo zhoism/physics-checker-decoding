@@ -1,0 +1,28 @@
+MD simulations
+&cntrl
+  imin=0,                  ! molecular dynamics
+  nstlim=5000000,          ! number of MD steps
+  ntx=5,                   ! read coordinates and velocities
+  irest=1,                 ! restart calculation
+  ntc=2,                   ! SHAKE on bonds involving hydrogen
+  dt=0.002,                ! timestep (ps)
+  ntb=2,                   ! constant pressure periodic boundaries
+  ntp=1,                   ! isotropic pressure scaling
+  barostat=1,              ! Berendsen barostat
+  taup=0.5,                ! pressure relaxation time (ps)
+  ntf=2,                   ! no force evaluation for constrained bonds
+  ntt=3,                   ! Langevin thermostat
+  gamma_ln=2.0,            ! collision frequency
+  ig=-1,                   ! random seed
+  temp0=298.15,            ! simulation temperature (K)
+  ntwx=2500,               ! write trajectory every 2500 steps
+  ntpr=2500,               ! print energies every 2500 steps
+  ntwr=5000000,            ! write restart at the end
+  cut=8.0,                 ! nonbonded cutoff (Å)
+  ntr=1,                   ! apply positional restraints
+  restraintmask=':1-291@CA,C,N', ! restrain protein backbone only
+  restraint_wt=0.1,        ! weak restraint force
+  ntxo=1,                  ! ASCII restart
+  ioutfm=0,                ! ASCII trajectory
+  iwrap=1,                 ! wrap coordinates
+/

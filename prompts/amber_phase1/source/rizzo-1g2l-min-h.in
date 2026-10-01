@@ -1,0 +1,18 @@
+Minimize hydrogens with heavy atoms restrained
+&cntrl
+  imin=1,                 ! run energy minimization (not MD)
+  maxcyc=5000,            ! total number of minimization steps
+  ncyc=2500,              ! switch from steepest descent to conjugate gradient
+  ntb=1,                  ! constant volume (periodic boundary conditions)
+  ntp=0,                  ! no pressure coupling
+  ntf=1,                  ! include all bonded interactions
+  ntwx=1000,              ! write trajectory every 1000 steps
+  ntpr=1000,              ! print energy every 1000 steps
+  ntwr=1000,              ! write restart file every 1000 steps
+  cut=8.0,                ! nonbonded interaction cutoff (Å)
+  ntr=1,                  ! apply positional restraints
+  restraintmask=':1-292 & !@H=', ! restrain all heavy atoms (non-hydrogen) in residues 1–292
+  restraint_wt=5.0,       ! restraint force constant (kcal/mol·Å²)
+  ntxo=1,                 ! ASCII restart file
+  ioutfm=0,               ! ASCII trajectory output
+/

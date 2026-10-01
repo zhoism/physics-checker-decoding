@@ -1,0 +1,10 @@
+&cntrl
+  imin = 1
+  ntmin = 0
+  maxcyc = 500
+  ntx = 1
+  ntpr = 250
+  ntwx = 0
+  ntr = 0
+  cut = 12.0
+/

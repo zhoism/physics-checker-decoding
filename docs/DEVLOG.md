@@ -2,6 +2,14 @@
 
 Dead ends and first occurrences only; newest first. Decisions live in commit messages.
 
+## 2026-10-01 — MDDataBench and MDGym as sources of AMBER mdin tasks
+
+**Tried:** cloning both (matsunagalab/MDDataBench; M3RG-IITD/MDGYM for arXiv 2605.08941) to take NL prompts and reference mdin files for the Phase 1 set.
+**Failed because:** neither has an mdin. MDDataBench tasks are whole pipelines (prep, membrane, ligand, MD) scored against deposited MDDB trajectories, so a task maps to no single input file. MDGym covers LAMMPS and GROMACS only.
+**Do not retry unless:** a single-stage AMBER task is wanted from MDDataBench's conditions (temperature, pressure, ensemble), with the reference mdin written by hand, or MDGym adds AMBER.
+
+watch: 2026-10-01 pmemd 26 stops with `Fortran runtime error: End of file` when the final `/` has no newline after it; two ambermd.org `<pre>` blocks end in `/</pre>`.
+
 ## 2026-09-27 — listing the allowed &cntrl keys in the system prompt
 
 **Tried:** appending the grammar's 71 &cntrl keys to the system prompt, so the 7B model would stop inventing keys (invented keys are what strand a masked model: after `nta` only `ntave` fits, and AWRS runs out of rejections).

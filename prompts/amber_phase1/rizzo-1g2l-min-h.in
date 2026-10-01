@@ -1,0 +1,18 @@
+Minimize hydrogens with heavy atoms restrained
+&cntrl
+  imin=1,
+  maxcyc=5000,
+  ncyc=2500,
+  ntb=1,
+  ntp=0,
+  ntf=1,
+  ntwx=1000,
+  ntpr=1000,
+  ntwr=1000,
+  cut=8.0,
+  ntr=1,
+  restraintmask=':1-292 & !@H=',
+  restraint_wt=5.0,
+  ntxo=1,
+  ioutfm=0,
+/

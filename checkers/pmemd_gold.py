@@ -33,8 +33,8 @@ def _past_echo(log: str, text: str) -> str:
     return "\n".join(log[i:].split("\n")[2 + len(text.splitlines()):])
 
 
-def accepts(text: str, timeout: float = 60.0) -> tuple[bool, str]:
-    """(True, "") if pmemd gets through input processing, else (False, its last error line)."""
+def _run(text: str, timeout: float) -> tuple[str, str]:
+    """(mdout, stdout) of pmemd on text, killed at the RESULTS header."""
     with tempfile.TemporaryDirectory() as d:
         (Path(d) / "mdin").write_text(text)
         rst = SYSTEM / "heat-2.rst7"
@@ -56,9 +56,24 @@ def accepts(text: str, timeout: float = 60.0) -> tuple[bool, str]:
                 proc.kill()
             proc.wait()
         log = mdout.read_text(errors="replace") if mdout.exists() else ""
-        out = stdout.read_text(errors="replace")
+        return log, stdout.read_text(errors="replace")
+
+
+def accepts(text: str, timeout: float = 60.0) -> tuple[bool, str]:
+    """(True, "") if pmemd gets through input processing, else (False, its last error line)."""
+    log, out = _run(text, timeout)
     if READY.search(_past_echo(log, text)):
         return True, ""
     lines = [l.strip() for l in (log + "\n" + out).splitlines() if l.strip()]
     errors = [l for l in lines if "rror" in l or "ERROR" in l or "nvalid" in l]
     return False, (errors[0] if errors else lines[-1] if lines else "no output")[:200]
+
+
+def parsed(text: str, timeout: float = 60.0) -> str | None:
+    """What pmemd read from text: mdout from its CONTROL DATA header to RESULTS (values,
+    masks, &wt changes), or None if it rejects the file. Two files that pmemd reads the
+    same way give the same section, except for the seed line when ig = -1."""
+    log = _past_echo(_run(text, timeout)[0], text)
+    m = READY.search(log)
+    start = log.find("2.  CONTROL  DATA  FOR  THE  RUN")
+    return log[start:m.start()] if m and start >= 0 else None
