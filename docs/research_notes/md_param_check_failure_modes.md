@@ -3,6 +3,9 @@
 Findings only. Nothing here is fixed in md-param-check, and nothing in its repo was changed.
 The checker is `checks/check_amber.py` in
 `~/Downloads/Single Particle/Single Particle/.claude/skills/md-param-check/`, read as of 2026-09-27.
+Cases 9–12 turned up on 2026-10-01 in published tutorial files, while building the Phase 1 task
+set (`phase1_amber_tasks.md`). Each was then reduced to a minimal file and run through
+`check_amber_in` and `checkers/pmemd_gold.accepts` (pmemd 26 up to its RESULTS header).
 
 ## How each case was checked
 
@@ -32,6 +35,8 @@ temp0=300.0, tempi=300.0, ig=71277, ntpr=1`.
 | 2 | an unknown key in `&cntrl` (`ntsx = 1`) or in `&wt` (`bogus = 1`) | PASS | aborts: `Fortran runtime error: Cannot match namelist object name ntsx` |
 | 3 | `nmropt = 1` with no `&wt type='END'` (and with no `&wt` at all) | PASS | aborts: `ERROR: No "wt" namelist with TYPE=END found` |
 | 4 | `dt = 0.0`, and `dt = -0.002` | PASS | reads `dt = 0.00000` / `dt = -0.00200` and starts MD |
+| 9 | minimization with `ntmin = 3` | PASS | aborts: `ntmin must be set to 0, 1 or 2!` |
+| 10 | `restraintmask = ":1-100@CA.C.N"` (periods for commas) | PASS | aborts: `Error in group input::atommask.f::atom_namelist` |
 
 1. **A `/` inside a comment ends the block early.** `NAMELIST_RE` finds the first `/` before
    comments are removed, so every key after the comment disappears. pmemd skips the comment and
@@ -46,6 +51,11 @@ temp0=300.0, tempi=300.0, ig=71277, ntpr=1`.
 3. **`nmropt = 1` does not check for the `&wt type='END'` terminator** that pmemd needs. The
    `&wt` code only compares the TEMP0 ramp with `temp0`.
 4. **`dt` has an upper bound and no lower bound.** Zero and negative timesteps pass.
+9. **Value domains are not checked.** `ntmin = 3` (sander's LBFGS) is legal in sander, and
+   pmemd 26 refuses it. The Compute Canada lesson's bilayer minimization uses it. The same
+   class as the smoke run's `ntr` and `ntxo` rejections.
+10. **Masks are never parsed.** A malformed mask passes and pmemd aborts on it. The Rizzo 2024
+    1NDV tutorial prints this mask in two of its inputs.
 
 ## False FAIL: the checker rejects a file pmemd runs as written
 
@@ -54,6 +64,8 @@ temp0=300.0, tempi=300.0, ig=71277, ntpr=1`.
 | 5 | block closed with `&end` instead of `/`, legal values | FAIL `&cntrl missing` | reads it (`dt = 0.00200`) |
 | 6 | `ntc = 3, ntf = 3` at `dt = 0.002` (SHAKE on all bonds) | FAIL `dt > 1 fs cap (no SHAKE)` | runs with `ntc = 3` |
 | 7 | `dt = 2.0d-3` (Fortran d-exponent) | FAIL `dt not a finite number` | reads `dt = 0.00200` |
+| 11 | block closed with `$end` instead of `/` | FAIL `&cntrl missing` | reads it |
+| 12 | `cut = 999.0` with `ntb = 0`, in vacuum (`igb = 0`) or GB (`igb = 1`) | FAIL `cut out of range` | reads `cut = 999.00000` |
 
 5. **`&end` is not a terminator** for `NAMELIST_RE`. The known fix, deferred in the same
    2026-06-27 entry, is to make the parser also accept `&end`.
@@ -62,6 +74,13 @@ temp0=300.0, tempi=300.0, ig=71277, ntpr=1`.
    question for whoever owns the SOP.
 7. **The d-exponent is refused by stated policy** (the error message says so). It is listed
    only for completeness.
+11. **`$end` is the other legacy terminator** and fails the same way as case 5. Rizzo's 2024
+    1NDV production input uses it.
+12. **The cut range is applied to every run**, though its message says "for explicit
+    solvent". In a vacuum or GB run, `cut = 999` is how AMBER spells "no cutoff". The AMBER DNA
+    tutorial says so in its own words ("we simply set CUT to be larger than the extent of the
+    system (e.g. CUT = 999)"), and its no-cutoff runs fail the checker. Whether the [8, 12] Å
+    range should depend on `ntb`/`igb` is a question for whoever owns the SOP.
 
 ## Right verdict, misleading reason
 
