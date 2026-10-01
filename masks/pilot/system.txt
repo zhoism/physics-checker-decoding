@@ -1,0 +1,1 @@
+System: a solvated protein. Residues 1-154 are the protein (AMBER residue names; disulfide cysteines are CYX, histidines are HID or HIE). Residue 155 is a Mg2+ ion (residue name MG), residues 156-157 are chloride ions (residue name Cl-), and every other residue is a 4-point water (residue name WAT, atoms O, H1, H2, EPW).

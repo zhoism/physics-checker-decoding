@@ -2,6 +2,10 @@
 
 Dead ends and first occurrences only; newest first. Decisions live in commit messages.
 
+watch: 2026-10-01 ParmEd's AmberMask accepts `@H*` (13,676 atoms) where pmemd and ambmask reject it; mask gold must come from ambmask, never ParmEd.
+
+watch: 2026-10-01 ambmask silently truncates long file paths and cannot read a NetCDF restart (`STOP error reading natom from inpcrd`); run it with cwd in the system dir on an ASCII rst7.
+
 ## 2026-10-01 — MDDataBench and MDGym as sources of AMBER mdin tasks
 
 **Tried:** cloning both (matsunagalab/MDDataBench; M3RG-IITD/MDGYM for arXiv 2605.08941) to take NL prompts and reference mdin files for the Phase 1 set.

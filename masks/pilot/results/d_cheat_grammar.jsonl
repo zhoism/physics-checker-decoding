@@ -1,0 +1,50 @@
+{"id": "protein-heavy", "sample": 0, "mask": ":*&!@H", "dead": false}
+{"id": "protein-heavy", "sample": 1, "mask": ":*&!@H", "dead": false}
+{"id": "protein-heavy", "sample": 2, "mask": ":*&!@H", "dead": false}
+{"id": "protein-heavy", "sample": 3, "mask": ":*&!@H", "dead": false}
+{"id": "protein-heavy", "sample": 4, "mask": ":*&!@H", "dead": false}
+{"id": "backbone", "sample": 0, "mask": ":1-154@N,CA,C", "dead": false}
+{"id": "backbone", "sample": 1, "mask": ":1-154@N,CA,C", "dead": false}
+{"id": "backbone", "sample": 2, "mask": ":1-154@N,CA,C", "dead": false}
+{"id": "backbone", "sample": 3, "mask": ":1-154@N,CA,C", "dead": false}
+{"id": "backbone", "sample": 4, "mask": ":1-154@N,CA,C", "dead": false}
+{"id": "ca-10-20", "sample": 0, "mask": ":10-20@CB", "dead": false}
+{"id": "ca-10-20", "sample": 1, "mask": ":10-20@CB", "dead": false}
+{"id": "ca-10-20", "sample": 2, "mask": ":10-20@CB", "dead": false}
+{"id": "ca-10-20", "sample": 3, "mask": ":10-20@CB", "dead": false}
+{"id": "ca-10-20", "sample": 4, "mask": ":10-20@CB", "dead": false}
+{"id": "mg", "sample": 0, "mask": "@*<:155 inus", "dead": true}
+{"id": "mg", "sample": 1, "mask": "@*<:155 orum", "dead": true}
+{"id": "mg", "sample": 2, "mask": "@*<:155 >Error", "dead": true}
+{"id": "mg", "sample": 3, "mask": "@*<:155 \u00fcnde", "dead": true}
+{"id": "mg", "sample": 4, "mask": "@*<@155 .ExecuteReader", "dead": true}
+{"id": "chloride", "sample": 0, "mask": "@Cl-", "dead": false}
+{"id": "chloride", "sample": 1, "mask": "@Cl-", "dead": false}
+{"id": "chloride", "sample": 2, "mask": "@*<:155 liga", "dead": true}
+{"id": "chloride", "sample": 3, "mask": "@Cl-", "dead": false}
+{"id": "chloride", "sample": 4, "mask": "@Cl-", "dead": false}
+{"id": "histidines", "sample": 0, "mask": ":HID,HIE", "dead": false}
+{"id": "histidines", "sample": 1, "mask": ":HID,HIE", "dead": false}
+{"id": "histidines", "sample": 2, "mask": ":HID,HIE", "dead": false}
+{"id": "histidines", "sample": 3, "mask": ":HID,HIE", "dead": false}
+{"id": "histidines", "sample": 4, "mask": ":HID,HIE", "dead": false}
+{"id": "disulfide-cys", "sample": 0, "mask": ":CYX", "dead": false}
+{"id": "disulfide-cys", "sample": 1, "mask": ":CYX&!@C=", "dead": false}
+{"id": "disulfide-cys", "sample": 2, "mask": ":CYX", "dead": false}
+{"id": "disulfide-cys", "sample": 3, "mask": ":CYX", "dead": false}
+{"id": "disulfide-cys", "sample": 4, "mask": ":CYX", "dead": false}
+{"id": "near-mg", "sample": 0, "mask": ":155<:155|:155@%MG<:5.0", "dead": false}
+{"id": "near-mg", "sample": 1, "mask": ":155<:155|@*<:155&!@* &(!(:1-154|@*<:4.0))", "dead": false}
+{"id": "near-mg", "sample": 2, "mask": ":155<:155.5 & !@*", "dead": false}
+{"id": "near-mg", "sample": 3, "mask": ":155<:155&!(:155@*)", "dead": false}
+{"id": "near-mg", "sample": 4, "mask": ":155<:155.5 & !@*", "dead": false}
+{"id": "solute", "sample": 0, "mask": ":1-154&!@O,H1,H2,EPW,Cl-", "dead": false}
+{"id": "solute", "sample": 1, "mask": ":*&!@O,H1,H2,EPW|@Cl-", "dead": false}
+{"id": "solute", "sample": 2, "mask": ":*&!@O,H1,H2,EPW|@Cl-", "dead": false}
+{"id": "solute", "sample": 3, "mask": ":1-154&!@O,H1,H2,EPW,Cl-", "dead": false}
+{"id": "solute", "sample": 4, "mask": ":*&!@O,H1,H2,EPW", "dead": false}
+{"id": "sidechain-heavy", "sample": 0, "mask": ":1-154@N,CA,C,O,H&!@H", "dead": false}
+{"id": "sidechain-heavy", "sample": 1, "mask": ":1-154@N,C,O,CA&!@H", "dead": false}
+{"id": "sidechain-heavy", "sample": 2, "mask": ":1-154@N,CA,C,O,HH,HE,HG,HZ,HB,HD1,HD2,HD3,HD3,HD1,HD2,HD3,HD3,", "dead": true}
+{"id": "sidechain-heavy", "sample": 3, "mask": ":1-154@N,C,O,CA&!@H", "dead": false}
+{"id": "sidechain-heavy", "sample": 4, "mask": ":1-154@N,CA,C,O,HH,NH2,CD,CE,CE1,CE2,CG,CG1,CG2,CD1,CD2,CD1,CD2", "dead": false}

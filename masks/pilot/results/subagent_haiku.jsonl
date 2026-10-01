@@ -1,0 +1,30 @@
+{"label": "haiku", "agent": "a9dcb96c5467c4f92", "id": "protein-heavy", "mask": ":1-154 & !@H*", "verdict": "rejected"}
+{"label": "haiku", "agent": "a9dcb96c5467c4f92", "id": "backbone", "mask": ":1-154@N,CA,C", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a9dcb96c5467c4f92", "id": "ca-10-20", "mask": ":10-20@CA", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a9dcb96c5467c4f92", "id": "mg", "mask": ":155", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a9dcb96c5467c4f92", "id": "chloride", "mask": ":156-157", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a9dcb96c5467c4f92", "id": "histidines", "mask": ":HID,:HIE", "verdict": "rejected"}
+{"label": "haiku", "agent": "a9dcb96c5467c4f92", "id": "disulfide-cys", "mask": ":CYX", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a9dcb96c5467c4f92", "id": "near-mg", "mask": "(:155<5.0) & !:155", "verdict": "rejected"}
+{"label": "haiku", "agent": "a9dcb96c5467c4f92", "id": "solute", "mask": ":1-155", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a9dcb96c5467c4f92", "id": "sidechain-heavy", "mask": ":1-154 & !(@N,CA,C,O) & !@H*", "verdict": "rejected"}
+{"label": "haiku", "agent": "a8669b6d701bf4ae5", "id": "protein-heavy", "mask": ":1-154@!H", "verdict": "rejected"}
+{"label": "haiku", "agent": "a8669b6d701bf4ae5", "id": "backbone", "mask": ":1-154@N,CA,C", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a8669b6d701bf4ae5", "id": "ca-10-20", "mask": ":10-20@CA", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a8669b6d701bf4ae5", "id": "mg", "mask": ":155", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a8669b6d701bf4ae5", "id": "chloride", "mask": ":156-157", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a8669b6d701bf4ae5", "id": "histidines", "mask": ":HID,HIE", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a8669b6d701bf4ae5", "id": "disulfide-cys", "mask": ":CYX", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a8669b6d701bf4ae5", "id": "near-mg", "mask": "(:1-154,156-157)<:5.0:155", "verdict": "rejected"}
+{"label": "haiku", "agent": "a8669b6d701bf4ae5", "id": "solute", "mask": ":1-155", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a8669b6d701bf4ae5", "id": "sidechain-heavy", "mask": ":1-154@!H&!@(N,CA,C,O)", "verdict": "rejected"}
+{"label": "haiku", "agent": "a991d7575efbb84ae", "id": "protein-heavy", "mask": ":1-154&!@H=", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a991d7575efbb84ae", "id": "backbone", "mask": ":1-154@N,CA,C", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a991d7575efbb84ae", "id": "ca-10-20", "mask": ":10-20@CA", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a991d7575efbb84ae", "id": "mg", "mask": ":155", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a991d7575efbb84ae", "id": "chloride", "mask": ":156-157", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a991d7575efbb84ae", "id": "histidines", "mask": ":HID,HIE", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a991d7575efbb84ae", "id": "disulfide-cys", "mask": ":CYX", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a991d7575efbb84ae", "id": "near-mg", "mask": "<:155:5.0&!:155", "verdict": "rejected"}
+{"label": "haiku", "agent": "a991d7575efbb84ae", "id": "solute", "mask": ":1-155", "verdict": "EXACT"}
+{"label": "haiku", "agent": "a991d7575efbb84ae", "id": "sidechain-heavy", "mask": ":1-154&!(@N,@CA,@C,@O)&!@H=", "verdict": "rejected"}

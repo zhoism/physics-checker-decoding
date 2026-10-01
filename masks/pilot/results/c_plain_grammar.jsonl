@@ -1,0 +1,30 @@
+{"id": "protein-heavy", "sample": 0, "mask": ":1-154&!@H", "dead": false, "seconds": 1.96}
+{"id": "protein-heavy", "sample": 1, "mask": ":1-154&!@H", "dead": false, "seconds": 0.99}
+{"id": "protein-heavy", "sample": 2, "mask": ":1-154 & !(:155-157 & (:H=&!@H))", "dead": false, "seconds": 1.55}
+{"id": "backbone", "sample": 0, "mask": "(:1-154&!(:*)&(!:1|:3|:4|:5|:6|:8|:9|:10|:12|:13|:14", "dead": true, "seconds": 2.51}
+{"id": "backbone", "sample": 1, "mask": "@N & ((:1-154)&(!:1-154)) | @CA & ((:1-154)&(!:1-154)) | @C & ((:1-", "dead": true, "seconds": 2.42}
+{"id": "backbone", "sample": 2, "mask": "(:PRO= &(!:WAT) &!(:MG & :Cl-))", "dead": false, "seconds": 1.35}
+{"id": "ca-10-20", "sample": 0, "mask": "@N &(!:10-20) & :PRO= & :HIE= & :HID= & :CYX= & :M= & :WAT= & !:MG & !:Cl", "dead": true, "seconds": 2.46}
+{"id": "ca-10-20", "sample": 1, "mask": ":10-20&!@CA", "dead": false, "seconds": 0.97}
+{"id": "ca-10-20", "sample": 2, "mask": "@N &(!(:HID|:HIE|:CYX)) &(:10-20) &(:C=)", "dead": false, "seconds": 1.79}
+{"id": "mg", "sample": 0, "mask": "@MG", "dead": false, "seconds": 0.68}
+{"id": "mg", "sample": 1, "mask": "@MG", "dead": false, "seconds": 0.67}
+{"id": "mg", "sample": 2, "mask": ":MG@1", "dead": false, "seconds": 0.72}
+{"id": "chloride", "sample": 0, "mask": ":Cl-", "dead": false, "seconds": 0.68}
+{"id": "chloride", "sample": 1, "mask": ":Cl-", "dead": false, "seconds": 0.7}
+{"id": "chloride", "sample": 2, "mask": "@Cl-", "dead": false, "seconds": 0.7}
+{"id": "histidines", "sample": 0, "mask": "@H&!(:HID|!:HIE)", "dead": false, "seconds": 1.02}
+{"id": "histidines", "sample": 1, "mask": "@H&!(:HID,HIE) & :1-154", "dead": false, "seconds": 1.28}
+{"id": "histidines", "sample": 2, "mask": "@H&!(:HID|!:HIE)", "dead": false, "seconds": 1.09}
+{"id": "disulfide-cys", "sample": 0, "mask": ":CYX", "dead": false, "seconds": 0.7}
+{"id": "disulfide-cys", "sample": 1, "mask": "@C  URI", "dead": true, "seconds": 0.91}
+{"id": "disulfide-cys", "sample": 2, "mask": ":CYX", "dead": false, "seconds": 0.69}
+{"id": "near-mg", "sample": 0, "mask": ":5@1-3,5-7,9-10,12-14,16-17,19-21,23-25,27-28,3", "dead": false, "seconds": 2.47}
+{"id": "near-mg", "sample": 1, "mask": "@MG & ((@O | @H1 | @H2 | @EPW) & !(:MG)) &((:WAT) | (:PRO)) &((:1-154) & (!:1", "dead": true, "seconds": 2.54}
+{"id": "near-mg", "sample": 2, "mask": ":WAT,CYX,HID,HIE,Cl-,MG@CA,C,OE1,N,CB,CG,CD,CG2,CZ,CD1,SG,NZ,OD1,ND1,CZ", "dead": false, "seconds": 2.4}
+{"id": "solute", "sample": 0, "mask": "!:WAT,155,156,157", "dead": false, "seconds": 1.16}
+{"id": "solute", "sample": 1, "mask": "!:WAT,Cl-", "dead": false, "seconds": 0.81}
+{"id": "solute", "sample": 2, "mask": "!:WAT,Cl-", "dead": false, "seconds": 0.81}
+{"id": "sidechain-heavy", "sample": 0, "mask": "@N & !(@N,CA,C,O,H) & :1-154", "dead": false, "seconds": 1.35}
+{"id": "sidechain-heavy", "sample": 1, "mask": "@N,C,O,H,NZ,CZ,CB,CG,CD,CE,CG2,CD2,NH1,NH2,CZ2,CZ3,NE,NE1,CD1,CE1,", "dead": true, "seconds": 2.56}
+{"id": "sidechain-heavy", "sample": 2, "mask": "@N & !@CA & !@C & !@O & :1-154@H & :1-154@H1 & :1-154@H2 & :1-", "dead": true, "seconds": 2.48}
