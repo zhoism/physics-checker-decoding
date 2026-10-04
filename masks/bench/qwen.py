@@ -23,7 +23,10 @@ MODEL = "mlx-community/Qwen2.5-7B-Instruct-4bit"
 
 
 class Sheet(Potential):
-    """'=== <id> ===\\n<mask>\\n' for every id in order, each mask in the system's grammar, then the end."""
+    """'=== <id> ===\\n<mask>\\n' for every id in order, each mask in the system's grammar, then the end. The
+    last newline is optional: the reply may end right after the last mask. When it was required, a model
+    that wanted to stop there (most do) could not, and a newline less likely than ' &' made it run on to
+    the length cap: every answer in a one-task prompt, and the last of each sheet."""
 
     def __init__(self, lang, ids):
         super().__init__(vocabulary=list(range(256)))
@@ -31,14 +34,16 @@ class Sheet(Potential):
 
     def ok(self, text: str, done: bool) -> bool:
         pos = 0
-        for head in self.heads:
+        for k, head in enumerate(self.heads):
             rest = text[pos:]
             if not rest.startswith(head):
                 return not done and head.startswith(rest)
             pos += len(head)
             nl = text.find("\n", pos)
             if nl < 0:
-                return not done and self.lang.accepts_prefix(text[pos:])
+                if done:
+                    return k == len(self.heads) - 1 and self.lang.accepts(text[pos:])
+                return self.lang.accepts_prefix(text[pos:])
             if not self.lang.accepts(text[pos:nl]):
                 return False
             pos = nl + 1

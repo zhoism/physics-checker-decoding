@@ -82,3 +82,26 @@ def test_device_map_places_every_weight_and_balances_two_gpus(name):
             seen.add(id(p))
             load[dm[key]] += p.numel() * (2 if "embed_tokens" in n or n.startswith("lm_head") else 0.5)  # nf4
     assert min(load) / max(load) > 0.9, load
+
+
+def test_sheet_may_end_right_after_its_last_mask():
+    """A model that wants to stop after its last mask can: requiring a newline first made answers run on to
+    the length cap (every answer in a one-task prompt). Earlier masks still need theirs, and the end still
+    needs a whole mask."""
+    import re
+    if not all((BENCH / "systems" / s / "sys.parm7").exists() for s in ("bnbs", "tryp", "dna", "memb")):
+        pytest.skip("systems not built: bash masks/bench/build.sh")
+    from qwen import Sheet
+
+    class Digits:  # a stand-in mask language
+        accepts = staticmethod(lambda s: re.fullmatch(r":\d+", s) is not None)
+        accepts_prefix = staticmethod(lambda s: re.fullmatch(r"(:\d*)?", s) is not None)
+
+    two, one = Sheet(Digits(), ["a", "b"]), Sheet(Digits(), ["a"])
+    assert two.ok("=== a ===\n:1\n=== b ===\n:2", done=True)
+    assert two.ok("=== a ===\n:1\n=== b ===\n:2\n", done=True)
+    assert one.ok("=== a ===\n:7", done=True)
+    assert not two.ok("=== a ===\n:1", done=True)  # b unanswered
+    assert not two.ok("=== a ===\n:1\n=== b ===\n:", done=True)  # not a whole mask
+    assert two.ok("=== a ===\n:1\n=== b ===\n:", done=False)
+    assert not two.ok("=== a ===\n:1x", done=False)
