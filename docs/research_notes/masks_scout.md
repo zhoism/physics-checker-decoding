@@ -3,6 +3,7 @@
 2026-10-01. Small samples (one run of 44 mdin tasks; 10 mask tasks × 3–5 tries), so read the
 numbers as directions, not results. Raw rows: `results/scout/` and `masks/pilot/results/`.
 Status: scoping. ONBOARDING's design is unchanged until the mask direction is confirmed.
+Followed by `masks_bench.md` (125 realistic tasks, 2026-10-02) and `mask_catalogue.md`.
 
 ## mdin: frontier models never trip the physics checker
 

@@ -6,6 +6,8 @@ The checker is `checks/check_amber.py` in
 Cases 9–12 turned up on 2026-10-01 in published tutorial files, while building the Phase 1 task
 set (`phase1_amber_tasks.md`). Each was then reduced to a minimal file and run through
 `check_amber_in` and `checkers/pmemd_gold.accepts` (pmemd 26 up to its RESULTS header).
+Cases 13–28 are atom masks, checked on 2026-10-02 during the mask study (`mask_catalogue.md`,
+`masks_bench.md`), the same way.
 
 ## How each case was checked
 
@@ -56,6 +58,60 @@ temp0=300.0, tempi=300.0, ig=71277, ntpr=1`.
    class as the smoke run's `ntr` and `ntxo` rejections.
 10. **Masks are never parsed.** A malformed mask passes and pmemd aborts on it. The Rizzo 2024
     1NDV tutorial prints this mask in two of its inputs.
+
+## Atom masks: the checker never reads them (cases 13–28)
+
+md-param-check takes only the mdin, never the topology, and it has no rule for `restraintmask`,
+`bellymask`, `ntr`, `ibelly` or the TI masks (`check_amber.py`, read 2026-10-02 at f9f54b1). Its
+findings are identical with and without a restraint mask. Each case adds
+`ntr=1, restraint_wt=2.0, restraintmask=...` to the baseline above. pmemd 26 ran on the same Single
+Particle system (154 protein residues, MG, two `Cl-` ions, 4-point `WAT`), with the mask counts read
+from pmemd's own `Mask ...; matches N atoms` line. The checker's verdict for every case is PASS,
+apart from the baseline's fixed-seed WARN (`ig=71277`), which is unrelated.
+
+**False PASS: pmemd stops on the mask.** These extend case 10.
+
+| # | Case | check_amber | pmemd 26 |
+|---|---|---|---|
+| 13 | `'@H*'` (glob wildcard; AMBER's is `=`) | PASS | aborts: `atommask.f::atom_namelist` |
+| 14 | `'@/H'` (cpptraj's element selector) | PASS | aborts: `atommask.f::tokenize` |
+| 15 | `':40,:84,:120'` (`:` repeated inside a list; cpptraj accepts it) | PASS | aborts: `atommask.f::residue_numlist` |
+| 16 | `'protein and name CA'` (VMD syntax) | PASS | aborts: `atommask.f::selectElemMask` |
+| 17 | `restraintmask=:1-154&!@H=` (unquoted) | PASS | aborts: `Cannot match namelist object name :1-154&@h` |
+| 18 | a 1,476-character residue list | PASS | aborts: `atommask.f::pop_evalstack` (pmemd reads up to 1,024 characters; sander up to 256, AM26 p. 433) |
+| 19 | `':1-10@C1''` (a prime inside a single-quoted mask; AM26 p. 429 says to double it: `C1'''`) | PASS | aborts: `Fortran runtime error: End of file` |
+| 20 | `ramdprotmask=':1'`, the name the Amber26 manual gives (p. 459); pmemd's is `ramdproteinmask` | PASS | aborts: `Cannot match namelist object name ramdprotmask` (case 2's class, documented in the manual) |
+
+**Silent: pmemd runs, and restrains other atoms than the mask was meant to.** A checker that reads
+only the mdin cannot see these, because each depends on the topology. They are the harder half:
+the run goes on with a wrong restraint, and only the `matches N atoms` line shows it.
+
+| # | Case | meant | pmemd 26 restrains |
+|---|---|---|---|
+| 21 | `'!:HOH&!@H='`: the PDB water name; AMBER's is `WAT` | protein heavy atoms (1,189) | 13,680: also all 6,244 water oxygens, all 6,244 extra points, MG and both Cl- |
+| 22 | `'!@H= & !:NA,CL,MG,WAT'`, the Rizzo tutorials' mask, on a system whose chloride is `Cl-` | 1,189 | 1,191: both chloride ions restrained |
+| 23 | `':1,ALA'`: a list mixing a number and a name | residue 1 plus the alanines (142, as `:1\|:ALA`) | 130: pmemd reads the whole list as names and drops residue 1 |
+| 24 | `':1-154&!@H'` for "heavy atoms" | 1,189 | 2,229: `@H` is only atoms named exactly H; `@H=` is every hydrogen |
+| 25 | `'@CA,C,N,O'` for "backbone", unrestricted | 616 (`:1-154@CA,C,N,O`) | 6,860: every water oxygen (atom `O`) too |
+| 26 | `'(:1-10)@CA'` | the CA atoms of residues 1–10 (10) | 154: an atom list after `)` applies to the whole system |
+| 27 | `':;5'`, cpptraj's original-residue-number selector | residue 5 | 0 atoms, no error: the run has no restraint |
+| 28 | `restraintmask` set with `ntr=0` | a restraint | no `Mask` line at all: the mask is ignored, the run is unrestrained (mailing list 202211/0168) |
+
+Not run through pmemd here but documented with sources in `mask_catalogue.md`:
+- A residue name present in one system and not another (`:Na+` vs `:NA`; `:HIS` when tleap wrote
+  `HIE`).
+- `@CA` also selecting a calcium ion (the manual's own BUGS note, AM26 p. 512).
+- `bellymask` selecting the atoms that *move*, the inverse of `restraintmask` (AM26 p. 433).
+- Distance masks evaluated once, on the `-c` coordinates, unless the undocumented `mask_from_ref=1`
+  is set.
+
+**What catching them would take** (written up, not implemented, per the hands-off rule):
+- Cases 13–19 need a mask parser, such as the bench's grammar (`masks/pilot/mask_grammar.py`) or a
+  call to ambmask.
+- Cases 21–27 need the topology. Evaluate the mask and report its count and residues, flag an empty
+  selection, and flag names absent from the topology. `masks/bench/lint.py` does the second part
+  from the mask and the prmtop.
+- Case 28 is an mdin-only rule: `restraintmask` without `ntr=1`, or `bellymask` without `ibelly=1`.
 
 ## False FAIL: the checker rejects a file pmemd runs as written
 
