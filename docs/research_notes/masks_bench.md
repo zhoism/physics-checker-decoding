@@ -77,6 +77,7 @@ masks/bench/results/report.md`.
 | Qwen3.8-27B nf4 free, sheet (Kaggle, 3 runs) | 147/375 (39%) | – | 226/375 (60%) |
 | Qwen3.8-27B nf4 grammar v2, sheet | 187/375 (50%) | – | 239/375 (64%) |
 | Qwen3.8-27B nf4 grammar v2 + checker potential, sheet | 128/375 (34%) | – | 145/375 (39%) |
+| Qwen3.8-27B picks among its 3 grammar v2 samples, shown their selections (`pick.py`) | 77/125 (62%) | – | – |
 
 Held-out split, first try → after lint repair: Haiku view 73/123 (59%) → 111/123 (90%). Qwen 7B nf4:
 free 2 → 3, grammar v1 14 → 23 (19%), grammar v2 15 → 19, checked 15 → 21, sheet 16 → 16 (of 123).
@@ -176,10 +177,20 @@ layout, 3 runs, nf4 across two T4s, `PrefixLM` snapshots for its hybrid linear-a
 - **The served model and the local one differ.** Free, OpenRouter's bf16 scored 28% and the local nf4
   39%, with OpenRouter's runs at 25, 30 and 49 of 125. Decoding arms are compared with the local free arm.
 
+- **Showing the selection and letting the model pick does best** (`pick.py`). For each task the candidates
+  are the distinct selections among the grammar arm's 3 samples, each shown with what ambmask selects
+  (atom count, residues, atom names); the 27B (OpenRouter, temperature 0) answers a letter or NONE. It is
+  right on 77/125 (62%; held-out 24/41), says NONE on 19 and picks a wrong candidate on 29. Against one
+  grammar sample (50% right, 50% silent) and grammar plus lint repair (64% right, 36% silent), it matches
+  the repair without a repair turn and cuts silent failures to 23%. With a right candidate in the pool
+  (83 tasks) it picked it 77 times; with none (42) it said NONE 17 times. Adding the free arm's samples
+  (up to 6 candidates) gives 76/125: the right answer was already among the grammar samples. What it
+  still gets wrong is semantic: barstar's numbering gap (`:109-171`), `GLH` among the histidines.
+
 **Answer for the 27B.** The checker inside the decoder lifts the first try from 39% to 50%, consistently,
-but after one repair the gain is 4 points, and it trades rejected masks for silent wrong ones. Neither
-placement makes the 27B reliable (Haiku is 59% → 88%). What is left is mostly valid masks on the wrong
-atoms, which only a check that shows the selection can see.
+but after one repair the gain is 4 points, and it trades rejected masks for silent wrong ones. A check that
+shows the selection, used to choose among the model's own samples, reaches the repair's accuracy and
+halves the silent failures that remain. None of it makes the 27B reliable (Haiku is 59% → 88%).
 
 **For the tool.** The order of value for a cheap model is a checker that shows the selection, then
 system-aware hints, then a grammar. Grounding beyond a cpptraj listing showed no measurable value. A
@@ -195,6 +206,8 @@ grammar alone does not rescue an open 7B model on realistic tasks.
 - **The MLX Qwen grammar arm is one sheet.** It was stopped because Qwen 7B with 10–12k-token prompts
   filled the laptop's RAM and swap (DEVLOG `watch:`). The free arm ran 2 of 3 planned runs.
 - **report.py rescores every stored mask with ambmask on each run**, now about 10 minutes.
+- **The pick result is one judge pass** (n = 125, one per task), and the judge is the served 27B while the
+  candidates come from the local nf4 run.
 - **Two 4-bit schemes.** The GPU runs use bitsandbytes nf4, the MLX runs MLX 4-bit. Their free arms agree
   (1% each).
 - **The 14B's re-parse is not the protocol** Claude was held to. Its sheet arm ran out of GPU memory

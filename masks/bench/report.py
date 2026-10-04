@@ -39,6 +39,8 @@ FILES = {  # label -> results file, in table order
     **{f"{name} (OpenRouter), view": f"{name.lower()}_view.jsonl"  # blind.py openrouter:<id>, the Claude protocol
        for name in ("Qwen2.5-72B", "Qwen3.6-35B-A3B", "Qwen3.8-27B", "Qwen3.5-122B-A10B", "Qwen3.5-397B-A17B")},
     **{f"Qwen3.8-27B nf4 {decode}, sheet": f"qwen3.8-27b-nf4_{decode}_sheet.jsonl" for decode in ("free", "grammar2", "checked")},
+    "Qwen3.8-27B picks among 3 grammar v2 samples (pick.py)": "qwen3.8-27b_pick_grammar2.jsonl",
+    "Qwen3.8-27B picks among grammar v2 + free samples (pick.py)": "qwen3.8-27b_pick_both.jsonl",
     "Qwen2.5-7B-4bit free, view": "qwen_free_view.jsonl",
     "Qwen2.5-7B-4bit grammar, view": "qwen_grammar_view.jsonl",
     "Qwen2.5-7B-4bit grammar, view + map": "qwen_grammar_map.jsonl",
