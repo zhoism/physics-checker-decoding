@@ -37,7 +37,9 @@ FILES = {  # label -> results file, in table order
     "Haiku 4.5, view + map": "haiku_map.jsonl",
     "Sonnet 5, view": "sonnet_view.jsonl",
     **{f"{name} (OpenRouter), view": f"{name.lower()}_view.jsonl"  # blind.py openrouter:<id>, the Claude protocol
-       for name in ("Qwen2.5-72B", "Qwen3.6-35B-A3B", "Qwen3.8-27B", "Qwen3.5-122B-A10B", "Qwen3.5-397B-A17B")},
+       for name in ("Qwen3.8-27B", "Qwen3.5-122B-A10B", "Qwen3.5-397B-A17B", "Gemma-4-31B-it",
+                    "Nemotron-3-Super-120B-A12B", "Nemotron-3-Ultra-550B-A55B")},
+    "Nemotron-3-Ultra-550B picks among its 3 samples (pick.py)": "nemotron-3-ultra-550b-a55b_pick.jsonl",
     **{f"Qwen3.8-27B nf4 {decode}, sheet": f"qwen3.8-27b-nf4_{decode}_sheet.jsonl" for decode in ("free", "grammar2", "checked")},
     "Qwen3.8-27B picks among 3 grammar v2 samples (pick.py)": "qwen3.8-27b_pick_grammar2.jsonl",
     "Qwen3.8-27B picks among grammar v2 + free samples (pick.py)": "qwen3.8-27b_pick_both.jsonl",

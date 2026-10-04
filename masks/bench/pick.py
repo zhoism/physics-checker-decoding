@@ -12,6 +12,7 @@ import json
 import random
 import re
 import sys
+import time
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -90,11 +91,19 @@ def prompt(task, cands):
 
 
 def judge(model, task, cands):
-    body = call("openrouter", "chat/completions", {"model": model, "temperature": 0, "max_tokens": 200,
-                                                   "reasoning": {"enabled": False},
-                                                   "messages": [{"role": "user", "content": prompt(task, cands)}]})
-    reply = body["choices"][0]["message"].get("content") or ""
-    m = re.search(r"\b(NONE|[A-H])\b", reply.upper())
+    """The model's reply and its letter. A free endpoint sometimes answers with an error body and no choice:
+    retried, and after that recorded as no answer rather than ending the pass."""
+    for attempt in range(4):
+        try:
+            body = call("openrouter", "chat/completions", {"model": model, "temperature": 0, "max_tokens": 200,
+                                                           "reasoning": {"enabled": False},
+                                                           "messages": [{"role": "user", "content": prompt(task, cands)}]})
+            reply = body["choices"][0]["message"].get("content") or ""
+            break
+        except (KeyError, IndexError, RuntimeError) as e:
+            reply = f"ERROR: {e!r}"[:300]
+            time.sleep(20 * (attempt + 1))
+    m = re.search(r"\b(NONE|[A-H])\b", reply.upper()) if not reply.startswith("ERROR") else None
     return reply, (m.group(1) if m else None)
 
 

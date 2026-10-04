@@ -196,6 +196,33 @@ halves the silent failures that remain. None of it makes the 27B reliable (Haiku
 system-aware hints, then a grammar. Grounding beyond a cpptraj listing showed no measurable value. A
 grammar alone does not rescue an open 7B model on realistic tasks.
 
+## The open-model ladder: prompting only, through OpenRouter
+
+The Claude protocol unchanged (`blind.py openrouter:<id>`: one sheet per system, then the checker and lint
+repairs), thinking off, temperature 0.7. Free endpoints where they exist, paid otherwise. Models that fit two
+T4s could be decoded on Kaggle; the rest are scored by API only.
+
+| model (open weights) | runs | first try | + checker repair | + lint repair | held-out, first → lint |
+|---|---|---|---|---|---|
+| Qwen3.8-27B (free endpoint) | 3 | 104/375 (28%) | 131 (35%) | 206 (55%) | 36 → 67 of 123 |
+| Gemma-4-31B-it | 3 | 171/375 (46%) | 191 (51%) | 268 (71%) | 54 → 91 of 123 |
+| Nemotron-3-Super-120B-A12B (free) | 1 | 42/125 (34%) | 42 | 53 (42%) | 13 → 18 of 41 |
+| Qwen3.5-122B-A10B | 1 | 42/125 (34%) | 43 | 60 (48%) | 13 → 22 of 41 |
+| Qwen3.5-397B-A17B | 1 | 67/125 (54%) | 91 (73%) | 79 (63%) | 25 → 29 of 41 |
+| Nemotron-3-Ultra-550B-A55B (free) | 3 | 221/375 (59%) | 243 (65%) | 263 (70%) | 77 → 94 of 123 |
+
+- **Size alone is not the lever.** Qwen3.5-122B (an older generation, 10B active) is no better than
+  Qwen3.8-27B; the 397B is better on the first try.
+- **Nemotron-3-Ultra matches Haiku's first try (59%), but repairs help it less** (70% after lint against 88%):
+  more of its failures are valid masks on the wrong atoms (65 of 154), which a syntax hint does not fix.
+  Picking among its 3 samples (`pick.py`, the Ultra as judge): 82/125 right (66%), 19 NONE, 24 wrong picks
+  (held-out 29/41). It is consistent: for 76 tasks its 3 samples select the same atoms, which leaves pick
+  only to accept or flag.
+- **Gemma-4-31B is the best candidate for decoding.** 46% first try, and 109 of its 204 failures are masks
+  ambmask rejects, mostly `@H*` and distances written `(:1-195)<6` without the `:` or `@`: what grammar v2
+  removes. It fits two T4s. Not decoded yet: its weights are gated (Kaggle hosts them behind a licence
+  click), and earlier Gemmas overflow in fp16, which is all a T4 has.
+
 ## Caveats
 
 - **Sheets cluster.** A model's failures move together within one sheet (one system, one sample), so
@@ -206,6 +233,7 @@ grammar alone does not rescue an open 7B model on realistic tasks.
 - **The MLX Qwen grammar arm is one sheet.** It was stopped because Qwen 7B with 10–12k-token prompts
   filled the laptop's RAM and swap (DEVLOG `watch:`). The free arm ran 2 of 3 planned runs.
 - **report.py rescores every stored mask with ambmask on each run**, now about 10 minutes.
+- **The ladder's single-run rows are triage**, not results: one sample of each of 4 sheets.
 - **The pick result is one judge pass** (n = 125, one per task), and the judge is the served 27B while the
   candidates come from the local nf4 run.
 - **Two 4-bit schemes.** The GPU runs use bitsandbytes nf4, the MLX runs MLX 4-bit. Their free arms agree
