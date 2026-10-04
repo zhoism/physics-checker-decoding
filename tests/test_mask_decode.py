@@ -80,5 +80,5 @@ def test_device_map_places_every_weight_and_balances_two_gpus(name):
         assert key, f"{n} has no GPU"
         if id(p) not in seen:
             seen.add(id(p))
-            load[dm[key]] += p.numel() * (0.5 if ".layers." in n else 2)
+            load[dm[key]] += p.numel() * (2 if "embed_tokens" in n or n.startswith("lm_head") else 0.5)  # nf4
     assert min(load) / max(load) > 0.9, load

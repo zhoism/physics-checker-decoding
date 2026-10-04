@@ -84,11 +84,15 @@ class PrefixLM(AsyncLM):
             if n and not f"{base}.".startswith(f"{n}.") and not n.startswith(f"{base}.layers") \
                     and not any(n == k or n.startswith(f"{k}.") for k in dm):
                 dm[n] = 0
-        layer_b, other_b = {"nf4": (0.5, 2), "fp16": (2, 2), "fp32": (4, 4)}[quant]  # bytes per weight
-        size = lambda n, b: b * sum(p.numel() for p in model.get_submodule(n).parameters())
-        load = [sum(size(n, other_b) for n, g in dm.items() if g == gpu and not (tied and n == name_of[head]))
+        # bytes per weight: nf4 packs every linear layer (the vision tower's too) and leaves the embedding and the
+        # output layer at 16 bits; the Kaggle smoke run's Gemma split, which counted the vision tower at 16 bits,
+        # loaded 8.6 and 9.7 GiB and peaked at 11.0 and 13.8 of a T4's 14.7
+        layer_b, full_b = {"nf4": (0.5, 2), "fp16": (2, 2), "fp32": (4, 4)}[quant]
+        full = {id(p) for m in model.modules() if isinstance(m, torch.nn.Embedding) or m is head for p in m.parameters()}
+        size = lambda n: sum(p.numel() * (full_b if id(p) in full else layer_b) for p in model.get_submodule(n).parameters())
+        load = [sum(size(n) for n, g in dm.items() if g == gpu and not (tied and n == name_of[head]))
                 for gpu in range(n_gpu)]  # a tied output layer is the embedding, already counted
-        sizes = [size(f"{base}.layers.{i}", layer_b) for i in range(len(model.get_submodule(f"{base}.layers")))]
+        sizes = [size(f"{base}.layers.{i}") for i in range(len(model.get_submodule(f"{base}.layers")))]
         share = (sum(load) + sum(sizes)) / n_gpu
         gpu = 0
         for i, b in enumerate(sizes):
