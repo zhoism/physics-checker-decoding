@@ -1,0 +1,391 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   0%|          | 1/339 [00:05<30:03,  5.33s/it]Loading weights:   1%|          | 2/339 [00:09<27:43,  4.94s/it]Loading weights:   1%|          | 4/339 [00:10<11:33,  2.07s/it]Loading weights:   1%|▏         | 5/339 [00:11<08:50,  1.59s/it]Loading weights:   2%|▏         | 6/339 [00:11<07:08,  1.29s/it]Loading weights:   4%|▎         | 12/339 [00:11<02:00,  2.72it/s]Loading weights:   5%|▍         | 16/339 [00:12<01:17,  4.16it/s]Loading weights:   5%|▌         | 18/339 [00:12<01:13,  4.39it/s]Loading weights:   8%|▊         | 28/339 [00:12<00:31,  9.90it/s]Loading weights:   9%|▉         | 31/339 [00:13<00:31,  9.66it/s]Loading weights:  12%|█▏        | 40/339 [00:13<00:19, 15.11it/s]Loading weights:  13%|█▎        | 43/339 [00:13<00:22, 13.37it/s]Loading weights:  15%|█▌        | 52/339 [00:13<00:15, 18.94it/s]Loading weights:  16%|█▌        | 55/339 [00:14<00:17, 15.80it/s]Loading weights:  19%|█▉        | 64/339 [00:14<00:12, 21.37it/s]Loading weights:  20%|█▉        | 67/339 [00:14<00:15, 17.17it/s]Loading weights:  22%|██▏       | 76/339 [00:15<00:11, 22.72it/s]Loading weights:  23%|██▎       | 79/339 [00:15<00:14, 17.93it/s]Loading weights:  26%|██▌       | 88/339 [00:15<00:10, 23.41it/s]Loading weights:  27%|██▋       | 91/339 [00:15<00:13, 18.28it/s]Loading weights:  29%|██▉       | 100/339 [00:16<00:10, 23.63it/s]Loading weights:  30%|███       | 103/339 [00:16<00:12, 18.87it/s]Loading weights:  33%|███▎      | 112/339 [00:16<00:09, 24.18it/s]Loading weights:  34%|███▍      | 115/339 [00:17<00:11, 18.84it/s]Loading weights:  37%|███▋      | 124/339 [00:17<00:12, 17.51it/s]Loading weights:  37%|███▋      | 127/339 [00:18<00:22,  9.45it/s]Loading weights:  38%|███▊      | 130/339 [00:18<00:19, 10.81it/s]Loading weights:  40%|███▉      | 134/339 [00:18<00:15, 13.33it/s]Loading weights:  40%|████      | 137/339 [00:19<00:28,  7.12it/s]Loading weights:  41%|████      | 139/339 [00:20<00:32,  6.20it/s]Loading weights:  42%|████▏     | 144/339 [00:20<00:22,  8.84it/s]Loading weights:  44%|████▎     | 148/339 [00:21<00:23,  8.07it/s]Loading weights:  44%|████▍     | 150/339 [00:22<00:37,  4.99it/s]Loading weights:  45%|████▌     | 154/339 [00:22<00:26,  7.08it/s]Loading weights:  47%|████▋     | 160/339 [00:23<00:23,  7.66it/s]Loading weights:  48%|████▊     | 162/339 [00:24<00:36,  4.79it/s]Loading weights:  49%|████▉     | 166/339 [00:24<00:25,  6.67it/s]Loading weights:  50%|████▉     | 168/339 [00:24<00:22,  7.59it/s]Loading weights:  51%|█████     | 172/339 [00:25<00:21,  7.86it/s]Loading weights:  51%|█████▏    | 174/339 [00:26<00:36,  4.54it/s]Loading weights:  53%|█████▎    | 178/339 [00:26<00:24,  6.64it/s]Loading weights:  53%|█████▎    | 180/339 [00:26<00:20,  7.70it/s]Loading weights:  54%|█████▍    | 184/339 [00:27<00:21,  7.35it/s]Loading weights:  55%|█████▍    | 186/339 [00:28<00:33,  4.62it/s]Loading weights:  57%|█████▋    | 192/339 [00:28<00:18,  7.80it/s]Loading weights:  58%|█████▊    | 196/339 [00:28<00:19,  7.42it/s]Loading weights:  58%|█████▊    | 198/339 [00:29<00:29,  4.79it/s]Loading weights:  60%|██████    | 204/339 [00:30<00:17,  7.67it/s]Loading weights:  61%|██████▏   | 208/339 [00:30<00:17,  7.41it/s]Loading weights:  62%|██████▏   | 210/339 [00:31<00:26,  4.85it/s]Loading weights:  64%|██████▎   | 216/339 [00:31<00:16,  7.65it/s]Loading weights:  65%|██████▍   | 220/339 [00:32<00:16,  7.37it/s]Loading weights:  65%|██████▌   | 222/339 [00:33<00:24,  4.74it/s]Loading weights:  67%|██████▋   | 226/339 [00:33<00:16,  6.65it/s]Loading weights:  68%|██████▊   | 230/339 [00:33<00:12,  9.02it/s]Loading weights:  69%|██████▊   | 233/339 [00:35<00:19,  5.42it/s]Loading weights:  69%|██████▉   | 235/339 [00:35<00:21,  4.84it/s]Loading weights:  70%|███████   | 238/339 [00:35<00:15,  6.34it/s]Loading weights:  71%|███████   | 240/339 [00:35<00:13,  7.42it/s]Loading weights:  72%|███████▏  | 244/339 [00:36<00:13,  6.83it/s]Loading weights:  73%|███████▎  | 246/339 [00:37<00:17,  5.28it/s]Loading weights:  76%|███████▌  | 256/339 [00:37<00:07, 10.81it/s]Loading weights:  76%|███████▌  | 258/339 [00:37<00:08,  9.54it/s]Loading weights:  79%|███████▉  | 268/339 [00:38<00:05, 12.61it/s]Loading weights:  80%|███████▉  | 270/339 [00:38<00:06, 10.92it/s]Loading weights:  83%|████████▎ | 280/339 [00:39<00:04, 13.56it/s]Loading weights:  83%|████████▎ | 282/339 [00:40<00:07,  7.71it/s]Loading weights:  85%|████████▍ | 288/339 [00:40<00:04, 10.39it/s]Loading weights:  86%|████████▌ | 292/339 [00:41<00:05,  9.20it/s]Loading weights:  87%|████████▋ | 294/339 [00:42<00:07,  5.79it/s]Loading weights:  88%|████████▊ | 298/339 [00:42<00:05,  7.71it/s]Loading weights:  89%|████████▉ | 302/339 [00:42<00:03, 10.06it/s]Loading weights:  90%|████████▉ | 305/339 [00:43<00:05,  6.17it/s]Loading weights:  91%|█████████ | 307/339 [00:44<00:05,  5.51it/s]Loading weights:  91%|█████████▏| 310/339 [00:44<00:04,  7.19it/s]Loading weights:  93%|█████████▎| 314/339 [00:44<00:02, 10.01it/s]Loading weights:  94%|█████████▎| 317/339 [00:45<00:03,  5.85it/s]Loading weights:  94%|█████████▍| 319/339 [00:45<00:03,  5.40it/s]Loading weights:  97%|█████████▋| 328/339 [00:46<00:01, 10.15it/s]Loading weights:  97%|█████████▋| 330/339 [00:46<00:01,  8.69it/s]Loading weights: 100%|██████████| 339/339 [00:46<00:00,  7.26it/s]
+qwen2.5-7b-instruct-nf4 loaded: 5.5 GiB
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-barnase-all: 0/1 exact, 0 after lint repair, 23.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-barstar-ca: 0/1 exact, 0 after lint repair, 39.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-barstar-heavy: 0/1 exact, 0 after lint repair, 13.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-backbone: 0/1 exact, 0 after lint repair, 10.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-his102: 0/1 exact, 0 after lint repair, 10.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-glu73-oe: 0/1 exact, 0 after lint repair, 32.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-arg83-87: 0/1 exact, 0 after lint repair, 17.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-d35-d39: 0/1 exact, 0 after lint repair, 11.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-barstar-66-89: 0/1 exact, 0 after lint repair, 10.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-barstar-60-70: 0/1 exact, 0 after lint repair, 10.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-barstar-trp: 0/1 exact, 0 after lint repair, 10.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-barnase-56-60-ca: 0/1 exact, 0 after lint repair, 18.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-his-all: 0/1 exact, 0 after lint repair, 26.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-hip: 1/1 exact, 1 after lint repair, 2.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-neutral-acids: 0/1 exact, 0 after lint repair, 8.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-acidic-all: 0/1 exact, 0 after lint repair, 25.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-lys-nz: 0/1 exact, 0 after lint repair, 40.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-sodium: 1/1 exact, 1 after lint repair, 3.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-ions: 0/1 exact, 0 after lint repair, 9.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-not-solvent: 1/1 exact, 1 after lint repair, 4.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-nterm-h: 0/1 exact, 0 after lint repair, 11.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-oxt: 0/1 exact, 0 after lint repair, 29.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-cterm-res: 0/1 exact, 0 after lint repair, 29.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-amide-h: 0/1 exact, 0 after lint repair, 14.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-trp-ring: 0/1 exact, 0 after lint repair, 13.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-near-his102: 0/1 exact, 0 after lint repair, 36.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-interface-water: 0/1 exact, 0 after lint repair, 27.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-barstar-interface: 0/1 exact, 0 after lint repair, 26.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-ions-near-protein: 0/1 exact, 0 after lint repair, 23.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-sidechains-or-50: 0/1 exact, 0 after lint repair, 26.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-res1-and-trp: 0/1 exact, 0 after lint repair, 13.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-h-1-10-20-30: 0/1 exact, 0 after lint repair, 17.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-restraint-adapt: 0/1 exact, 0 after lint repair, 12.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-bellymask: 0/1 exact, 0 after lint repair, 40.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-scmask-h102a: 0/1 exact, 0 after lint repair, 30.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-cpptraj-h: 0/1 exact, 0 after lint repair, 10.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-vmd-ca: 1/1 exact, 1 after lint repair, 6.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-mda-around: 0/1 exact, 0 after lint repair, 34.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-ct-barnase: 0/1 exact, 0 after lint repair, 40.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-water-h: 0/1 exact, 0 after lint repair, 8.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 bnbs-hg-wildcard: 0/1 exact, 0 after lint repair, 28.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-barnase-all: 1/1 exact, 1 after lint repair, 4.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-barstar-ca: 0/1 exact, 0 after lint repair, 39.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-barstar-heavy: 0/1 exact, 0 after lint repair, 30.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-backbone: 0/1 exact, 0 after lint repair, 10.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-his102: 0/1 exact, 0 after lint repair, 27.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-glu73-oe: 0/1 exact, 0 after lint repair, 11.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-arg83-87: 0/1 exact, 0 after lint repair, 31.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-d35-d39: 0/1 exact, 0 after lint repair, 16.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-barstar-66-89: 0/1 exact, 0 after lint repair, 10.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-barstar-60-70: 0/1 exact, 0 after lint repair, 10.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-barstar-trp: 0/1 exact, 0 after lint repair, 10.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-barnase-56-60-ca: 0/1 exact, 0 after lint repair, 13.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-his-all: 0/1 exact, 0 after lint repair, 13.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-hip: 0/1 exact, 0 after lint repair, 15.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-neutral-acids: 0/1 exact, 0 after lint repair, 24.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-acidic-all: 0/1 exact, 0 after lint repair, 25.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-lys-nz: 0/1 exact, 0 after lint repair, 16.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-sodium: 1/1 exact, 1 after lint repair, 2.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-ions: 0/1 exact, 0 after lint repair, 11.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-not-solvent: 1/1 exact, 1 after lint repair, 4.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-nterm-h: 0/1 exact, 0 after lint repair, 14.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-oxt: 0/1 exact, 0 after lint repair, 17.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-cterm-res: 0/1 exact, 0 after lint repair, 26.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-amide-h: 0/1 exact, 0 after lint repair, 15.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-trp-ring: 0/1 exact, 0 after lint repair, 13.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-near-his102: 0/1 exact, 0 after lint repair, 21.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-interface-water: 0/1 exact, 0 after lint repair, 14.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-barstar-interface: 0/1 exact, 0 after lint repair, 23.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-ions-near-protein: 0/1 exact, 0 after lint repair, 33.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-sidechains-or-50: 0/1 exact, 0 after lint repair, 20.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-res1-and-trp: 0/1 exact, 0 after lint repair, 11.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-h-1-10-20-30: 0/1 exact, 0 after lint repair, 17.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-restraint-adapt: 0/1 exact, 0 after lint repair, 12.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-bellymask: 0/1 exact, 0 after lint repair, 39.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-scmask-h102a: 0/1 exact, 0 after lint repair, 22.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-cpptraj-h: 0/1 exact, 0 after lint repair, 32.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-vmd-ca: 0/1 exact, 0 after lint repair, 10.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-mda-around: 0/1 exact, 0 after lint repair, 25.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-ct-barnase: 0/1 exact, 0 after lint repair, 41.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-water-h: 0/1 exact, 0 after lint repair, 9.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 bnbs-hg-wildcard: 0/1 exact, 0 after lint repair, 37.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-barnase-all: 0/1 exact, 0 after lint repair, 40.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-barstar-ca: 0/1 exact, 0 after lint repair, 40.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-barstar-heavy: 0/1 exact, 0 after lint repair, 18.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-backbone: 0/1 exact, 0 after lint repair, 13.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-his102: 0/1 exact, 0 after lint repair, 25.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-glu73-oe: 0/1 exact, 0 after lint repair, 17.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-arg83-87: 0/1 exact, 0 after lint repair, 17.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-d35-d39: 0/1 exact, 0 after lint repair, 11.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-barstar-66-89: 0/1 exact, 0 after lint repair, 10.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-barstar-60-70: 0/1 exact, 0 after lint repair, 10.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-barstar-trp: 0/1 exact, 0 after lint repair, 13.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-barnase-56-60-ca: 0/1 exact, 0 after lint repair, 14.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-his-all: 0/1 exact, 0 after lint repair, 12.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-hip: 0/1 exact, 0 after lint repair, 9.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-neutral-acids: 0/1 exact, 0 after lint repair, 11.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-acidic-all: 0/1 exact, 0 after lint repair, 25.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-lys-nz: 0/1 exact, 0 after lint repair, 10.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-sodium: 1/1 exact, 1 after lint repair, 2.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-ions: 0/1 exact, 0 after lint repair, 10.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-not-solvent: 0/1 exact, 0 after lint repair, 9.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-nterm-h: 0/1 exact, 0 after lint repair, 14.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-oxt: 0/1 exact, 0 after lint repair, 23.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-cterm-res: 0/1 exact, 0 after lint repair, 10.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-amide-h: 0/1 exact, 0 after lint repair, 39.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-trp-ring: 0/1 exact, 0 after lint repair, 16.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-near-his102: 0/1 exact, 0 after lint repair, 34.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-interface-water: 0/1 exact, 0 after lint repair, 25.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-barstar-interface: 0/1 exact, 0 after lint repair, 30.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-ions-near-protein: 0/1 exact, 0 after lint repair, 30.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-sidechains-or-50: 0/1 exact, 0 after lint repair, 26.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-res1-and-trp: 0/1 exact, 0 after lint repair, 13.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-h-1-10-20-30: 0/1 exact, 0 after lint repair, 17.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-restraint-adapt: 0/1 exact, 0 after lint repair, 11.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-bellymask: 0/1 exact, 0 after lint repair, 22.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-scmask-h102a: 0/1 exact, 0 after lint repair, 11.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-cpptraj-h: 0/1 exact, 1 after lint repair, 10.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-vmd-ca: 0/1 exact, 0 after lint repair, 34.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-mda-around: 0/1 exact, 0 after lint repair, 23.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-ct-barnase: 0/1 exact, 0 after lint repair, 26.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-water-h: 0/1 exact, 0 after lint repair, 8.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 bnbs-hg-wildcard: 0/1 exact, 0 after lint repair, 7.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-strand-b: 0/1 exact, 0 after lint repair, 23.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-strand-a-p: 0/1 exact, 0 after lint repair, 20.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-guanines: 0/1 exact, 0 after lint repair, 7.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-cytosines: 0/1 exact, 0 after lint repair, 8.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-five-prime: 1/1 exact, 1 after lint repair, 4.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-ho3: 0/1 exact, 0 after lint repair, 6.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-bp-a5-t20: 0/1 exact, 0 after lint repair, 10.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-sugar-a: 0/1 exact, 0 after lint repair, 14.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-nonbridging: 0/1 exact, 0 after lint repair, 11.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-thy-methyl: 0/1 exact, 0 after lint repair, 9.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-extra-points: 1/1 exact, 1 after lint repair, 2.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-water-o: 1/1 exact, 1 after lint repair, 2.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-potassium: 1/1 exact, 1 after lint repair, 1.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-k-near: 0/1 exact, 0 after lint repair, 17.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-water-o-near: 0/1 exact, 0 after lint repair, 14.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-heavy-a: 0/1 exact, 0 after lint repair, 11.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-dna-h: 0/1 exact, 0 after lint repair, 14.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-backbone-b: 0/1 exact, 1 after lint repair, 14.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-aatt-a: 0/1 exact, 0 after lint repair, 5.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-central-6bp: 0/1 exact, 0 after lint repair, 16.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-purine-n7: 0/1 exact, 0 after lint repair, 15.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-not-water: 1/1 exact, 1 after lint repair, 1.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-c1-or-20: 0/1 exact, 0 after lint repair, 7.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-type-p: 0/1 exact, 0 after lint repair, 16.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-h5-pair: 0/1 exact, 0 after lint repair, 10.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-restraint-dna: 0/1 exact, 0 after lint repair, 7.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 dna-strand-b-7th-c1: 0/1 exact, 0 after lint repair, 6.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-strand-b: 0/1 exact, 0 after lint repair, 19.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-strand-a-p: 0/1 exact, 0 after lint repair, 20.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-guanines: 0/1 exact, 0 after lint repair, 9.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-cytosines: 0/1 exact, 0 after lint repair, 8.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-five-prime: 0/1 exact, 0 after lint repair, 11.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-ho3: 0/1 exact, 0 after lint repair, 5.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-bp-a5-t20: 0/1 exact, 0 after lint repair, 14.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-sugar-a: 0/1 exact, 0 after lint repair, 9.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-nonbridging: 0/1 exact, 0 after lint repair, 14.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-thy-methyl: 0/1 exact, 0 after lint repair, 7.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-extra-points: 0/1 exact, 0 after lint repair, 13.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-water-o: 1/1 exact, 1 after lint repair, 2.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-potassium: 1/1 exact, 1 after lint repair, 1.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-k-near: 0/1 exact, 0 after lint repair, 9.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-water-o-near: 0/1 exact, 0 after lint repair, 21.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-heavy-a: 0/1 exact, 0 after lint repair, 19.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-dna-h: 0/1 exact, 0 after lint repair, 14.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-backbone-b: 0/1 exact, 0 after lint repair, 19.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-aatt-a: 0/1 exact, 0 after lint repair, 16.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-central-6bp: 0/1 exact, 0 after lint repair, 15.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-purine-n7: 0/1 exact, 0 after lint repair, 15.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-not-water: 1/1 exact, 1 after lint repair, 1.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-c1-or-20: 0/1 exact, 0 after lint repair, 16.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-type-p: 1/1 exact, 1 after lint repair, 1.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-h5-pair: 0/1 exact, 0 after lint repair, 8.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-restraint-dna: 0/1 exact, 0 after lint repair, 16.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 dna-strand-b-7th-c1: 0/1 exact, 0 after lint repair, 5.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-strand-b: 0/1 exact, 0 after lint repair, 19.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-strand-a-p: 0/1 exact, 0 after lint repair, 20.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-guanines: 0/1 exact, 1 after lint repair, 5.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-cytosines: 0/1 exact, 0 after lint repair, 7.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-five-prime: 1/1 exact, 1 after lint repair, 3.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-ho3: 0/1 exact, 0 after lint repair, 7.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-bp-a5-t20: 0/1 exact, 0 after lint repair, 14.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-sugar-a: 0/1 exact, 0 after lint repair, 11.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-nonbridging: 0/1 exact, 0 after lint repair, 14.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-thy-methyl: 0/1 exact, 0 after lint repair, 19.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-extra-points: 0/1 exact, 0 after lint repair, 14.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-water-o: 1/1 exact, 1 after lint repair, 2.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-potassium: 1/1 exact, 1 after lint repair, 1.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-k-near: 0/1 exact, 0 after lint repair, 6.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-water-o-near: 0/1 exact, 0 after lint repair, 14.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-heavy-a: 0/1 exact, 0 after lint repair, 15.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-dna-h: 0/1 exact, 0 after lint repair, 14.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-backbone-b: 0/1 exact, 0 after lint repair, 20.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-aatt-a: 0/1 exact, 0 after lint repair, 8.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-central-6bp: 0/1 exact, 0 after lint repair, 17.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-purine-n7: 0/1 exact, 0 after lint repair, 9.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-not-water: 1/1 exact, 1 after lint repair, 3.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-c1-or-20: 0/1 exact, 0 after lint repair, 9.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-type-p: 1/1 exact, 1 after lint repair, 1.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-h5-pair: 0/1 exact, 0 after lint repair, 14.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-restraint-dna: 0/1 exact, 0 after lint repair, 8.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 dna-strand-b-7th-c1: 0/1 exact, 0 after lint repair, 6.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-popc-all: 0/1 exact, 0 after lint repair, 18.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-pope-all: 0/1 exact, 0 after lint repair, 7.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-pc-heads: 0/1 exact, 0 after lint repair, 7.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-tails: 0/1 exact, 0 after lint repair, 26.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-oleoyl: 0/1 exact, 0 after lint repair, 27.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-pope-p: 0/1 exact, 0 after lint repair, 11.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-choline-n: 0/1 exact, 0 after lint repair, 12.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-pe-amine-h: 0/1 exact, 0 after lint repair, 29.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-double-bond: 0/1 exact, 0 after lint repair, 22.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-carbonyl-c: 0/1 exact, 0 after lint repair, 7.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-pa-c12: 0/1 exact, 0 after lint repair, 30.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-first-lipid: 0/1 exact, 0 after lint repair, 7.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-head-lipid5: 0/1 exact, 0 after lint repair, 8.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-pope-tails: 0/1 exact, 0 after lint repair, 28.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-lipid-heavy: 0/1 exact, 0 after lint repair, 11.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-ol-h: 0/1 exact, 0 after lint repair, 10.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-charmm-p: 0/1 exact, 0 after lint repair, 7.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-type-cb: 0/1 exact, 0 after lint repair, 23.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-water-near-p: 0/1 exact, 0 after lint repair, 22.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-k-near-heads: 0/1 exact, 0 after lint repair, 35.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-potassium: 1/1 exact, 1 after lint repair, 3.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-not-solvent: 1/1 exact, 1 after lint repair, 3.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 memb-restraint-p: 0/1 exact, 0 after lint repair, 33.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-popc-all: 0/1 exact, 0 after lint repair, 7.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-pope-all: 0/1 exact, 0 after lint repair, 9.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-pc-heads: 0/1 exact, 1 after lint repair, 7.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-tails: 0/1 exact, 0 after lint repair, 14.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-oleoyl: 0/1 exact, 0 after lint repair, 29.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-pope-p: 0/1 exact, 0 after lint repair, 22.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-choline-n: 0/1 exact, 0 after lint repair, 9.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-pe-amine-h: 0/1 exact, 0 after lint repair, 34.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-double-bond: 0/1 exact, 0 after lint repair, 28.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-carbonyl-c: 0/1 exact, 0 after lint repair, 36.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-pa-c12: 0/1 exact, 0 after lint repair, 28.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-first-lipid: 0/1 exact, 0 after lint repair, 8.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-head-lipid5: 0/1 exact, 0 after lint repair, 9.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-pope-tails: 0/1 exact, 0 after lint repair, 29.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-lipid-heavy: 0/1 exact, 0 after lint repair, 7.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-ol-h: 0/1 exact, 0 after lint repair, 35.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-charmm-p: 0/1 exact, 0 after lint repair, 16.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-type-cb: 0/1 exact, 0 after lint repair, 9.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-water-near-p: 0/1 exact, 0 after lint repair, 34.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-k-near-heads: 0/1 exact, 0 after lint repair, 18.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-potassium: 1/1 exact, 1 after lint repair, 3.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-not-solvent: 0/1 exact, 0 after lint repair, 8.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 memb-restraint-p: 0/1 exact, 0 after lint repair, 15.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-popc-all: 0/1 exact, 0 after lint repair, 7.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-pope-all: 0/1 exact, 0 after lint repair, 11.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-pc-heads: 0/1 exact, 0 after lint repair, 7.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-tails: 0/1 exact, 0 after lint repair, 37.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-oleoyl: 0/1 exact, 0 after lint repair, 6.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-pope-p: 0/1 exact, 0 after lint repair, 20.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-choline-n: 1/1 exact, 1 after lint repair, 4.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-pe-amine-h: 0/1 exact, 0 after lint repair, 21.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-double-bond: 0/1 exact, 0 after lint repair, 24.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-carbonyl-c: 0/1 exact, 0 after lint repair, 13.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-pa-c12: 0/1 exact, 0 after lint repair, 13.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-first-lipid: 1/1 exact, 1 after lint repair, 4.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-head-lipid5: 0/1 exact, 0 after lint repair, 22.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-pope-tails: 0/1 exact, 0 after lint repair, 37.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-lipid-heavy: 0/1 exact, 0 after lint repair, 28.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-ol-h: 0/1 exact, 0 after lint repair, 30.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-charmm-p: 0/1 exact, 1 after lint repair, 12.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-type-cb: 0/1 exact, 0 after lint repair, 10.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-water-near-p: 0/1 exact, 0 after lint repair, 28.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-k-near-heads: 0/1 exact, 0 after lint repair, 18.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-potassium: 1/1 exact, 1 after lint repair, 2.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-not-solvent: 0/1 exact, 0 after lint repair, 12.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 memb-restraint-p: 0/1 exact, 0 after lint repair, 9.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-ser195: 0/1 exact, 0 after lint repair, 22.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-triad-heavy: 0/1 exact, 0 after lint repair, 30.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-ser195-og: 0/1 exact, 0 after lint repair, 9.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-oxyanion: 0/1 exact, 0 after lint repair, 11.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-asp189: 0/1 exact, 0 after lint repair, 9.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-ins-184a: 0/1 exact, 0 after lint repair, 12.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-ins-188: 0/1 exact, 0 after lint repair, 10.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-pdb-30-40: 0/1 exact, 0 after lint repair, 23.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-pdb-214-221: 0/1 exact, 0 after lint repair, 13.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-s1-heavy: 0/1 exact, 0 after lint repair, 19.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-cys22-157: 0/1 exact, 0 after lint repair, 14.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-nterm-ile16: 0/1 exact, 0 after lint repair, 17.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-cterm-o: 0/1 exact, 0 after lint repair, 10.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-calcium: 1/1 exact, 1 after lint repair, 3.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-alpha-carbons: 0/1 exact, 0 after lint repair, 27.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-chloride: 1/1 exact, 1 after lint repair, 3.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-monovalent: 0/1 exact, 0 after lint repair, 11.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-all-ions: 0/1 exact, 0 after lint repair, 16.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-ca-shell: 0/1 exact, 0 after lint repair, 22.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-ca-residues: 0/1 exact, 0 after lint repair, 41.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-og-8a: 0/1 exact, 0 after lint repair, 41.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-crystal-waters: 0/1 exact, 0 after lint repair, 8.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-cyx-sg: 0/1 exact, 1 after lint repair, 8.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-his-all: 0/1 exact, 0 after lint repair, 25.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-sulfur-all: 0/1 exact, 0 after lint repair, 9.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-type-ca: 0/1 exact, 0 after lint repair, 8.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-type-ow: 0/1 exact, 0 after lint repair, 21.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-restraint-solute: 0/1 exact, 0 after lint repair, 23.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-res1-and-pro: 0/1 exact, 1 after lint repair, 11.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-ca-1-50-or-ion: 0/1 exact, 1 after lint repair, 17.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-gly-ha: 0/1 exact, 0 after lint repair, 25.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-ile-cd: 0/1 exact, 0 after lint repair, 16.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-carbons: 0/1 exact, 0 after lint repair, 27.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 0 tryp-pymol-resi: 0/1 exact, 0 after lint repair, 10.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-ser195: 0/1 exact, 0 after lint repair, 13.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-triad-heavy: 0/1 exact, 0 after lint repair, 13.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-ser195-og: 0/1 exact, 0 after lint repair, 11.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-oxyanion: 0/1 exact, 0 after lint repair, 14.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-asp189: 0/1 exact, 0 after lint repair, 9.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-ins-184a: 0/1 exact, 0 after lint repair, 10.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-ins-188: 0/1 exact, 0 after lint repair, 22.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-pdb-30-40: 0/1 exact, 0 after lint repair, 12.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-pdb-214-221: 0/1 exact, 0 after lint repair, 14.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-s1-heavy: 0/1 exact, 0 after lint repair, 25.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-cys22-157: 0/1 exact, 0 after lint repair, 24.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-nterm-ile16: 0/1 exact, 0 after lint repair, 13.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-cterm-o: 0/1 exact, 0 after lint repair, 10.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-calcium: 1/1 exact, 1 after lint repair, 3.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-alpha-carbons: 0/1 exact, 0 after lint repair, 29.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-chloride: 1/1 exact, 1 after lint repair, 3.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-monovalent: 0/1 exact, 0 after lint repair, 12.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-all-ions: 0/1 exact, 0 after lint repair, 33.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-ca-shell: 0/1 exact, 0 after lint repair, 22.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-ca-residues: 0/1 exact, 0 after lint repair, 14.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-og-8a: 0/1 exact, 0 after lint repair, 37.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-crystal-waters: 0/1 exact, 0 after lint repair, 8.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-cyx-sg: 0/1 exact, 0 after lint repair, 7.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-his-all: 0/1 exact, 1 after lint repair, 17.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-sulfur-all: 0/1 exact, 0 after lint repair, 8.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-type-ca: 0/1 exact, 0 after lint repair, 11.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-type-ow: 0/1 exact, 0 after lint repair, 8.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-restraint-solute: 0/1 exact, 0 after lint repair, 13.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-res1-and-pro: 0/1 exact, 0 after lint repair, 10.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-ca-1-50-or-ion: 0/1 exact, 0 after lint repair, 16.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-gly-ha: 0/1 exact, 0 after lint repair, 14.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-ile-cd: 0/1 exact, 0 after lint repair, 9.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-carbons: 0/1 exact, 0 after lint repair, 7.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 1 tryp-pymol-resi: 0/1 exact, 0 after lint repair, 18.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-ser195: 0/1 exact, 0 after lint repair, 8.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-triad-heavy: 0/1 exact, 0 after lint repair, 15.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-ser195-og: 0/1 exact, 0 after lint repair, 9.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-oxyanion: 0/1 exact, 0 after lint repair, 20.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-asp189: 0/1 exact, 0 after lint repair, 9.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-ins-184a: 0/1 exact, 0 after lint repair, 9.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-ins-188: 0/1 exact, 0 after lint repair, 11.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-pdb-30-40: 0/1 exact, 0 after lint repair, 18.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-pdb-214-221: 0/1 exact, 0 after lint repair, 14.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-s1-heavy: 0/1 exact, 0 after lint repair, 15.0s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-cys22-157: 0/1 exact, 0 after lint repair, 18.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-nterm-ile16: 0/1 exact, 0 after lint repair, 11.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-cterm-o: 0/1 exact, 0 after lint repair, 9.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-calcium: 1/1 exact, 1 after lint repair, 3.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-alpha-carbons: 0/1 exact, 0 after lint repair, 29.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-chloride: 1/1 exact, 1 after lint repair, 3.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-monovalent: 0/1 exact, 0 after lint repair, 11.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-all-ions: 0/1 exact, 0 after lint repair, 8.4s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-ca-shell: 0/1 exact, 0 after lint repair, 18.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-ca-residues: 0/1 exact, 0 after lint repair, 24.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-og-8a: 0/1 exact, 0 after lint repair, 35.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-crystal-waters: 0/1 exact, 0 after lint repair, 8.3s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-cyx-sg: 0/1 exact, 0 after lint repair, 7.9s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-his-all: 0/1 exact, 1 after lint repair, 8.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-sulfur-all: 1/1 exact, 1 after lint repair, 3.7s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-type-ca: 0/1 exact, 0 after lint repair, 18.2s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-type-ow: 0/1 exact, 0 after lint repair, 8.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-restraint-solute: 0/1 exact, 0 after lint repair, 18.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-res1-and-pro: 0/1 exact, 1 after lint repair, 12.1s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-ca-1-50-or-ion: 0/1 exact, 1 after lint repair, 17.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-gly-ha: 0/1 exact, 0 after lint repair, 9.5s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-ile-cd: 0/1 exact, 0 after lint repair, 36.6s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-carbons: 0/1 exact, 0 after lint repair, 6.8s
+qwen2.5-7b-instruct-nf4 grammar2 task run 2 tryp-pymol-resi: 0/1 exact, 0 after lint repair, 13.1s
+qwen2.5-7b-instruct-nf4 grammar2 sheet run 0 bnbs-barnase-all..: 2/41 exact, 2 after lint repair, 941.3s
+qwen2.5-7b-instruct-nf4 grammar2 sheet run 1 bnbs-barnase-all..: 2/41 exact, 2 after lint repair, 826.3s
+qwen2.5-7b-instruct-nf4 grammar2 sheet run 2 bnbs-barnase-all..: 2/41 exact, 2 after lint repair, 869.8s
+qwen2.5-7b-instruct-nf4 grammar2 sheet run 0 dna-strand-b..: 8/27 exact, 12 after lint repair, 332.5s
+qwen2.5-7b-instruct-nf4 grammar2 sheet run 1 dna-strand-b..: 3/27 exact, 4 after lint repair, 299.7s
+qwen2.5-7b-instruct-nf4 grammar2 sheet run 2 dna-strand-b..: 3/27 exact, 5 after lint repair, 184.9s
+qwen2.5-7b-instruct-nf4 grammar2 sheet run 0 memb-popc-all..: 4/23 exact, 4 after lint repair, 262.1s
+qwen2.5-7b-instruct-nf4 grammar2 sheet run 1 memb-popc-all..: 4/23 exact, 4 after lint repair, 315.3s
+qwen2.5-7b-instruct-nf4 grammar2 sheet run 2 memb-popc-all..: 0/23 exact, 1 after lint repair, 361.2s
+qwen2.5-7b-instruct-nf4 grammar2 sheet run 0 tryp-ser195..: 1/34 exact, 1 after lint repair, 846.9s
+qwen2.5-7b-instruct-nf4 grammar2 sheet run 1 tryp-ser195..: 2/34 exact, 2 after lint repair, 723.1s
+qwen2.5-7b-instruct-nf4 grammar2 sheet run 2 tryp-ser195..: 2/34 exact, 2 after lint repair, 677.2s
+qwen2.5-7b-instruct-nf4 done; peak 7.2 GiB

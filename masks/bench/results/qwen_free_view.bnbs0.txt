@@ -1,0 +1,83 @@
+=== bnbs-barnase-all ===
+!:A&!WAT&!ION
+=== bnbs-barstar-ca ===
+!:D&!WAT&!ION&name CA
+=== bnbs-barstar-heavy ===
+!:D&!WAT&!ION&!name CA
+=== bnbs-backbone ===
+!:*&(name N CA C O)
+=== bnbs-his102 ===
+!:A&!WAT&!ION&resname HID&resid 100
+=== bnbs-glu73-oe ===
+!:A&!WAT&!ION&resname GLU&resid 73&!(name OE1 OE2)
+=== bnbs-arg83-87 ===
+!:A&!WAT&!ION&resname ARG&!(resid 83&name NE NH1 NH2)|(resid 87&name NE NH1 NH2)
+=== bnbs-d35-d39 ===
+!:D&!WAT&!ION&resname ASP&!(resid 35&name OD1 OD2)|(resid 39&name OD1 OD2)
+=== bnbs-barstar-66-89 ===
+!:D&!WAT&!ION&resid 66-89
+=== bnbs-barstar-60-70 ===
+!:D&!WAT&!ION&resid 60-70
+=== bnbs-barstar-trp ===
+!:D&!WAT&!ION&resname TRP&resi 38 44
+=== bnbs-barnase-56-60-ca ===
+!:A&!WAT&!ION&resid 56-60&name CA
+=== bnbs-his-all ===
+!:*&(resname HID+HIE+HIP+HIS)&!WAT&!ION
+=== bnbs-hip ===
+!:*&(resname HIP)&!WAT&!ION
+=== bnbs-neutral-acids ===
+!:*&(resname GLU+ASP)&!WAT&!ION&!(name OE1 OE2)
+=== bnbs-acidic-all ===
+!:*&(resname GLU+ASP)&!WAT&!ION
+=== bnbs-lys-nz ===
+!:*&(resname LYS)&!WAT&!ION&name NZ
+=== bnbs-sodium ===
+!:*&(resname NA+)&!WAT&!ION
+=== bnbs-ions ===
+!:*&(name NA+ CL-)&!WAT
+=== bnbs-not-solvent ===
+!:*&(type SOLW SOLI)&!WAT&!ION
+=== bnbs-nterm-h ===
+!:*&(name N)&!WAT&!ION&!(type NTerm)
+=== bnbs-oxt ===
+!:*&(name OXT)&!WAT&!ION
+=== bnbs-cterm-res ===
+!:*&(name C)&!WAT&!ION&!(type CTerm)
+=== bnbs-amide-h ===
+!:*&(name HN)&!WAT&!ION&!(type Amide)
+=== bnbs-trp-ring ===
+!:D&!WAT&!ION&resname TRP&!(name C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12)
+=== bnbs-near-his102 ===
+!:A&!WAT&!ION&resname HID&resid 100&within 5.0 of (resname HID&resid 100)
+=== bnbs-interface-water ===
+!:*&(name OW)&!WAT&!ION&within 3.0 of (resname HID&resid 100)
+=== bnbs-barstar-interface ===
+!:D&!WAT&!ION&resid 60-110&within 4.0 of (resname HID&resid 100)
+=== bnbs-ions-near-protein ===
+!:*&(name NA+ CL-)&!WAT&!ION&within 6.0 of (resname HID&resid 100)
+=== bnbs-sidechains-or-50 ===
+!:*&(type SC)&!WAT&!ION&!(resname HID HIE HIP HIS WAT NA+ CL-)
+=== bnbs-res1-and-trp ===
+!:*&(resname HID HIE HIP HIS WAT NA+ CL-)&!WAT&!ION&resid 1
+!:*&(resname TRP)&!WAT&!ION
+=== bnbs-h-1-10-20-30 ===
+!:*&(type H NTerm CTerm)&!WAT&!ION&resid 1-10,20-30
+=== bnbs-restraint-adapt ===
+!:*&(type SOLW SOLI)&!WAT&!ION
+=== bnbs-bellymask ===
+!:D&!WAT&!ION&resid 1-110
+=== bnbs-scmask-h102a ===
+!:A&!WAT&!ION&resname HID&resid 100&!(name CB)
+=== bnbs-cpptraj-h ===
+!:*&(name H1 H2 H3)&!WAT&!ION
+=== bnbs-vmd-ca ===
+!:*&(name CA)&!WAT&!ION&resid 10-20
+=== bnbs-mda-around ===
+!:*&(type SOLW)&!WAT&!ION&around 3.5 resname HID HIE HIP HIS
+=== bnbs-ct-barnase ===
+!:A&!WAT&!ION&atomtype CT
+=== bnbs-water-h ===
+!:*&(type OW HW1 HW2)&!WAT&!ION
+=== bnbs-hg-wildcard ===
+!:A&!WAT&!ION&name HG*

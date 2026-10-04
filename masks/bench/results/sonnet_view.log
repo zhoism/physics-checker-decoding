@@ -1,0 +1,3 @@
+sonnet view verdict          240/250 exact
+sonnet view checker_verdict  249/250 exact
+sonnet view lint_verdict     249/250 exact

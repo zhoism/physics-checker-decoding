@@ -2,6 +2,28 @@
 
 Dead ends and first occurrences only; newest first. Decisions live in commit messages.
 
+watch: 2026-10-04 a 4-bit Qwen3.8-27B across two T4s: `device_map="auto"` put 5.4 GiB on one and filled the other, which ran out of memory on the first prompt; a per-GPU `max_memory` cap then made the bitsandbytes loader refuse to start ("dispatched on the CPU"). `PrefixLM.device_map` splits the layers by hand.
+
+watch: 2026-10-02 transformers 5.17 `DynamicCache.crop(n)` keeps n tokens when n > 0 (a deprecated legacy meaning) and removes |n| when n < 0, though the parameter is named `tokens_to_remove`. `decode.PrefixLM` crops with a negative count; `tests/test_mask_decode.py` fails on the other reading.
+
+watch: 2026-10-02 Qwen2.5-7B-4bit on MLX with 10–12k-token mask-bench prompts, next to the user's desktop apps, filled the 36 GB laptop's RAM and all 36 GB of swap; the machine lagged for a long while and the job needed kill -9. Run long-prompt local decoding on Colab/Kaggle, or check `sysctl vm.swapusage` first.
+
+watch: 2026-10-02 the mask-bench parser stripped quote characters from both ends of an answer, which chopped the prime off nucleic-acid atom names (`O4'` → `O4`, `HO3'` → `HO3`) and scored right masks as wrong. Strip only a pair of enclosing quotes (`blind.clean`).
+
+watch: 2026-10-02 ambmask rejects a mask longer than about 80 characters (`pop_evalstack`) that pmemd26 reads (84 characters, 432 atoms); a right but long answer was scored "rejected". `tasks.select` evaluates long masks as a union of short pieces.
+
+## 2026-10-02 — Qwen 7B answering one mask task per prompt, with the system view
+
+**Tried:** the pilot's layout (one chat per task) with the bench view (4k–12k tokens) in the system prompt, on MLX.
+**Failed because:** genlm's MLX pool reuses KV only for a live row that is a strict prefix of the next prompt, so every sample re-prefilled the whole view: 36 s for one sample, and one sample took 1,282 s. About 125 tasks × 3 samples × 2 arms would take hours.
+**Do not retry unless:** the backend keeps a prefix cache across prompts. `qwen.py` instead answers a whole system as one sheet, the same prompt Claude gets.
+
+## 2026-10-02 — a POPC:POPE:cholesterol bilayer from packmol-memgen
+
+**Tried:** `--lipids POPC:POPE:CHL1`, ratios 2:1:1 and 3:1:1, at 40 and 50 Å, up to `--nloop_all 400` (10 min).
+**Failed because:** packmol never converged (it wrote `bilayer_only.pdb_FORCED`), with the warning "sterol concentration too high or the system too small".
+**Do not retry unless:** the box is larger or cholesterol is below 20%. The bench uses POPC:POPE 3:1 and keeps packmol's best solution, which also ends "without perfect packing" but is fine for masks.
+
 watch: 2026-10-01 ParmEd's AmberMask accepts `@H*` (13,676 atoms) where pmemd and ambmask reject it; mask gold must come from ambmask, never ParmEd.
 
 watch: 2026-10-01 ambmask silently truncates long file paths and cannot read a NetCDF restart (`STOP error reading natom from inpcrd`); run it with cwd in the system dir on an ASCII rst7.

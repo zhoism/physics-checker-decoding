@@ -1,0 +1,82 @@
+=== bnbs-barnase-all ===
+!:A&!WAT&!Na+&!Cl-
+=== bnbs-barstar-ca ===
+!:D&!WAT&!Na+&!Cl-&(name CA)
+=== bnbs-barstar-heavy ===
+!:D&!WAT&!Na+&!Cl-&!name CA
+=== bnbs-backbone ===
+!:*&(name N CA C O)
+=== bnbs-his102 ===
+!:A&!WAT&!Na+&!Cl-&(resi 102)@N@CA@CB@CG@CD@CE@NZ
+=== bnbs-glu73-oe ===
+!:A&!WAT&!Na+&!Cl-&(resi 73)@OE1@OE2
+=== bnbs-arg83-87 ===
+!:A&!WAT&!Na+&!Cl-&(resi 83)@NE@NH1@NH2&(resi 87)@NE@NH1@NH2
+=== bnbs-d35-d39 ===
+!:D&!WAT&!Na+&!Cl-&(resi 35 or 39)@OD1
+=== bnbs-barstar-66-89 ===
+!:D&!WAT&!Na+&!Cl-&(resi 66 to 89)
+=== bnbs-barstar-60-70 ===
+!:D&!WAT&!Na+&!Cl-&(resi 60 to 70)
+=== bnbs-barstar-trp ===
+!:D&!WAT&!Na+&!Cl-&(resi 38 or 44)@C@CD1@CE1@CG@CD2@CE2@CGE
+=== bnbs-barnase-56-60-ca ===
+!:A&!WAT&!Na+&!Cl-&(resi 56 to 60)@CA
+=== bnbs-his-all ===
+!:*&(name ND1@NE@NH1@NH2)
+=== bnbs-hip ===
+!:*&(name ND1@NE1@NE2)
+=== bnbs-neutral-acids ===
+!:*&(resname ASP GLU)
+=== bnbs-acidic-all ===
+!:*&(resname ASP GLU)
+=== bnbs-lys-nz ===
+!:*&(resname LYS)@NZ
+=== bnbs-sodium ===
+!:*&(name Na+)
+=== bnbs-ions ===
+!:*&(name Na+ or Cl-)
+=== bnbs-not-solvent ===
+!:*&!WAT&!Na+&!Cl-
+=== bnbs-nterm-h ===
+!:*&(name H1@H2@H3)
+=== bnbs-oxt ===
+!:*&(name OXT)
+=== bnbs-cterm-res ===
+!:*&(resi 1 or 90 or 1700)
+=== bnbs-amide-h ===
+!:*&(name HN)
+=== bnbs-trp-ring ===
+!:D&!WAT&!Na+&!Cl-&(resname TRP)@C@CD1@CD2@CE1@CE2@CG@CGE@CE@CH@CZ
+=== bnbs-near-his102 ===
+!:*&(around 5.0 resi 102)@N@CA@CB@CG@CD@CE@NZ
+=== bnbs-interface-water ===
+!:*&(around 3.0 :A or :D)@O
+=== bnbs-barstar-interface ===
+!:*&(around 4.0 :A)@O
+=== bnbs-ions-near-protein ===
+!:*&(around 6.0 :A or :D)@Na+@Cl-
+=== bnbs-sidechains-or-50 ===
+!:*&(resi 40 to 45)!@N@CA@C@O&(resi 50)
+=== bnbs-res1-and-trp ===
+!:*&(resi 1 or 33 or 69 or 92 or 146 or 152 or 161)@C@O
+=== bnbs-h-1-10-20-30 ===
+!:*&(resi 1 to 10 or 20 to 30)@H
+=== bnbs-restraint-adapt ===
+!:*&!WAT&!Na+&!Cl-
+=== bnbs-bellymask ===
+!:*&(resi 1 to 90 or 1700 to 1733)
+=== bnbs-scmask-h102a ===
+!:A&!WAT&!Na+&!Cl-&(resi 102)@CB@CG@CD@CE@CGE@CD2@HD1@HD2@HD3@NZ@HZ1@HZ2@HZ3
+=== bnbs-cpptraj-h ===
+!:A&!WAT&!Na+&!Cl-&(name H1 H2 H3)
+=== bnbs-vmd-ca ===
+!:A&!WAT&!Na+&!Cl-&(name CA)@(resi 10 to 20)
+=== bnbs-mda-around ===
+!:*&(type O)@(around 3.5 :A or :D)
+=== bnbs-ct-barnase ===
+!:A&!WAT&!Na+&!Cl-&(name CT)
+=== bnbs-water-h ===
+!:WAT&(type H1 H2)
+=== bnbs-hg-wildcard ===
+!:A&!WAT&!Na+&!Cl-&(name HG*)

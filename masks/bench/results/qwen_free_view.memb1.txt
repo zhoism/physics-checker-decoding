@@ -1,0 +1,20 @@
+=== memb-popc-all ===
+res PA and res PC
+=== memb-pope-all ===
+res PA and res PC and res PE
+=== memb-pc-heads ===
+res PA
+=== memb-tails ===
+res PA and res PC and res PE and res WAT and :235-240
+=== memb-oleoyl ===
+res PA and res PC and res PE and :235-240 and (name C* or name O* or name N* or name S*)
+=== memb-pope-p ===
+res PE and (name P or name O* or name S* or name N* or name C* or name H*)
+=== memb-choline-n ===
+res PA and (name N* or name C* or name O*)
+=== memb-pe-amine-h ===
+res PE and (name HN* or name H*)
+=== memb-double-bond ===
+res PA and res PC and res PE and (name C2 or name C3)
+=== memb-carbonyl-c ===
+res PA and res PC and res PE and (name C* and not (name C1 or name C2 or name C3 or name C4 or name C5 or name C6 or name C7 or name C8 or name C9 or name C10 or name C11 or name C12 or name C13 or name C14 or name C15 or name C16 or name C17 or name C18 or name C19 or name C20 or name C21 or name C22 or name C23 or name C24 or name C25 or name C26 or name C27 or name C28 or name C29 or name C30 or name C31 or name C32 or name C33 or name C34 or name C35 or name C36 or name C37 or name C38 or name C39 or name C40 or name C41 or name C42 or name C43 or name C44 or name C45 or name C46 or name C47 or name C48 or name C49 or name C50 or name C51 or name C52 or name C53 or name C54 or name C55 or name C56 or name C57 or name C58 or name C59 or name C60 or name C61 or name C62 or name C63 or name C64 or name C65 or name C66 or name C67 or name C68 or name C69 or name C70 or name C71 or name C72 or name C73 or name C74 or name C75 or name C76 or name C77 or name C78 or name C79 or name C80 or name C81 or name C82 or name C83 or name C84 or name C85 or name C86 or name C87 or name C88 or name C89 or name C90 or name C91 or name C92 or name C93 or name C94 or name C95 or name C96 or name C97 or name C98 or name C99 or name C100 or name C101 or name C102 or name C103 or name C104 or name C105 or name C106 or name C107 or name C108 or name C109 or name C110 or name C111 or name C112 or name C113 or name C114 or name C115 or name C116 or name C117 or name C118 or name C119 or name C120 or name C121 or name C122 or name C123 or name C124 or name C125 or name C126 or name C127 or name C128 or name C129 or name C130 or name C131 or name C132 or

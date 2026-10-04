@@ -1,0 +1,52 @@
+=== dna-strand-b ===
+:13-24@
+=== dna-strand-a-p ===
+:1-12P
+=== dna-guanines ===
+:1-4N9,13-16N9,17-18N9,19-20N9,21-22N9,23-24N9
+=== dna-cytosines ===
+:1-4N3,13-16N3,17-18N3,19-20N3,21-22N3,23-24N3
+=== dna-five-prime ===
+:1-12N1,13-24N1
+=== dna-ho3 ===
+:1-12O3',13-24O3'
+=== dna-bp-a5-t20 ===
+:5N1,5N6,20N3,20O4
+=== dna-sugar-a ===
+:1-12C1',1-12C2',1-12C3',1-12C4',1-12O4'
+=== dna-nonbridging ===
+:1-12O5',13-24O5'
+=== dna-thy-methyl ===
+:13-16C4,17-20C4,21-24C4
+=== dna-extra-points ===
+@EPW
+=== dna-water-o ===
+:71-5245OW
+=== dna-potassium ===
+:25-47K+,49-70K+
+=== dna-k-near ===
+@:1-24/6.00
+=== dna-water-o-near ===
+@:1-24/3.50/71-5245*O
+=== dna-heavy-a ===
+:1-12.CD3,C1',C2',C3',C4',O4',N1,N9,N3,N7,N6,N4,C5,C6,C8,C10,C11,C12,C14,C15,C17,C18,C19,C20,O5',O3',O2',O2,C5(C5(CJ)),H5'(H1),H5''(H1),H5(HA),H1'(H2),H4(H4),H6(H4),H6(H4),H3'(H1),H2'(HC),H2''(HC),H2'(HC),H3'(H1),H2'(HC)
+=== dna-dna-h ===
+:1-24.H1,H2,EPW
+=== dna-backbone-b ===
+:13-24P,OP1,OP2,O5',C5',C4',C3',O3'
+=== dna-aatt-a ===
+:5-8N1,N9,N3,N2,N1,N9,N3,N2,N1,N9,N3,N2,N1,N9,N3,N2,N1,N9,N3,N2,N1,N9,N3,N2
+=== dna-central-6bp ===
+:4-9N1,10-15N1,16-21N1,22-27N1,28-33N1,34-39N1,13-18N1,19-24N1,25-30N1,31-36N1,37-42N1,43-48N1,14-19N1,20-25N1,26-31N1,32-37N1,38-43N1,44-49N1
+=== dna-purine-n7 ===
+:1-4N7,13-16N7,17-18N7,19-20N7,21-22N7,23-24N7
+=== dna-not-water ===
+@:1-24,!71-5245
+=== dna-c1-or-20 ===
+:1-12C1',20.*
+=== dna-type-p ===
+@P
+=== dna-h5-pair ===
+:13-16H5',17-20H5',21-24H5'
+=== dna-restraint-dna ===
+:1-12.CD3,C1',C2',C3',C4',O4',N1,N9,N3,N7,N6,N4,C5,C6,C8,C10,C11,C12,C14,C15,C17,C18,C19,C20,O5',O3',O2',O2,C5(CJ),H5'(H1),H

@@ -1,0 +1,68 @@
+=== tryp-ser195 ===
+N.195&SG
+=== tryp-triad-heavy ===
+N.57&CG&ND1|N.102&CG&OD1|S.195&SG
+=== tryp-ser195-og ===
+S.195&OG
+=== tryp-oxyanion ===
+N.193&HN|N.193&HN1|N.193&HN2|N.195&HN3|N.195&HD2|N.195&HD3
+=== tryp-asp189 ===
+ALL.189
+=== tryp-ins-184a ===
+N.184A
+=== tryp-ins-188 ===
+N.188A|N.188
+=== tryp-pdb-30-40 ===
+N.30-40
+=== tryp-pdb-214-221 ===
+N.214-221
+=== tryp-s1-heavy ===
+N.189-195|N.214-220
+=== tryp-cys22-157 ===
+S.22|S.157
+=== tryp-nterm-ile16 ===
+N.16|HN1.16|HN2.16
+=== tryp-cterm-o ===
+O.2627|O.2628
+=== tryp-calcium ===
+Z.3234
+=== tryp-alpha-carbons ===
+CA.*
+=== tryp-chloride ===
+Z.3222-3253
+=== tryp-monovalent ===
+Z.233,235-239,241-245,247-249,251-255
+=== tryp-all-ions ===
+Z.233-3253
+=== tryp-ca-shell ===
+@.3-6.3,Z.3234
+=== tryp-ca-residues ===
+@.3-6.3
+=== tryp-og-8a ===
+@.195.8.3
+=== tryp-crystal-waters ===
+OW.1-62
+=== tryp-cyx-sg ===
+S.22,157
+=== tryp-his-all ===
+H.*
+=== tryp-sulfur-all ===
+S.*
+=== tryp-type-ca ===
+A.6.3
+=== tryp-type-ow ===
+OW.*
+=== tryp-restraint-solute ===
+@.1-2626.3|Z.3234
+=== tryp-res1-and-pro ===
+N.1|N.5|N.9|N.13|N.17|N.21|N.25|N.29|N.33|N.37|N.41|N.45|N.49|N.53|N.57|N.61|N.65|N.69|N.73|N.77|N.81|N.85|N.89|N.93|N.97|N.101|N.105|N.109|N.113|N.117|N.121|N.125|N.129|N.133|N.137|N.141|N.145|N.149
+=== tryp-ca-1-50-or-ion ===
+CA.1-50|Z.3234
+=== tryp-gly-ha ===
+HA.38,45,51,60,113,120,122,128,154,164,168-169,175,178-179,185,189,194,196,204
+=== tryp-ile-cd ===
+CB.46,55,65,71,85,88,103,118,142,156,190,216,220
+=== tryp-carbons ===
+C.*
+=== tryp-pymol-resi ===
+N.57|N.102|N.195|CA.57|CA.102|CA.195

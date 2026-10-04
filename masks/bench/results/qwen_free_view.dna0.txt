@@ -1,0 +1,57 @@
+=== dna-strand-b ===
+resname DC5 DC13 DG14 DC15 DG16 DA17 DA18 DT19 DT20 DC21 DG22 DC23 DG24 -and- chain B
+=== dna-strand-a-p ===
+resname DC DG DA DT -and- chain A :P
+=== dna-guanines ===
+resname DG DG3 -and- chain A B
+=== dna-cytosines ===
+resname DC DC3 DC9 DC11 DC17 DC21 -and- chain A B
+=== dna-five-prime ===
+resname DC DG DA DT :1 -and- chain A B
+=== dna-ho3 ===
+resname DA DT :HO3' -and- chain A B
+=== dna-bp-a5-t20 ===
+resname DA :N1 -and- resname DT :N3, O4 -and- chain A
+=== dna-sugar-a ===
+resname DC DG DA DT :C1' -and- chain A
+=== dna-nonbridging ===
+resname WAT :OPW -and- chain A B
+=== dna-thy-methyl ===
+resname DA :C5 -and- chain A B
+=== dna-extra-points ===
+resname WAT :EPW -and- chain A B
+=== dna-water-o ===
+resname WAT :O -and- chain A B
+=== dna-potassium ===
+resname K+
+=== dna-k-near ===
+resname K+ -and- within 6 of :@name -and- chain A B
+=== dna-water-o-near ===
+resname WAT :O -and- within 3.5 of :@name -and- chain A B
+=== dna-heavy-a ===
+!dna-heavy-a ===
+!@name -and- resname K+ WAT -and- chain A
+=== dna-dna-h ===
+!dna-dna-h ===
+!@name -and- resname K+ WAT -and- chain A B
+=== dna-backbone-b ===
+resname DC5 DG DG3 DC DG3 DA DA3 DT DT3 DC DC3 DG DG3 DA DA3 DT DT3 -and- chain B :P OP1 OP2 O5' C5' C4' C3' O3'
+=== dna-aatt-a ===
+resname DA :5-8 -and- chain A
+=== dna-central-6bp ===
+resname DC DG DA DT :4-9 -and- chain A :P OP1 OP2 O5' C5' C4' C3' O3' -and- chain B :P OP1 OP2 O5' C5' C4' C3' O3'
+=== dna-purine-n7 ===
+resname DA :N7 -and- chain A :N9 -and- chain B
+=== dna-not-water ===
+!@name -and- resname K+ WAT
+=== dna-c1-or-20 ===
+resname DC :C1' -and- chain A :20 -and- chain A
+=== dna-type-p ===
+@type P -and- chain A B
+=== dna-h5-pair ===
+resname DC DA DT :H5' H5'' -and- chain A
+=== dna-restraint-dna ===
+!dna-restraint-dna ===
+!@name -and- resname K+ WAT -and- chain A B
+=== dna-strand-b-7th-c1 ===
+resname DC :C1' -and- chain B :7

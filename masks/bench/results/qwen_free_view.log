@@ -1,0 +1,9 @@
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 5110.85it/s]
+free view run 0 bnbs: 0/41 exact, 12387 prompt tokens, 1319 generated, 101s
+free view run 0 dna: 0/27 exact, 4370 prompt tokens, 777 generated, 46s
+free view run 0 memb: 0/23 exact, 9945 prompt tokens, 920 generated, 78s
+free view run 0 tryp: 0/34 exact, 12729 prompt tokens, 1049 generated, 92s
+free view run 1 bnbs: 0/41 exact, 12387 prompt tokens, 1276 generated, 99s
+free view run 1 dna: 2/27 exact, 4370 prompt tokens, 1080 generated, 57s
+free view run 1 memb: 0/23 exact, 9945 prompt tokens, 920 generated, 71s
+free view run 1 tryp: 0/34 exact, 12729 prompt tokens, 1360 generated, 103s

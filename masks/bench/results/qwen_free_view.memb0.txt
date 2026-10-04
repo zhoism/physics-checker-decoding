@@ -1,0 +1,24 @@
+=== memb-popc-all ===
+res PA and res PC
+=== memb-pope-all ===
+res PC
+=== memb-pc-heads ===
+res PA
+=== memb-tails ===
+res PA and res PC except res PA and res PC and res K+ and res Cl-
+=== memb-oleoyl ===
+res PA and res PC and res OL and res WAT except res PA and res PC and res K+ and res Cl- and res WAT and res PE
+=== memb-pope-p ===
+res PC and res OL and res WAT and res PE and res K+ and res Cl- except res PA and res WAT
+=== memb-choline-n ===
+res PA and res PC and res OL and res WAT and res K+ and res Cl- and res PE and name N* and resname POPC and resname POPE and resname PE and resname OL
+=== memb-pe-amine-h ===
+res PE and name H*
+=== memb-double-bond ===
+res PA and res PC and res OL and res WAT and res K+ and res Cl- and res PE and name C* within 1 of name C* and resname POPC and resname POPE and resname PE and resname OL
+=== memb-carbonyl-c ===
+res PA and res PC and res OL and res WAT and res K+ and res Cl- and res PE and name C* within 1 of name O* and resname POPC and resname POPE and resname PE and resname OL
+=== memb-pa-c12 ===
+res PA and name C12 and not name C11 and not res PC and not res OL and not res WAT and not res K+ and not res Cl- and not res PE
+=== memb-first-lipid ===
+res 1 and res 2 and res 3 and res 4 and res 5 and res 6 and res 7 and res 8 and res 9 and res 10 and res 11 and res 12 and res 13 and res 14 and res 15 and res 16 and res 17 and res 18 and res 19 and res 20 and res 21 and res 22 and res 23 and res 24 and res 25 and res 26 and res 27 and res 28 and res 29 and res 30 and res 31 and res 32 and res 33 and res 34 and res 35 and res 36 and res 37 and res 38 and res 39 and res 40 and res 41 and res 42 and res 43 and res 44 and res 45 and res 46 and res 47 and res 48 and res 49 and res 50 and res 51 and res 52 and res 53 and res 54 and res 55 and res 56 and res 57 and res 58 and res 59 and res 60 and res 61 and res 62 and res 63 and res 64 and res 65 and res 66 and res 67 and res 68 and res 69 and res 70 and res 71 and res 72 and res 73 and res 74 and res 75 and res 76 and res 77 and res 78 and res 79 and res 80 and res 81 and res 82 and res 83 and res 84 and res 85 and res 86 and res 87 and res 88 and res 89 and res 90 and res 91 and res 92 and res 93 and res 94 and res 95 and res 96 and res 97 and res 98 and res 99 and res 100 and res 101 and res 102 and res 103 and res 104 and res 105 and res 106 and res 107 and res 

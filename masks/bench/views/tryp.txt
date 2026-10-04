@@ -1,0 +1,355 @@
+The topology sys.parm7 and coordinates sys.rst7 were built with AmberTools tleap from PDB entry 3PTB, chain(s) A.
+
+$ cat leap.in
+source leaprc.protein.ff14SB
+source leaprc.water.spce
+m = loadpdb prep.pdb
+solvateBox m SPCBOX 10.0
+addIons m CL 0
+addIons m NA 12 CL 12
+saveAmberParm m sys.parm7 sys.rst7
+quit
+
+$ cpptraj -p sys.parm7
+
+> parminfo
+	Topology sys.parm7 contains 26266 atoms.
+		Title: default_name
+		Original filename: sys.parm7
+		7927 residues.
+		7705 molecules.
+		26270 bonds (24604 to H, 1666 other).
+		5876 angles (3612 with H, 2264 other).
+		14769 dihedrals (7414 with H, 7355 other).
+		Box: Orthorhombic
+		7671 solvent molecules.
+		GB radii set: modified Bondi radii (mbondi)
+		Non-bonded parameters are present.
+
+> molinfo :* short
+#Mol Count Natom  Nres
+ILE      1  3220   223
+CA       1     1     1
+CL      20     1     1
+NA      12     1     1
+WAT   7671     3     1
+
+> resinfo !:WAT
+256 residues selected.
+#Res  Name First  Last Natom #Orig  #Mol C I
+    1 ILE      1    21    21     1     1    
+    2 VAL     22    37    16     2     1    
+    3 GLY     38    44     7     3     1    
+    4 GLY     45    51     7     4     1    
+    5 TYR     52    72    21     5     1    
+    6 THR     73    86    14     6     1    
+    7 CYX     87    96    10     7     1    
+    8 GLY     97   103     7     8     1    
+    9 ALA    104   113    10     9     1    
+   10 ASN    114   127    14    10     1    
+   11 THR    128   141    14    11     1    
+   12 VAL    142   157    16    12     1    
+   13 PRO    158   171    14    13     1    
+   14 TYR    172   192    21    14     1    
+   15 GLN    193   209    17    15     1    
+   16 VAL    210   225    16    16     1    
+   17 SER    226   236    11    17     1    
+   18 LEU    237   255    19    18     1    
+   19 ASN    256   269    14    19     1    
+   20 SER    270   280    11    20     1    
+   21 GLY    281   287     7    21     1    
+   22 TYR    288   308    21    22     1    
+   23 HIE    309   325    17    23     1    
+   24 PHE    326   345    20    24     1    
+   25 CYX    346   355    10    25     1    
+   26 GLY    356   362     7    26     1    
+   27 GLY    363   369     7    27     1    
+   28 SER    370   380    11    28     1    
+   29 LEU    381   399    19    29     1    
+   30 ILE    400   418    19    30     1    
+   31 ASN    419   432    14    31     1    
+   32 SER    433   443    11    32     1    
+   33 GLN    444   460    17    33     1    
+   34 TRP    461   484    24    34     1    
+   35 VAL    485   500    16    35     1    
+   36 VAL    501   516    16    36     1    
+   37 SER    517   527    11    37     1    
+   38 ALA    528   537    10    38     1    
+   39 ALA    538   547    10    39     1    
+   40 HIE    548   564    17    40     1    
+   41 CYX    565   574    10    41     1    
+   42 TYR    575   595    21    42     1    
+   43 LYS    596   617    22    43     1    
+   44 SER    618   628    11    44     1    
+   45 GLY    629   635     7    45     1    
+   46 ILE    636   654    19    46     1    
+   47 GLN    655   671    17    47     1    
+   48 VAL    672   687    16    48     1    
+   49 ARG    688   711    24    49     1    
+   50 LEU    712   730    19    50     1    
+   51 GLY    731   737     7    51     1    
+   52 GLU    738   752    15    52     1    
+   53 ASP    753   764    12    53     1    
+   54 ASN    765   778    14    54     1    
+   55 ILE    779   797    19    55     1    
+   56 ASN    798   811    14    56     1    
+   57 VAL    812   827    16    57     1    
+   58 VAL    828   843    16    58     1    
+   59 GLU    844   858    15    59     1    
+   60 GLY    859   865     7    60     1    
+   61 ASN    866   879    14    61     1    
+   62 GLU    880   894    15    62     1    
+   63 GLN    895   911    17    63     1    
+   64 PHE    912   931    20    64     1    
+   65 ILE    932   950    19    65     1    
+   66 SER    951   961    11    66     1    
+   67 ALA    962   971    10    67     1    
+   68 SER    972   982    11    68     1    
+   69 LYS    983  1004    22    69     1    
+   70 SER   1005  1015    11    70     1    
+   71 ILE   1016  1034    19    71     1    
+   72 VAL   1035  1050    16    72     1    
+   73 HIE   1051  1067    17    73     1    
+   74 PRO   1068  1081    14    74     1    
+   75 SER   1082  1092    11    75     1    
+   76 TYR   1093  1113    21    76     1    
+   77 ASN   1114  1127    14    77     1    
+   78 SER   1128  1138    11    78     1    
+   79 ASN   1139  1152    14    79     1    
+   80 THR   1153  1166    14    80     1    
+   81 LEU   1167  1185    19    81     1    
+   82 ASN   1186  1199    14    82     1    
+   83 ASN   1200  1213    14    83     1    
+   84 ASP   1214  1225    12    84     1    
+   85 ILE   1226  1244    19    85     1    
+   86 MET   1245  1261    17    86     1    
+   87 LEU   1262  1280    19    87     1    
+   88 ILE   1281  1299    19    88     1    
+   89 LYS   1300  1321    22    89     1    
+   90 LEU   1322  1340    19    90     1    
+   91 LYS   1341  1362    22    91     1    
+   92 SER   1363  1373    11    92     1    
+   93 ALA   1374  1383    10    93     1    
+   94 ALA   1384  1393    10    94     1    
+   95 SER   1394  1404    11    95     1    
+   96 LEU   1405  1423    19    96     1    
+   97 ASN   1424  1437    14    97     1    
+   98 SER   1438  1448    11    98     1    
+   99 ARG   1449  1472    24    99     1    
+  100 VAL   1473  1488    16   100     1    
+  101 ALA   1489  1498    10   101     1    
+  102 SER   1499  1509    11   102     1    
+  103 ILE   1510  1528    19   103     1    
+  104 SER   1529  1539    11   104     1    
+  105 LEU   1540  1558    19   105     1    
+  106 PRO   1559  1572    14   106     1    
+  107 THR   1573  1586    14   107     1    
+  108 SER   1587  1597    11   108     1    
+  109 CYX   1598  1607    10   109     1    
+  110 ALA   1608  1617    10   110     1    
+  111 SER   1618  1628    11   111     1    
+  112 ALA   1629  1638    10   112     1    
+  113 GLY   1639  1645     7   113     1    
+  114 THR   1646  1659    14   114     1    
+  115 GLN   1660  1676    17   115     1    
+  116 CYX   1677  1686    10   116     1    
+  117 LEU   1687  1705    19   117     1    
+  118 ILE   1706  1724    19   118     1    
+  119 SER   1725  1735    11   119     1    
+  120 GLY   1736  1742     7   120     1    
+  121 TRP   1743  1766    24   121     1    
+  122 GLY   1767  1773     7   122     1    
+  123 ASN   1774  1787    14   123     1    
+  124 THR   1788  1801    14   124     1    
+  125 LYS   1802  1823    22   125     1    
+  126 SER   1824  1834    11   126     1    
+  127 SER   1835  1845    11   127     1    
+  128 GLY   1846  1852     7   128     1    
+  129 THR   1853  1866    14   129     1    
+  130 SER   1867  1877    11   130     1    
+  131 TYR   1878  1898    21   131     1    
+  132 PRO   1899  1912    14   132     1    
+  133 ASP   1913  1924    12   133     1    
+  134 VAL   1925  1940    16   134     1    
+  135 LEU   1941  1959    19   135     1    
+  136 LYS   1960  1981    22   136     1    
+  137 CYX   1982  1991    10   137     1    
+  138 LEU   1992  2010    19   138     1    
+  139 LYS   2011  2032    22   139     1    
+  140 ALA   2033  2042    10   140     1    
+  141 PRO   2043  2056    14   141     1    
+  142 ILE   2057  2075    19   142     1    
+  143 LEU   2076  2094    19   143     1    
+  144 SER   2095  2105    11   144     1    
+  145 ASP   2106  2117    12   145     1    
+  146 SER   2118  2128    11   146     1    
+  147 SER   2129  2139    11   147     1    
+  148 CYX   2140  2149    10   148     1    
+  149 LYS   2150  2171    22   149     1    
+  150 SER   2172  2182    11   150     1    
+  151 ALA   2183  2192    10   151     1    
+  152 TYR   2193  2213    21   152     1    
+  153 PRO   2214  2227    14   153     1    
+  154 GLY   2228  2234     7   154     1    
+  155 GLN   2235  2251    17   155     1    
+  156 ILE   2252  2270    19   156     1    
+  157 THR   2271  2284    14   157     1    
+  158 SER   2285  2295    11   158     1    
+  159 ASN   2296  2309    14   159     1    
+  160 MET   2310  2326    17   160     1    
+  161 PHE   2327  2346    20   161     1    
+  162 CYX   2347  2356    10   162     1    
+  163 ALA   2357  2366    10   163     1    
+  164 GLY   2367  2373     7   164     1    
+  165 TYR   2374  2394    21   165     1    
+  166 LEU   2395  2413    19   166     1    
+  167 GLU   2414  2428    15   167     1    
+  168 GLY   2429  2435     7   168     1    
+  169 GLY   2436  2442     7   169     1    
+  170 LYS   2443  2464    22   170     1    
+  171 ASP   2465  2476    12   171     1    
+  172 SER   2477  2487    11   172     1    
+  173 CYX   2488  2497    10   173     1    
+  174 GLN   2498  2514    17   174     1    
+  175 GLY   2515  2521     7   175     1    
+  176 ASP   2522  2533    12   176     1    
+  177 SER   2534  2544    11   177     1    
+  178 GLY   2545  2551     7   178     1    
+  179 GLY   2552  2558     7   179     1    
+  180 PRO   2559  2572    14   180     1    
+  181 VAL   2573  2588    16   181     1    
+  182 VAL   2589  2604    16   182     1    
+  183 CYX   2605  2614    10   183     1    
+  184 SER   2615  2625    11   184     1    
+  185 GLY   2626  2632     7   185     1    
+  186 LYS   2633  2654    22   186     1    
+  187 LEU   2655  2673    19   187     1    
+  188 GLN   2674  2690    17   188     1    
+  189 GLY   2691  2697     7   189     1    
+  190 ILE   2698  2716    19   190     1    
+  191 VAL   2717  2732    16   191     1    
+  192 SER   2733  2743    11   192     1    
+  193 TRP   2744  2767    24   193     1    
+  194 GLY   2768  2774     7   194     1    
+  195 SER   2775  2785    11   195     1    
+  196 GLY   2786  2792     7   196     1    
+  197 CYX   2793  2802    10   197     1    
+  198 ALA   2803  2812    10   198     1    
+  199 GLN   2813  2829    17   199     1    
+  200 LYS   2830  2851    22   200     1    
+  201 ASN   2852  2865    14   201     1    
+  202 LYS   2866  2887    22   202     1    
+  203 PRO   2888  2901    14   203     1    
+  204 GLY   2902  2908     7   204     1    
+  205 VAL   2909  2924    16   205     1    
+  206 TYR   2925  2945    21   206     1    
+  207 THR   2946  2959    14   207     1    
+  208 LYS   2960  2981    22   208     1    
+  209 VAL   2982  2997    16   209     1    
+  210 CYX   2998  3007    10   210     1    
+  211 ASN   3008  3021    14   211     1    
+  212 TYR   3022  3042    21   212     1    
+  213 VAL   3043  3058    16   213     1    
+  214 SER   3059  3069    11   214     1    
+  215 TRP   3070  3093    24   215     1    
+  216 ILE   3094  3112    19   216     1    
+  217 LYS   3113  3134    22   217     1    
+  218 GLN   3135  3151    17   218     1    
+  219 THR   3152  3165    14   219     1    
+  220 ILE   3166  3184    19   220     1    
+  221 ALA   3185  3194    10   221     1    
+  222 SER   3195  3205    11   222     1    
+  223 ASN   3206  3220    15   223     1    
+  224 CA    3221  3221     1   224     2    
+  225 CL    3222  3222     1   225     3    
+  226 CL    3223  3223     1   226     4    
+  227 CL    3224  3224     1   227     5    
+  228 CL    3225  3225     1   228     6    
+  229 CL    3226  3226     1   229     7    
+  230 CL    3227  3227     1   230     8    
+  231 CL    3228  3228     1   231     9    
+  232 CL    3229  3229     1   232    10    
+  233 NA    3230  3230     1   233    11    
+  234 CL    3231  3231     1   234    12    
+  235 NA    3232  3232     1   235    13    
+  236 CL    3233  3233     1   236    14    
+  237 NA    3234  3234     1   237    15    
+  238 CL    3235  3235     1   238    16    
+  239 NA    3236  3236     1   239    17    
+  240 CL    3237  3237     1   240    18    
+  241 NA    3238  3238     1   241    19    
+  242 CL    3239  3239     1   242    20    
+  243 NA    3240  3240     1   243    21    
+  244 CL    3241  3241     1   244    22    
+  245 NA    3242  3242     1   245    23    
+  246 CL    3243  3243     1   246    24    
+  247 NA    3244  3244     1   247    25    
+  248 CL    3245  3245     1   248    26    
+  249 NA    3246  3246     1   249    27    
+  250 CL    3247  3247     1   250    28    
+  251 NA    3248  3248     1   251    29    
+  252 CL    3249  3249     1   252    30    
+  253 NA    3250  3250     1   253    31    
+  254 CL    3251  3251     1   254    32    
+  255 NA    3252  3252     1   255    33    
+  256 CL    3253  3253     1   256    34
+
+> resinfo :WAT   (condensed)
+WAT residues 257-7927
+
+> atominfo   (condensed: atom name(type) for each residue name; residues with the same atoms grouped)
+ILE  residues 1
+     N(N3) H1(H) H2(H) H3(H) CA(CX) HA(HP) CB(3C) HB(HC) CG2(CT) HG21(HC) HG22(HC) HG23(HC) CG1(2C) HG12(HC) HG13(HC) CD1(CT) HD11(HC) HD12(HC) HD13(HC) C(C) O(O)
+VAL  residues 2,12,16,35-36,48,57-58,72,100,134,181-182,191,205,209,213
+     N(N) H(H) CA(CX) HA(H1) CB(3C) HB(HC) CG1(CT) HG11(HC) HG12(HC) HG13(HC) CG2(CT) HG21(HC) HG22(HC) HG23(HC) C(C) O(O)
+GLY  residues 3-4,8,21,26-27,45,51,60,113,120,122,128,154,164,168-169,175,178-179,185,189,194,196,204
+     N(N) H(H) CA(CX) HA2(H1) HA3(H1) C(C) O(O)
+TYR  residues 5,14,22,42,76,131,152,165,206,212
+     N(N) H(H) CA(CX) HA(H1) CB(CT) HB2(HC) HB3(HC) CG(CA) CD1(CA) HD1(HA) CE1(CA) HE1(HA) CZ(C) OH(OH) HH(HO) CE2(CA) HE2(HA) CD2(CA) HD2(HA) C(C) O(O)
+THR  residues 6,11,80,107,114,124,129,157,207,219
+     N(N) H(H) CA(CX) HA(H1) CB(3C) HB(H1) CG2(CT) HG21(HC) HG22(HC) HG23(HC) OG1(OH) HG1(HO) C(C) O(O)
+CYX  residues 7,25,41,109,116,137,148,162,173,183,197,210
+     N(N) H(H) CA(CX) HA(H1) CB(2C) HB2(H1) HB3(H1) SG(S) C(C) O(O)
+ALA  residues 9,38-39,67,93-94,101,110,112,140,151,163,198,221
+     N(N) H(H) CA(CX) HA(H1) CB(CT) HB1(HC) HB2(HC) HB3(HC) C(C) O(O)
+ASN  residues 10,19,31,54,56,61,77,79,82-83,97,123,159,201,211
+     N(N) H(H) CA(CX) HA(H1) CB(2C) HB2(HC) HB3(HC) CG(C) OD1(O) ND2(N) HD21(H) HD22(H) C(C) O(O)
+PRO  residues 13,74,106,132,141,153,180,203
+     N(N) CD(CT) HD2(H1) HD3(H1) CG(CT) HG2(HC) HG3(HC) CB(CT) HB2(HC) HB3(HC) CA(CX) HA(H1) C(C) O(O)
+GLN  residues 15,33,47,63,115,155,174,188,199,218
+     N(N) H(H) CA(CX) HA(H1) CB(2C) HB2(HC) HB3(HC) CG(2C) HG2(HC) HG3(HC) CD(C) OE1(O) NE2(N) HE21(H) HE22(H) C(C) O(O)
+SER  residues 17,20,28,32,37,44,66,68,70,75,78,92,95,98,102,104,108,111,119,126-127,130,144,146-147,150,158,172,177,184,192,195,214,222
+     N(N) H(H) CA(CX) HA(H1) CB(2C) HB2(H1) HB3(H1) OG(OH) HG(HO) C(C) O(O)
+LEU  residues 18,29,50,81,87,90,96,105,117,135,138,143,166,187
+     N(N) H(H) CA(CX) HA(H1) CB(2C) HB2(HC) HB3(HC) CG(3C) HG(HC) CD1(CT) HD11(HC) HD12(HC) HD13(HC) CD2(CT) HD21(HC) HD22(HC) HD23(HC) C(C) O(O)
+HIE  residues 23,40,73
+     N(N) H(H) CA(CX) HA(H1) CB(CT) HB2(HC) HB3(HC) CG(CC) ND1(NB) CE1(CR) HE1(H5) NE2(NA) HE2(H) CD2(CW) HD2(H4) C(C) O(O)
+PHE  residues 24,64,161
+     N(N) H(H) CA(CX) HA(H1) CB(CT) HB2(HC) HB3(HC) CG(CA) CD1(CA) HD1(HA) CE1(CA) HE1(HA) CZ(CA) HZ(HA) CE2(CA) HE2(HA) CD2(CA) HD2(HA) C(C) O(O)
+ILE  residues 30,46,55,65,71,85,88,103,118,142,156,190,216,220
+     N(N) H(H) CA(CX) HA(H1) CB(3C) HB(HC) CG2(CT) HG21(HC) HG22(HC) HG23(HC) CG1(2C) HG12(HC) HG13(HC) CD1(CT) HD11(HC) HD12(HC) HD13(HC) C(C) O(O)
+TRP  residues 34,121,193,215
+     N(N) H(H) CA(CX) HA(H1) CB(CT) HB2(HC) HB3(HC) CG(C*) CD1(CW) HD1(H4) NE1(NA) HE1(H) CE2(CN) CZ2(CA) HZ2(HA) CH2(CA) HH2(HA) CZ3(CA) HZ3(HA) CE3(CA) HE3(HA) CD2(CB) C(C) O(O)
+LYS  residues 43,69,89,91,125,136,139,149,170,186,200,202,208,217
+     N(N) H(H) CA(CX) HA(H1) CB(C8) HB2(HC) HB3(HC) CG(C8) HG2(HC) HG3(HC) CD(C8) HD2(HC) HD3(HC) CE(C8) HE2(HP) HE3(HP) NZ(N3) HZ1(H) HZ2(H) HZ3(H) C(C) O(O)
+ARG  residues 49,99
+     N(N) H(H) CA(CX) HA(H1) CB(C8) HB2(HC) HB3(HC) CG(C8) HG2(HC) HG3(HC) CD(C8) HD2(H1) HD3(H1) NE(N2) HE(H) CZ(CA) NH1(N2) HH11(H) HH12(H) NH2(N2) HH21(H) HH22(H) C(C) O(O)
+GLU  residues 52,59,62,167
+     N(N) H(H) CA(CX) HA(H1) CB(2C) HB2(HC) HB3(HC) CG(2C) HG2(HC) HG3(HC) CD(CO) OE1(O2) OE2(O2) C(C) O(O)
+ASP  residues 53,84,133,145,171,176
+     N(N) H(H) CA(CX) HA(H1) CB(2C) HB2(HC) HB3(HC) CG(CO) OD1(O2) OD2(O2) C(C) O(O)
+MET  residues 86,160
+     N(N) H(H) CA(CX) HA(H1) CB(2C) HB2(HC) HB3(HC) CG(2C) HG2(H1) HG3(H1) SD(S) CE(CT) HE1(H1) HE2(H1) HE3(H1) C(C) O(O)
+ASN  residues 223
+     N(N) H(H) CA(CX) HA(H1) CB(2C) HB2(HC) HB3(HC) CG(C) OD1(O) ND2(N) HD21(H) HD22(H) C(C) O(O2) OXT(O2)
+CA   residues 224
+     CA(Ca2+)
+CL   residues 225-232,234,236,238,240,242,244,246,248,250,252,254,256
+     CL(Cl-)
+NA   residues 233,235,237,239,241,243,245,247,249,251,253,255
+     NA(Na+)
+WAT  residues 257-7927... (7671 residues)
+     O(OW) H1(HW) H2(HW)
+
+$ residues of chain(s) A in 3PTB.pdb (ATOM and HETATM records)
+chain A: ILE16 VAL17 GLY18 GLY19 TYR20 THR21 CYS22 GLY23 ALA24 ASN25 THR26 VAL27 PRO28 TYR29 GLN30 VAL31 SER32 LEU33 ASN34 SER37 GLY38 TYR39 HIS40 PHE41 CYS42 GLY43 GLY44 SER45 LEU46 ILE47 ASN48 SER49 GLN50 TRP51 VAL52 VAL53 SER54 ALA55 ALA56 HIS57 CYS58 TYR59 LYS60 SER61 GLY62 ILE63 GLN64 VAL65 ARG66 LEU67 GLY69 GLU70 ASP71 ASN72 ILE73 ASN74 VAL75 VAL76 GLU77 GLY78 ASN79 GLU80 GLN81 PHE82 ILE83 SER84 ALA85 SER86 LYS87 SER88 ILE89 VAL90 HIS91 PRO92 SER93 TYR94 ASN95 SER96 ASN97 THR98 LEU99 ASN100 ASN101 ASP102 ILE103 MET104 LEU105 ILE106 LYS107 LEU108 LYS109 SER110 ALA111 ALA112 SER113 LEU114 ASN115 SER116 ARG117 VAL118 ALA119 SER120 ILE121 SER122 LEU123 PRO124 THR125 SER127 CYS128 ALA129 SER130 ALA132 GLY133 THR134 GLN135 CYS136 LEU137 ILE138 SER139 GLY140 TRP141 GLY142 ASN143 THR144 LYS145 SER146 SER147 GLY148 THR149 SER150 TYR151 PRO152 ASP153 VAL154 LEU155 LYS156 CYS157 LEU158 LYS159 ALA160 PRO161 ILE162 LEU163 SER164 ASP165 SER166 SER167 CYS168 LYS169 SER170 ALA171 TYR172 PRO173 GLY174 GLN175 ILE176 THR177 SER178 ASN179 MET180 PHE181 CYS182 ALA183 GLY184A TYR184 LEU185 GLU186 GLY187 GLY188A LYS188 ASP189 SER190 CYS191 GLN192 GLY193 ASP194 SER195 GLY196 GLY197 PRO198 VAL199 VAL200 CYS201 SER202 GLY203 LYS204 LEU209 GLN210 GLY211 ILE212 VAL213 SER214 TRP215 GLY216 SER217 GLY219 CYS220 ALA221A GLN221 LYS222 ASN223 LYS224 PRO225 GLY226 VAL227 TYR228 THR229 LYS230 VAL231 CYS232 ASN233 TYR234 VAL235 SER236 TRP237 ILE238 LYS239 GLN240 THR241 ILE242 ALA243 SER244 ASN245 CA480 BEN1  (+ 62 HOH)

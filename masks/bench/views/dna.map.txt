@@ -1,0 +1,3 @@
+PDB residue -> topology residue number, for every residue tleap read from 1BNA
+chain A: DC1=1 DG2=2 DC3=3 DG4=4 DA5=5 DA6=6 DT7=7 DT8=8 DC9=9 DG10=10 DC11=11 DG12=12
+chain B: DC13=13 DG14=14 DC15=15 DG16=16 DA17=17 DA18=18 DT19=19 DT20=20 DC21=21 DG22=22 DC23=23 DG24=24

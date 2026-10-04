@@ -66,3 +66,10 @@ checked against the paper (see the last table in `docs/ONBOARDING.md`).
 *Failures that have bitten **this** project twice. The first time, one line in `docs/DEVLOG.md`
 tagged `watch:`. The second time, `grep watch:` finds it and it moves here. An entry leaves when
 it stops matching. Empty on purpose; do not seed it with someone else's.*
+
+- ambmask cannot read a NetCDF restart (`STOP error reading natom from inpcrd`), and tleap writes one
+  when packmol-memgen drives it. Convert first: cpptraj `trajin x.crd`, `trajout x.rst7 restart`.
+  (2026-10-01 Single Particle restart; 2026-10-02 the bench membrane.)
+- ambmask reads at most 79 characters; at 80 and more it fails with `pop_evalstack`, so a right but long
+  mask scores "rejected". Score it as a union of short pieces (`tasks.select`, `AMBMASK_MAX = 79`).
+  (2026-10-02 an 84-character answer; 2026-10-02 again at exactly 80, with the cut-off set to 80.)

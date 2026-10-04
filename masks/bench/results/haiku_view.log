@@ -1,0 +1,3 @@
+haiku view verdict          220/375 exact
+haiku view checker_verdict  258/375 exact
+haiku view lint_verdict     318/375 exact

@@ -1,0 +1,135 @@
+The topology sys.parm7 and coordinates sys.rst7 were built with AmberTools tleap from PDB entry 1BNA, chain(s) A, B.
+
+$ cat leap.in
+source leaprc.DNA.OL21
+source leaprc.water.opc
+m = loadpdb prep.pdb
+solvateOct m OPCBOX 10.0
+addIons m K+ 0
+addIons m K+ 12 Cl- 12
+saveAmberParm m sys.parm7 sys.rst7
+quit
+
+$ cpptraj -p sys.parm7
+
+> parminfo
+	Topology sys.parm7 contains 21504 atoms.
+		Title: default_name
+		Original filename: sys.parm7
+		5245 residues.
+		5223 molecules.
+		21516 bonds (15797 to H, 5719 other).
+		1476 angles (640 with H, 836 other).
+		3284 dihedrals (1390 with H, 1894 other).
+		Box: Truncated octahedron
+		5175 solvent molecules.
+		GB radii set: modified Bondi radii (mbondi)
+		Non-bonded parameters are present.
+
+> molinfo :* short
+#Mol Count Natom  Nres
+DC5      2   379    12
+K+      34     1     1
+Cl-     12     1     1
+WAT   5175     4     1
+
+> resinfo !:WAT
+70 residues selected.
+#Res  Name First  Last Natom #Orig  #Mol C I
+    1 DC5      1    28    28     1     1    
+    2 DG      29    61    33     2     1    
+    3 DC      62    91    30     3     1    
+    4 DG      92   124    33     4     1    
+    5 DA     125   156    32     5     1    
+    6 DA     157   188    32     6     1    
+    7 DT     189   220    32     7     1    
+    8 DT     221   252    32     8     1    
+    9 DC     253   282    30     9     1    
+   10 DG     283   315    33    10     1    
+   11 DC     316   345    30    11     1    
+   12 DG3    346   379    34    12     1    
+   13 DC5    380   407    28    13     2    
+   14 DG     408   440    33    14     2    
+   15 DC     441   470    30    15     2    
+   16 DG     471   503    33    16     2    
+   17 DA     504   535    32    17     2    
+   18 DA     536   567    32    18     2    
+   19 DT     568   599    32    19     2    
+   20 DT     600   631    32    20     2    
+   21 DC     632   661    30    21     2    
+   22 DG     662   694    33    22     2    
+   23 DC     695   724    30    23     2    
+   24 DG3    725   758    34    24     2    
+   25 K+     759   759     1    25     3    
+   26 K+     760   760     1    26     4    
+   27 K+     761   761     1    27     5    
+   28 K+     762   762     1    28     6    
+   29 K+     763   763     1    29     7    
+   30 K+     764   764     1    30     8    
+   31 K+     765   765     1    31     9    
+   32 K+     766   766     1    32    10    
+   33 K+     767   767     1    33    11    
+   34 K+     768   768     1    34    12    
+   35 K+     769   769     1    35    13    
+   36 K+     770   770     1    36    14    
+   37 K+     771   771     1    37    15    
+   38 K+     772   772     1    38    16    
+   39 K+     773   773     1    39    17    
+   40 K+     774   774     1    40    18    
+   41 K+     775   775     1    41    19    
+   42 K+     776   776     1    42    20    
+   43 K+     777   777     1    43    21    
+   44 K+     778   778     1    44    22    
+   45 K+     779   779     1    45    23    
+   46 K+     780   780     1    46    24    
+   47 K+     781   781     1    47    25    
+   48 Cl-    782   782     1    48    26    
+   49 K+     783   783     1    49    27    
+   50 Cl-    784   784     1    50    28    
+   51 K+     785   785     1    51    29    
+   52 Cl-    786   786     1    52    30    
+   53 K+     787   787     1    53    31    
+   54 Cl-    788   788     1    54    32    
+   55 K+     789   789     1    55    33    
+   56 Cl-    790   790     1    56    34    
+   57 K+     791   791     1    57    35    
+   58 Cl-    792   792     1    58    36    
+   59 K+     793   793     1    59    37    
+   60 Cl-    794   794     1    60    38    
+   61 K+     795   795     1    61    39    
+   62 Cl-    796   796     1    62    40    
+   63 K+     797   797     1    63    41    
+   64 Cl-    798   798     1    64    42    
+   65 K+     799   799     1    65    43    
+   66 Cl-    800   800     1    66    44    
+   67 K+     801   801     1    67    45    
+   68 Cl-    802   802     1    68    46    
+   69 K+     803   803     1    69    47    
+   70 Cl-    804   804     1    70    48
+
+> resinfo :WAT   (condensed)
+WAT residues 71-5245
+
+> atominfo   (condensed: atom name(type) for each residue name; residues with the same atoms grouped)
+DC5  residues 1,13
+     HO5'(HO) O5'(OH) C5'(CJ) H5'(H1) H5''(H1) C4'(CT) H4'(H1) O4'(OS) C1'(CT) H1'(H2) N1(N*) C6(C1) H6(H4) C5(C1) H5(HA) C4(CA) N4(N2) H41(H) H42(H) N3(NC) C2(C) O2(O) C3'(C7) H3'(H1) C2'(CT) H2'(HC) H2''(HC) O3'(OS)
+DG   residues 2,4,10,14,16,22
+     P(P) OP1(O2) OP2(O2) O5'(OS) C5'(CJ) H5'(H1) H5''(H1) C4'(CT) H4'(H1) O4'(OS) C1'(CT) H1'(H2) N9(N*) C8(CK) H8(H5) N7(NB) C5(CB) C6(C) O6(O) N1(NA) H1(H) C2(CA) N2(N2) H21(H) H22(H) N3(NC) C4(CB) C3'(C7) H3'(H1) C2'(CT) H2'(HC) H2''(HC) O3'(OS)
+DC   residues 3,9,11,15,21,23
+     P(P) OP1(O2) OP2(O2) O5'(OS) C5'(CJ) H5'(H1) H5''(H1) C4'(CT) H4'(H1) O4'(OS) C1'(CT) H1'(H2) N1(N*) C6(C1) H6(H4) C5(C1) H5(HA) C4(CA) N4(N2) H41(H) H42(H) N3(NC) C2(C) O2(O) C3'(C7) H3'(H1) C2'(CT) H2'(HC) H2''(HC) O3'(OS)
+DA   residues 5-6,17-18
+     P(P) OP1(O2) OP2(O2) O5'(OS) C5'(CJ) H5'(H1) H5''(H1) C4'(CT) H4'(H1) O4'(OS) C1'(CT) H1'(H2) N9(N*) C8(C2) H8(H5) N7(NB) C5(CB) C6(CA) N6(N2) H61(H) H62(H) N1(NC) C2(CQ) H2(H5) N3(NC) C4(CB) C3'(C7) H3'(H1) C2'(CT) H2'(HC) H2''(HC) O3'(OS)
+DT   residues 7-8,19-20
+     P(P) OP1(O2) OP2(O2) O5'(OS) C5'(CJ) H5'(H1) H5''(H1) C4'(CT) H4'(H1) O4'(OS) C1'(CT) H1'(H2) N1(N*) C6(CM) H6(H4) C5(CM) C7(CT) H71(HC) H72(HC) H73(HC) C4(C) O4(O) N3(NA) H3(H) C2(C) O2(O) C3'(C7) H3'(H1) C2'(CT) H2'(HC) H2''(HC) O3'(OS)
+DG3  residues 12,24
+     P(P) OP1(O2) OP2(O2) O5'(OS) C5'(CJ) H5'(H1) H5''(H1) C4'(CT) H4'(H1) O4'(OS) C1'(CT) H1'(H2) N9(N*) C8(CK) H8(H5) N7(NB) C5(CB) C6(C) O6(O) N1(NA) H1(H) C2(CA) N2(N2) H21(H) H22(H) N3(NC) C4(CB) C3'(C7) H3'(H1) C2'(CT) H2'(HC) H2''(HC) O3'(OH) HO3'(HO)
+K+   residues 25-47,49,51,53,55,57,59,61,63,65,67,69
+     K+(K+)
+Cl-  residues 48,50,52,54,56,58,60,62,64,66,68,70
+     Cl-(Cl-)
+WAT  residues 71-5245... (5175 residues)
+     O(OW) H1(HW) H2(HW) EPW(EP)
+
+$ residues of chain(s) A, B in 1BNA.pdb (ATOM and HETATM records)
+chain A: DC1 DG2 DC3 DG4 DA5 DA6 DT7 DT8 DC9 DG10 DC11 DG12  (+ 37 HOH)
+chain B: DC13 DG14 DC15 DG16 DA17 DA18 DT19 DT20 DC21 DG22 DC23 DG24  (+ 43 HOH)

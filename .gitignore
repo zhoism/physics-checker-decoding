@@ -4,3 +4,7 @@ __pycache__/
 .env
 masks/pilot/system/
 masks/pilot/runs/
+masks/bench/systems/
+masks/bench/runs/
+masks/bench/colab/bundle.tar.gz
+masks/bench/colab/MANIFEST

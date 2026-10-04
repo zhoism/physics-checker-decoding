@@ -1,0 +1,40 @@
+=== tryp-ser195 ===
+&S195.OW
+=== tryp-triad-heavy ===
+&S195.CA &H57.CA &D102.CA &S195.CA
+=== tryp-ser195-og ===
+&S195.OW
+=== tryp-oxyanion ===
+&N193.CA &O193.CA &N195.CA &O195.CA
+=== tryp-asp189 ===
+&D189.*
+=== tryp-ins-184a ===
+&W184A.*
+=== tryp-ins-188 ===
+&W188A.* &W188.*
+=== tryp-pdb-30-40 ===
+&S30.* &S31.* &S32.* &S33.* &S34.* &S35.* &S36.* &S37.* &S38.* &S39.* &S40.*
+=== tryp-pdb-214-221 ===
+&S214.* &S215.* &S216.* &S217.* &S218.* &S219.* &S220.* &S221.* &S221A.*
+=== tryp-s1-heavy ===
+&S189.* &S190.* &S191.* &S192.* &S193.* &S194.* &S195.* &S214.* &S215.* &S216.* &S217.* &S218.* &S219.* &S220.* &S221.* &S221A.*
+=== tryp-cys22-157 ===
+&S22.SG &S157.SG
+=== tryp-nterm-ile16 ===
+&N16.CA &N16.HA1 &N16.HA2 &N16.HA3
+=== tryp-cterm-o ===
+&O2634.CA &O2635.CA
+=== tryp-calcium ===
+&C.*
+=== tryp-alpha-carbons ===
+&CA.*
+=== tryp-chloride ===
+&CL.*
+=== tryp-monovalent ===
+&NA.* &CL.*
+=== tryp-all-ions ===
+&C.* &NA.* &CL.*
+=== tryp-ca-shell ===
+&N2606.CA &CA2606 &C2606 &N2607.CA &CA2607 &C2607 &N2608.CA &CA2608 &C2608 &N2609.CA &CA2609 &C2609 &N2610.CA &CA2610 &C2610 &N2611.CA &CA2611 &C2611 &N2612.CA &CA2612 &C2612 &N2613.CA &CA2613 &C2613 &N2614.CA &CA2614 &C2614 &N2615.CA &CA2615 &C2615 &N2616.CA &CA2616 &C2616 &N2617.CA &CA2617 &C2617 &N2618.CA &CA2618 &C2618 &N2619.CA &CA2619 &C2619 &N2620.CA &CA2620 &C2620 &N2621.CA &CA2621 &C2621 &N2622.CA &CA2622 &C2622 &N2623.CA &CA2623 &C2623 &N2624.CA &CA2624 &C2624 &N2625.CA &CA2625 &C2625 &N2626.CA &CA2626 &C2626 &N2627.CA &CA2627 &C2627 &N2628.CA &CA2628 &C2628 &N2629.CA &CA2629 &C2629 &N2630.CA &CA2630 &C2630 &N2631.CA &CA2631 &C2631 &N2632.CA &CA2632 &C2632 &N2633.CA &CA2633 &C2633 &N2634.CA &CA2634 &C2634
+=== tryp-ca-residues ===
+&N16.CA &CA16 &C16 &N17.CA &CA17 &C17 &N18.CA &CA18 &C18 &N19.CA &CA19 &C19 &N20.CA &CA20 &C20 &N21.CA &CA21 &C21 &N22.CA &CA22 &C22 &N23.CA &CA23 &C23 &N24.CA &CA24 &C24 &N25.CA &CA25 &C25 &N26.CA &CA26 &C26 &N27.CA &CA27 &C27 &N28.CA &CA28 &C28 &N29.CA &CA29 &C29 &N30.CA &CA30
