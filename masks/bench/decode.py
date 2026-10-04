@@ -13,7 +13,7 @@ Every first-try failure then gets one lint repair, decoded the same way. The rep
 'lint' message (the checker's verdict and lint.py's hints). As in blind.py, a failure is judged against the
 gold, but the gold is never shown. Layout 'task' is one prompt per task; 'sheet' is qwen.py's whole-system
 sheet, the prompt Claude gets.
-    python masks/bench/decode.py <hf model> <nf4|fp16|fp32> <runs> <out dir> <tasks per system|all> <decode:layout>...
+    python masks/bench/decode.py <hf model> <nf4|fp16|fp32> <runs> <out dir> <tasks per system|all> <decode:layout[:runs]>...
 writes <out dir>/<model>-<quant>_<decode>_<layout>.jsonl, one row per task, appended as it finishes.
 """
 import asyncio
@@ -60,20 +60,43 @@ class PrefixLM(AsyncLM):
                                bnb_4bit_compute_dtype=torch.float16) if quant == "nf4" else None
         dtype = torch.float32 if quant == "fp32" else torch.float16  # a T4 has no bf16
         model = AutoModelForCausalLM.from_pretrained(name, quantization_config=q, dtype=dtype,
-                                                     device_map=cls.device_map(name, torch.cuda.device_count()))
+                                                     device_map=cls.device_map(name, torch.cuda.device_count(), quant))
         return cls(model.eval(), AutoTokenizer.from_pretrained(name))
 
     @staticmethod
-    def device_map(name, n_gpu):
-        """Layers split evenly by hand, the input embedding on the first GPU and the output layer on the last.
-        'auto' put 5.4 GiB of the 4-bit 27B on one T4 and filled the other, which then ran out on the first
-        prompt; capping each GPU instead made the 4-bit loader refuse to start."""
+    def device_map(name, n_gpu, quant="nf4"):
+        """Layers split by hand so each GPU holds about the same bytes. The input embedding and whatever else
+        sits outside the layers (Gemma 4's vision tower) go on the first GPU, the final norm on the last, and
+        the output layer on the last, or on the first when it is the input embedding's matrix (Gemma 4 ties
+        them). 'auto' put 5.4 GiB of the 4-bit 27B on one T4 and filled the other, which then ran out on the
+        first prompt; capping each GPU instead made the 4-bit loader refuse to start. Module names come from an
+        empty copy of the model: Gemma 4 nests its text model under model.language_model."""
         if n_gpu < 2:
             return "auto" if n_gpu else None
-        from transformers import AutoConfig
-        layers = AutoConfig.from_pretrained(name).get_text_config().num_hidden_layers
-        return {"model.embed_tokens": 0, "model.rotary_emb": 0, "model.norm": n_gpu - 1, "lm_head": n_gpu - 1,
-                **{f"model.layers.{i}": i * n_gpu // layers for i in range(layers)}}
+        from transformers import AutoConfig, AutoModelForCausalLM
+        with torch.device("meta"):
+            model = AutoModelForCausalLM.from_config(AutoConfig.from_pretrained(name))
+        name_of = {m: n for n, m in model.named_modules()}
+        base, head = name_of[model.get_decoder()], model.get_output_embeddings()
+        tied = head.weight is model.get_input_embeddings().weight
+        dm = {f"{base}.norm": n_gpu - 1, name_of[head]: 0 if tied else n_gpu - 1}
+        for n in name_of.values():  # the rest, each at its highest module outside the layers
+            if n and not f"{base}.".startswith(f"{n}.") and not n.startswith(f"{base}.layers") \
+                    and not any(n == k or n.startswith(f"{k}.") for k in dm):
+                dm[n] = 0
+        layer_b, other_b = {"nf4": (0.5, 2), "fp16": (2, 2), "fp32": (4, 4)}[quant]  # bytes per weight
+        size = lambda n, b: b * sum(p.numel() for p in model.get_submodule(n).parameters())
+        load = [sum(size(n, other_b) for n, g in dm.items() if g == gpu and not (tied and n == name_of[head]))
+                for gpu in range(n_gpu)]  # a tied output layer is the embedding, already counted
+        sizes = [size(f"{base}.layers.{i}", layer_b) for i in range(len(model.get_submodule(f"{base}.layers")))]
+        share = (sum(load) + sum(sizes)) / n_gpu
+        gpu = 0
+        for i, b in enumerate(sizes):
+            if gpu < n_gpu - 1 and load[gpu] + b / 2 > share:
+                gpu += 1
+            dm[f"{base}.layers.{i}"] = gpu
+            load[gpu] += b
+        return dm
 
     @torch.no_grad()
     def _run(self, ids, kv):
@@ -251,7 +274,12 @@ async def run(llm, model, decode, layout, runs, out, limit=None):
 
 
 def load(name, quant):
-    return PromptedLLM(PrefixLM.from_name(name, quant), temperature=TEMPERATURE)
+    """The model's own stop tokens, from its generation config: Gemma 4 ends a reply with <turn|>, not with its
+    tokenizer's <eos>, and without it a free reply runs on to the token limit."""
+    lm = PrefixLM.from_name(name, quant)
+    eos = lm.model.generation_config.eos_token_id
+    eos = [eos] if isinstance(eos, int) else list(eos or [lm.tokenizer.eos_token_id])
+    return PromptedLLM(lm, eos_byte_strings=[lm.byte_vocab[i] for i in eos], temperature=TEMPERATURE)
 
 
 async def main(name, quant, runs, out_dir, limit, arms):
@@ -261,8 +289,9 @@ async def main(name, quant, runs, out_dir, limit, arms):
     print(tag, "loaded:", [gib(lambda: torch.cuda.memory_allocated(i)) for i in range(torch.cuda.device_count())],
           "placed on:", placed, flush=True)  # 'cpu' or 'disk' here would make it crawl
     for arm in arms:
-        decode, layout = arm.split(":")
-        await run(llm, tag, decode, layout, runs, Path(out_dir) / f"{tag}_{decode}_{layout}.jsonl", limit)
+        decode, layout, *n = arm.split(":")  # decode:layout[:runs], runs defaulting to the command's
+        await run(llm, tag, decode, layout, int(n[0]) if n else runs, Path(out_dir) / f"{tag}_{decode}_{layout}.jsonl",
+                  limit)
     print(tag, "done; peak", [gib(lambda: torch.cuda.max_memory_allocated(i)) for i in range(torch.cuda.device_count())],
           flush=True)
 
