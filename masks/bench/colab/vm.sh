@@ -7,8 +7,11 @@
 set -euo pipefail
 cd ~
 mkdir -p maskbench results && tar -xzf bundle.tar.gz -C maskbench
-[ -d venv ] || python3 -m venv --system-site-packages venv  # keeps the image's CUDA build of torch
-venv/bin/pip install -q genlm-control==0.4.0 genlm-backend==0.3.0 genlm-bytes==0.2.0 genlm-grammar==0.2.0 \
+[ -x ~/.local/bin/uv ] || curl -LsSf https://astral.sh/uv/install.sh | sh
+uv=~/.local/bin/uv
+[ -d venv ] || $uv venv -q -p 3.12 venv  # genlm-control needs Python 3.11+; the image has 3.10
+$uv pip install -q -p venv torch==2.9.1 --index-url https://download.pytorch.org/whl/cu129  # the image's build
+$uv pip install -q -p venv genlm-control==0.4.0 genlm-backend==0.3.0 genlm-bytes==0.2.0 genlm-grammar==0.2.0 \
     transformers==5.17.0 accelerate==1.15.0 regex==2026.9.10 bitsandbytes
 if [ ! -x amber/bin/ambmask ]; then
   curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xj bin/micromamba
