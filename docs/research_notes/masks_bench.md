@@ -3,7 +3,8 @@
 2026-10-02. This follows `masks_scout.md`. Its question: does a cheap model fail at least 20% of
 realistic AMBER mask requests, and which fixes those failures: a grammar, grounding, or targeted
 hints? 2026-10-03 adds decoding arms on an open 7B and 14B: is the checker better inside the decoder
-or after it? 2026-10-04 adds Qwen3.8-27B and Gemma-4-31B, the semi-reliable models where it could matter. The failure categories and their sources are in `mask_catalogue.md`. Tables:
+or after it? 2026-10-04 adds Qwen3.8-27B and Gemma-4-31B, and 2026-10-05 Qwen3.5-122B-A10B: the
+semi-reliable models where it could matter. The failure categories and their sources are in `mask_catalogue.md`. Tables:
 `masks/bench/results/report.md`, rebuilt by `.venv/bin/python masks/bench/report.py >
 masks/bench/results/report.md`.
 
@@ -85,6 +86,8 @@ masks/bench/results/report.md`.
 | Gemma-4-31B bf16 grammar v2, sheet | 239/375 (64%) | – | 267/375 (71%) |
 | Gemma-4-31B bf16 grammar v2, one task per prompt | 223/375 (59%) | – | 249/375 (66%) |
 | Gemma-4-31B bf16 grammar v2 + checker potential, one task per prompt | 223/375 (59%) | – | 253/375 (67%) |
+| Qwen3.5-122B-A10B fp8 free, sheet (H200, 3 runs) | 119/375 (32%) | – | 191/375 (51%) |
+| Qwen3.5-122B-A10B fp8 grammar v2, sheet | 169/375 (45%) | – | 197/375 (53%) |
 
 Held-out split, first try → after lint repair: Haiku view 73/123 (59%) → 111/123 (90%). Qwen 7B nf4:
 free 2 → 3, grammar v1 14 → 23 (19%), grammar v2 15 → 19, checked 15 → 21, sheet 16 → 16 (of 123).
@@ -128,6 +131,34 @@ and the per-task arms are in the Gemma section.
   `haiku_*.lint1.jsonl`.
 - After lint, 46 failures remain in the view arm: 36 wrong atoms, 9 still rejected, 1 empty. They are
   mostly distance (18), termini (6) and atom names (6), which is semantics, not syntax.
+
+## Checker in the decoder or after it: the answer across three models
+
+Decoded locally, 3 runs × 125 tasks each, sheet layout (the 27B's grammar rates are its runs 0–2):
+
+| model | free, first try | grammar v2, first try | free + lint repair | grammar + lint repair | picks among 3 grammar samples |
+|---|---|---|---|---|---|
+| Qwen3.8-27B, nf4 (Kaggle) | 39% | 50% | 60% | 64% | 62% |
+| Gemma-4-31B, bf16 (A100) | 46% | 64% | 74% | 71% | 66% |
+| Qwen3.5-122B-A10B, fp8 (H200) | 32% | 45% | 51% | 53% | 54% |
+
+- **Inside the decoder, the grammar raises the first try 11–18 points** on every model, in every run, with
+  nothing added to the prompt and no second turn.
+- **After the decoder, one lint repair reaches the same place** (within 4 points either way). The two do
+  not add up: grammar + lint is no better than free + lint.
+- **The grammar makes every remaining failure silent.** Free + lint leaves some masks pmemd would reject (5
+  to 73 of 375); grammar + lint leaves none, and more valid masks on the wrong atoms.
+- **A checker potential on finished masks** (ambmask must read the mask and select something) adds nothing
+  over the grammar: 46 against 46 of 125 on the 27B and 223 against 223 of 375 on Gemma, one task per prompt.
+  It strands masks whose conjunction already selects nothing.
+- **A check that shows the selection, used to choose among 3 of the model's own grammar samples,** comes
+  within 8 points of one repair without spending a turn (62% against 60–64% on the 27B, 66% against 71–74%
+  on Gemma, 54% against 51–53% on the 122B), and leaves fewer silent failures than any grammar arm (22–26%,
+  against 29–47% for grammar + lint), most clearly where the samples disagree.
+
+So the decoder is the place for the checker when the pipeline cannot spend a turn or context on it; given
+a turn, after the decoder does as well and keeps failures loud. None of these makes a semi-reliable model
+reliable: the best arm per model ends at 54–74%.
 
 ## Checker in the decoder or after it: Qwen 7B, 3 runs × 125
 
@@ -306,6 +337,34 @@ in one call with no repair turn and no extra context, which is where the grammar
 pipeline. Given a turn, the checker after decoding gets the most right (free + lint repair, 74%), and a
 check that shows the selection, choosing among 3 grammar samples, leaves the fewest silent failures
 (22%, against 25% for free + lint). Either way about a quarter of the masks are still wrong.
+
+## Qwen3.5-122B-A10B: one size up, decoded
+
+The ladder's 122B (34% first try by API, one run; an older generation than Qwen3.8-27B, 10B of its 122B
+parameters active). bitsandbytes cannot pack its experts (3D tensors, not Linear layers), so it ran from
+Qwen's own FP8 checkpoint on one H200 (Modal, 115 GiB loaded): sheet layout, 3 runs × 125, after the fix.
+
+| Qwen3.5-122B-A10B | first try | + lint repair | first tries ambmask rejects | silent failures after lint | held-out, first → lint |
+|---|---|---|---|---|---|
+| free, OpenRouter (1 run × 125) | 42 (34%) | 60 (48%) | 50 | 36 | 13 → 22 of 41 |
+| free, fp8 (3 runs × 125) | 119 (32%) | 191 (51%) | 125 | 124 | 35 → 64 of 123 |
+| grammar v2, fp8 | 169 (45%) | 197 (53%) | 0 | 178 | 51 → 70 of 123 |
+| picks among its 3 grammar samples (`pick.py`, the served 122B judging) | 67/125 (54%) | – | – | 32 | 22 of 41 |
+
+- **The local FP8 model matches the served one** (32% against 34% first try).
+- **The grammar raises the first try 13 points** (32% → 45%), in every run (31/44/44 → 51/57/61) and every
+  system (bnbs 34 → 45, dna 43 → 58, memb 22 → 29, tryp 20 → 37); held-out 28% → 41%.
+- **After one lint repair the grammar adds nothing**: 51% free, 53% grammar. Free + lint leaves 60 loud and 124
+  silent failures, grammar + lint 0 loud and 178 silent.
+- **Many of its free failures are another tool's syntax**: `around 5.0 :102`, `:!WAT`, `WAT&around 3.0 ...`
+  (VMD-style distance and negation), which the grammar removes and lint's distance hint repairs.
+- **Picking among its own samples does best here**: 67/125 (54%), 26% silent. Its samples disagree more
+  than Gemma's (54 of 125 pools hold one selection, against 93), so there is more to choose from. A right
+  candidate was there for 70 tasks and was picked in 67; with none (55) it said NONE 24 times.
+
+**Answer for the 122B.** The same pattern as the 27B and Gemma, on a weaker model: the grammar lifts the
+first try 13 points, one repair catches up, and choosing among samples with the selection shown does as
+well as a repair (54%) with the fewest silent failures (26%). About half its masks are still wrong.
 
 ## Caveats
 
