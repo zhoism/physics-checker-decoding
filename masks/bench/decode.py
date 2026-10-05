@@ -13,7 +13,7 @@ Every first-try failure then gets one lint repair, decoded the same way. The rep
 'lint' message (the checker's verdict and lint.py's hints). As in blind.py, a failure is judged against the
 gold, but the gold is never shown. Layout 'task' is one prompt per task; 'sheet' is qwen.py's whole-system
 sheet, the prompt Claude gets.
-    python masks/bench/decode.py <hf model> <nf4|fp16|bf16|fp32> <runs> <out dir> <tasks per system|all> <decode:layout[:runs]>...
+    python masks/bench/decode.py <hf model> <nf4|fp8|fp16|bf16|fp32> <runs> <out dir> <tasks per system|all> <decode:layout[:runs]>...
 writes <out dir>/<model>-<quant>_<decode>_<layout>.jsonl, one row per task, appended as it finishes.
 """
 import asyncio
@@ -58,7 +58,9 @@ class PrefixLM(AsyncLM):
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
         q = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
                                bnb_4bit_compute_dtype=torch.float16) if quant == "nf4" else None
-        dtype = {"fp32": torch.float32, "bf16": torch.bfloat16}.get(quant, torch.float16)  # a T4 has no bf16; an A100 has
+        # a T4 has no bf16; an A100 has. fp8: a checkpoint quantized by its maker (Qwen3.5-122B-A10B-FP8), loaded
+        # with its own config; bitsandbytes cannot pack that model's experts, which are 3D tensors, not Linear layers
+        dtype = {"fp32": torch.float32, "bf16": torch.bfloat16, "fp8": torch.bfloat16}.get(quant, torch.float16)
         model = AutoModelForCausalLM.from_pretrained(name, quantization_config=q, dtype=dtype,
                                                      device_map=cls.device_map(name, torch.cuda.device_count(), quant))
         return cls(model.eval(), AutoTokenizer.from_pretrained(name))
@@ -87,7 +89,7 @@ class PrefixLM(AsyncLM):
         # bytes per weight: nf4 packs every linear layer (the vision tower's too) and leaves the embedding and the
         # output layer at 16 bits; the Kaggle smoke run's Gemma split, which counted the vision tower at 16 bits,
         # loaded 8.6 and 9.7 GiB and peaked at 11.0 and 13.8 of a T4's 14.7
-        layer_b, full_b = {"nf4": (0.5, 2), "fp16": (2, 2), "bf16": (2, 2), "fp32": (4, 4)}[quant]
+        layer_b, full_b = {"nf4": (0.5, 2), "fp8": (1, 2), "fp16": (2, 2), "bf16": (2, 2), "fp32": (4, 4)}[quant]
         full = {id(p) for m in model.modules() if isinstance(m, torch.nn.Embedding) or m is head for p in m.parameters()}
         size = lambda n: sum(p.numel() * (full_b if id(p) in full else layer_b) for p in model.get_submodule(n).parameters())
         load = [sum(size(n) for n, g in dm.items() if g == gpu and not (tied and n == name_of[head]))

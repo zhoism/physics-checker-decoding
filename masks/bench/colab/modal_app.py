@@ -4,6 +4,8 @@ to the Volume 'mask-bench-results' as they finish, so a rerun resumes.
     bash masks/bench/colab/bundle.sh
     modal run masks/bench/colab/modal_app.py --model google/gemma-4-31B-it --quant bf16 --runs 1 --limit 2 \
         --arms free:sheet,grammar2:sheet       # MASK_BENCH_GPU=H100:2 for another GPU (default A100-80GB)
+    Unattended (the call survives the laptop): modal deploy masks/bench/colab/modal_app.py, then
+    modal.Function.from_name("mask-bench", "arms_fn").with_options(gpu="H200").spawn(model, quant, runs, "2,all", arms)
     modal volume get mask-bench-results <model>-<quant>_<decode>_<layout>.jsonl masks/bench/results/
 """
 import os
@@ -21,6 +23,7 @@ image = (
                  "bitsandbytes", "huggingface_hub")
     .run_commands("curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xj -C /usr/local bin/micromamba",
                   'micromamba create -y -q -p /opt/amber -c conda-forge "ambertools=24.8=cuda_None_nompi_py311*_101"')
+    .pip_install("kernels==0.16.2")  # the FP8 matmul kernels transformers fetches for an fp8 checkpoint
     .env({"AMBERHOME": "/opt/amber", "HF_HUB_DISABLE_XET": "1",
           "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"})
     .add_local_file(BUNDLE, "/root/bundle.tar.gz")
@@ -52,21 +55,22 @@ def arms_fn(model, quant, runs, limit, arms):
     print(open("/root/maskbench/masks/bench/colab/MANIFEST").readline().strip(), flush=True)
     subprocess.run(["python", "-c", GOLD_CHECK], check=True)
     subprocess.run(["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"], check=True)
-    out = "/results" if limit == "all" else "/results/smoke"  # a smoke run's rows must not seed a full run's resume
-    os.makedirs(out, exist_ok=True)
-    proc = subprocess.Popen(["python", "/root/maskbench/masks/bench/decode.py", model, quant, str(runs), out,
-                             str(limit), *arms.split(",")])
-    try:
-        while proc.poll() is None:  # commit rows as they are written, so a lost container keeps them
-            try:
-                proc.wait(timeout=300)
-            except subprocess.TimeoutExpired:
-                pass
+    for lim in str(limit).split(","):  # "2,all": a smoke run, then the full run on the same download
+        out = "/results" if lim == "all" else "/results/smoke"  # smoke rows must not seed a full run's resume
+        os.makedirs(out, exist_ok=True)
+        proc = subprocess.Popen(["python", "/root/maskbench/masks/bench/decode.py", model, quant,
+                                 str(1 if lim != "all" else runs), out, lim, *arms.split(",")])
+        try:
+            while proc.poll() is None:  # commit rows as they are written, so a lost container keeps them
+                try:
+                    proc.wait(timeout=300)
+                except subprocess.TimeoutExpired:
+                    pass
+                results.commit()
+        finally:
             results.commit()
-    finally:
-        results.commit()
-    if proc.returncode:
-        raise RuntimeError(f"decode.py exited {proc.returncode}")
+        if proc.returncode:
+            raise RuntimeError(f"decode.py exited {proc.returncode} (limit {lim})")
 
 
 GPU = os.environ.get("MASK_BENCH_GPU", "A100-80GB")
