@@ -52,14 +52,15 @@ def ask(model: str, prompt: str, tag: str) -> str:
             if r.get("result") and not r.get("is_error"):
                 return r["result"]
     d = tempfile.mkdtemp(dir=RUNS, prefix=f"{tag}.")
-    if model.startswith("openrouter:"):
+    if model.startswith(("openrouter:", "openrouter-think:")):
         sys.path.append(str(HERE.parents[1]))
         from run_api import call
+        think = model.startswith("openrouter-think:")  # the control for verify.py --think
         body = call("openrouter", "chat/completions", {"model": model.split(":", 1)[1], "temperature": 0.7,
-                                                       "max_tokens": 16000,
+                                                       "max_tokens": 32000 if think else 16000,
                                                        # answer directly: decoding constrains the answer, and a
                                                        # thinking model spent all 16k tokens thinking on a sheet
-                                                       "reasoning": {"enabled": False},
+                                                       "reasoning": {"enabled": think},
                                                        "messages": [{"role": "user", "content": prompt}]})
         r = {"result": body["choices"][0]["message"].get("content") or "", "is_error": False, "api": body}
         (Path(d) / "response.json").write_text(json.dumps(r))

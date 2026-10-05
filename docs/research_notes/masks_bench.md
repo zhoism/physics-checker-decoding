@@ -165,7 +165,8 @@ a turn, after the decoder does as well, and some of the failures it leaves are o
 of 375) rather than none, though most are silent either way. The lint repairs in this table were given only
 to tasks the gold marked wrong, which a pipeline cannot do; the selection loop (its own section below)
 needs no gold, shows every answer what it selects, and ends higher: 66%, 76% and 52% from the free first
-try. None of these makes a semi-reliable model reliable.
+try, and for Gemma 93% with its reasoning on for the check. Without that, none of these makes a
+semi-reliable model reliable.
 
 ## Checker in the decoder or after it: Qwen 7B, 3 runs × 125
 
@@ -414,6 +415,15 @@ first tries are the local ones (3 runs × 125); the loop is the served model at 
   size. Rounds 4 and 5 add 0–16 (the most on the 27B, still rising at round 3). What stays wrong is mostly kept, not miscorrected: asked for Arg83 and
   Arg87, Gemma keeps `:57,81` though the card says it selects Arg59 and Arg83. The model has the
   information and does not compare it with the task.
+- **With reasoning on for the check, Gemma reaches 93% without the gold** (`--think`; the first tries are
+  still the local ones, reasoning off). From the free start 172 → 334 → 345 → 347 of 375 (93%), from the
+  grammar start 239 → 340 (91%), against 286 and 275 with reasoning off. It broke 1 right mask; 28 and 33
+  silent failures remain, and none rejected from the free start. Numbering tasks go from 17 to 47 of 57,
+  and masks left wrong and unchanged from 45 to 16. Reasoning alone does not do it: Gemma's first try with
+  reasoning on (`blind.py openrouter-think:`, the same protocol, 3 runs) is 241/375 (64%), and its
+  gold-chosen lint repair 335 (89%). Haiku's view arm is 59% first try and 88% after the gold-chosen
+  repair. Gemma's reasoning costs little ($0.004 a sheet, about 6k tokens); the 27B's
+  ran to 41k tokens and $0.13 a sheet, so its reasoning loop was not run. Both Gemma arms cost $0.52.
 
 ## Caveats
 

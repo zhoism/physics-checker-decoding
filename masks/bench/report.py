@@ -64,6 +64,9 @@ FILES = {  # label -> results file, in table order
                           ("Qwen3.8-27B nf4", "qwen3.8-27b"))
        for start in ("free", "grammar2")
        for suffix, label in (("pdb5", "PDB numbers shown, 5 rounds"), ("plain5", "5 rounds"))},  # plain5: 27B only
+    **{f"Gemma-4-31B bf16 {start} first try + selection loop, reasoning on": f"gemma-4-31b-it_verify_{start}_think.jsonl"
+       for start in ("free", "grammar2")},
+    "Gemma-4-31B-it (OpenRouter), view, reasoning on": "gemma-4-31b-it_think_view.jsonl",
     "Qwen3.8-27B picks among grammar v2 + free samples (pick.py)": "qwen3.8-27b_pick_both.jsonl",
     "Qwen2.5-7B-4bit free, view": "qwen_free_view.jsonl",
     "Qwen2.5-7B-4bit grammar, view": "qwen_grammar_view.jsonl",
