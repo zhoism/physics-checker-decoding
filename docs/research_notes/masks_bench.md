@@ -75,7 +75,7 @@ masks/bench/results/report.md`.
 | Qwen 14B nf4 free, one task per prompt | 0/375 (22 re-parsed) | – | 0/375 (28 re-parsed) |
 | Qwen3.8-27B via OpenRouter, thinking off (3 runs) | 104/375 (28%) | 131/375 (35%) | 206/375 (55%) |
 | Qwen3.8-27B nf4 free, sheet (Kaggle, 3 runs) | 147/375 (39%) | – | 226/375 (60%) |
-| Qwen3.8-27B nf4 grammar v2, sheet | 187/375 (50%) | – | 239/375 (64%) |
+| Qwen3.8-27B nf4 grammar v2, sheet (runs 0–2; all 5: 314/625 and 390/625) | 187/375 (50%) | – | 239/375 (64%) |
 | Qwen3.8-27B nf4 grammar v2 + checker potential, sheet | 128/375 (34%) | – | 145/375 (39%) |
 | Qwen3.8-27B picks among its 3 grammar v2 samples, shown their selections (`pick.py`) | 77/125 (62%) | – | – |
 | Qwen3.8-27B nf4 grammar v2, one task per prompt (1 run, after the `qwen.Sheet` fix) | 46/125 (37%) | – | 62/125 (50%) |
@@ -83,11 +83,12 @@ masks/bench/results/report.md`.
 | Gemma-4-31B via OpenRouter, thinking off (3 runs) | 171/375 (46%) | 191/375 (51%) | 268/375 (71%) |
 | Gemma-4-31B bf16 free, sheet (A100, 3 runs) | 172/375 (46%) | – | 278/375 (74%) |
 | Gemma-4-31B bf16 grammar v2, sheet | 239/375 (64%) | – | 267/375 (71%) |
+| Gemma-4-31B bf16 grammar v2, one task per prompt | 223/375 (59%) | – | 249/375 (66%) |
 | Gemma-4-31B bf16 grammar v2 + checker potential, one task per prompt | 223/375 (59%) | – | 253/375 (67%) |
 
 Held-out split, first try → after lint repair: Haiku view 73/123 (59%) → 111/123 (90%). Qwen 7B nf4:
 free 2 → 3, grammar v1 14 → 23 (19%), grammar v2 15 → 19, checked 15 → 21, sheet 16 → 16 (of 123).
-Qwen3.8-27B: OpenRouter 36 → 67, nf4 free 46 → 75, grammar v2 56 → 75, checked 36 → 43 (of 123).
+Qwen3.8-27B: OpenRouter 36 → 67, nf4 free 46 → 75, grammar v2 56 → 75 (runs 0–2), checked 36 → 43 (of 123).
 Gemma-4-31B: OpenRouter 54 → 91, bf16 free 52 → 90, bf16 grammar v2 76 → 87 (of 123). The nf4 Gemma arms
 and the per-task arms are in the Gemma section.
 
@@ -148,14 +149,15 @@ comparison of grammar and checker.
 - **The checker potential adds nothing on top.** grammar2 + checker scores 32/375 against grammar2's 35.
   With one particle the decoder cannot back out of a mask that will select nothing: the model keeps
   writing to the 79-character cap and strands there (76 of 375 first tries), still selecting nothing.
-  Some of those strandings are the forced newline above.
+  Most of them are probably the forced newline above: all 76 are 77–79 characters, and on the 27B the
+  fix cut strandings from 80 to 17.
 - **The checker after decoding works only on valid masks.** The lint repair takes free from 4 to 5, and
   the grammar arms up by 8 to 18 (best: grammar v1, 37 → 55, 15%). So the two combine, modestly: the
   grammar makes the masks AMBER, then the hints have something to act on.
-- **v2 against v1, and per task against sheet: no difference.** v1 37, v2 35. The cap ended v1's runaway
-  masks (96 of v1's first tries ran out of tokens, none of v2's) without changing accuracy. The sheet
-  scored like one task per prompt (33 against 35), so the uncapped grammar, not the layout, sank the
-  MLX run.
+- **v2 against v1: no difference.** v1 37, v2 35. The cap ended v1's runaway masks (96 of v1's first
+  tries ran out of tokens, none of v2's) without changing accuracy. The sheet scored like one task per
+  prompt (33 against 35), but every per-task answer carried the forced newline and only each sheet's
+  last one did, so that comparison is confounded.
 - **Picking among samples has little to pick from.** Under a grammar arm 16–20 tasks are right in at
   least one of the 3 runs (4–7 in all three), so choosing the right sample of 3 could add about 5 points.
 - **The 14B does not follow the answer format.** It writes `===`, the id, then the mask on its own line
@@ -166,7 +168,8 @@ comparison of grammar and checker.
 **Answer.** For an open 7B, the checker inside the decoder (the grammar) beats the checker after it
 (lint repair alone does nothing), but only on easy tasks. The checker potential on finished masks adds
 nothing with one particle. The two combine to 11–15%. That is far from usable, and a 14B prompted alone
-is not much better, so the model where decoding could matter is larger.
+is not much better, so the model where decoding could matter is larger. (These arms carry the forced
+newline; a rerun with the fix is in progress.)
 
 ## Qwen3.8-27B: a semi-reliable model, decoded
 
@@ -198,8 +201,9 @@ layout, 3 runs, nf4 across two T4s, `PrefixLM` snapshots for its hybrid linear-a
   strands 17 masks at the cap: a conjunction that already selects nothing (`:73@CD&@OE1,OE2&...&:A=,A=,...`)
   cannot be rescued by more `&` terms, and AWRS has no way to back out. Before the fix the same arm scored
   118/375 with a median mask of 77 characters; after it, 15.
-- **The layout matters more than either.** The same model on the same 125 tasks scores 37% one task per
-  prompt and 57% in a sheet (grammar v2, run 0), and a sheet is one prompt per system instead of one per task.
+- **The layout matters about as much as the grammar.** Grammar v2 scores 46/125 (37%) one task per prompt
+  (1 run, after the fix) and 314/625 (50%) in a sheet (5 runs of 58–71, before the fix): 13 points from
+  one run, so the size is uncertain. A sheet is also one prompt per system instead of one per task.
 - **Picking among samples has room here.** 83 of 125 tasks are right in at least one of the 3 grammar
   runs (44 in all three), against 50% per run; after lint, 99. Over 5 runs, 87. On the 7B it was 16–20.
 - **The served model and the local one differ.** Free, OpenRouter's bf16 scored 28% and the local nf4
@@ -213,7 +217,8 @@ layout, 3 runs, nf4 across two T4s, `PrefixLM` snapshots for its hybrid linear-a
   the repair without a repair turn and cuts silent failures to 23%. With a right candidate in the pool
   (83 tasks) it picked it 77 times; with none (42) it said NONE 17 times. Adding the free arm's samples
   (up to 6 candidates) gives 76/125: the right answer was already among the grammar samples. Five grammar
-  samples also give 76/125: a right candidate is in 87 pools, and the judge does not find the 4 new ones.
+  samples give 76/125: a right candidate is in 87 pools (4 more than with 3), and the judge gets 2 of those
+  and loses 3 tasks it had right with 3 samples.
   What it still gets wrong is semantic: barstar's numbering gap (`:109-171`), `GLH` among the histidines.
 
 **Answer for the 27B.** The grammar inside the decoder lifts the first try from 39% to 50%, consistently,
@@ -222,9 +227,11 @@ potential on finished masks adds nothing over the grammar. A check that shows th
 choose among the model's own samples, reaches the repair's accuracy and halves the silent failures that
 remain. None of it makes the 27B reliable (Haiku is 59% → 88%).
 
-**For the tool.** The order of value for a cheap model is a checker that shows the selection, then
-system-aware hints, then a grammar. Grounding beyond a cpptraj listing showed no measurable value. A
-grammar alone does not rescue an open 7B model on realistic tasks.
+**For the tool.** A model that does not know the language (the 7B) is not rescued by any of these. For
+one that does (the 27B, Gemma), each placement buys something different: the grammar a first-try lift
+(11–18 points) at no extra context, the lint hints the most accuracy given a repair turn (they fix the
+rejected masks), and showing the selection NONE flags that turn some silent failures loud. Grounding
+beyond a cpptraj listing showed no measurable value.
 
 ## The open-model ladder: prompting only, through OpenRouter
 
@@ -269,28 +276,36 @@ off): in nf4 on Kaggle's two T4s (fp16 compute; no overflow), and unquantized in
 | grammar v2, bf16, one task per prompt | 223 (59%) | 249 (66%) | 0 | 126 | 79 → 86 |
 | grammar v2 + checker potential, bf16, one task per prompt | 223 (59%) | 253 (67%) | 0 | 122 | 79 → 86 |
 
-- **The local bf16 model reproduces the served one** (46% first try each), and nf4 costs it 5 points.
-  Quantization was hiding part of the grammar's effect: in nf4 it adds 11 points, in bf16 18.
+- **The local bf16 model reproduces the served one** (46% first try each). The nf4 run scored 5 points
+  lower, and the grammar's lift was 11 points there against 18 in bf16. Both gaps are under the noise rule,
+  and nf4 is confounded with the hardware (fp16 compute on T4s against bf16 on an A100) and with the
+  forced newline (the nf4 sheets were decoded before the fix, the bf16 arms after).
 - **In bf16 the grammar takes the first try from 46% to 64%**, in every run (56–59 → 78–82 of 125) and
   every system (bnbs 57 → 75, dna 60 → 74, memb 21 → 51, tryp 34 → 39); held-out 42% → 62%. That is
   Haiku's first try (59%), from an open 31B model in one call, with nothing added to the prompt.
 - **After one lint repair the grammar adds nothing**: free 74%, grammar 71% (bf16); 68% and 65% (nf4).
   The free model's rejected masks are what the lint hints fix best, and the grammar has already spent
   them. Free + lint ends with 5 loud and 92 silent failures, grammar + lint with 0 loud and 108 silent.
-- **Gemma does not need the sheet**: one task per prompt it scores 59%, against 64% in a sheet. The 27B
-  lost 20 points the same way (37% against 57%).
+- **One task per prompt costs Gemma less**: 59% against 64% in a sheet (3 runs each, both after the fix;
+  73–75 against 78–82 per run), under the noise rule. The 27B's gap was 13 points.
 - **The checker potential adds nothing here either** (one task per prompt, 3 runs): 223/375 first try, the
-  same as grammar alone, and 253 against 249 after lint. Each wins 10 tasks the other misses. It turns 2 of
+  same as grammar alone, and 253 against 249 after lint. Each is right on 10 of the 375 (run, task) pairs
+  where the other is wrong. It turns 2 of
   the grammar's 14 empty selections into right answers, strands 12 masks at the cap
   (`:109-195&(:1-108@*)&(:1-108@*)&...`), and takes half again as long to decode (45 min against 30).
-- **Pick among its own samples has little to pick from** (`pick.py`, the served model as judge, the 3 nf4
-  grammar samples): 68/125 (54%). For 80 of 125 tasks the samples select the same atoms. A right
-  candidate was there for 70 tasks and was picked in 68; with none (55) it said NONE 20 times.
+- **Picking among its own samples matches the repair without a turn** (`pick.py`, the served model as
+  judge at temperature 0, the 3 bf16 grammar samples): 83/125 (66%; held-out 27/41), with 27 silent
+  failures (22%) against 36% for one grammar sample and 29% after its lint repair. For 93 of 125 tasks the
+  samples select the same atoms, so pick mostly accepts or flags: a right candidate was there for 85 and
+  picked in 83; with none (40) it said NONE 10 times. On the nf4 samples (oracle 70) it scored 68/125,
+  with 4 of its replies misread by the old parser (it matched the article "a"; fixed, and rescored with
+  the fix the 27B and Ultra passes are unchanged).
 
 **Answer for Gemma.** The grammar inside the decoder makes this 31B model's first try as good as Haiku's,
 in one call with no repair turn and no extra context, which is where the grammar earns its place in a
-pipeline. Given a turn, the checker after decoding (lint repair) does as well or better, and leaves fewer
-silent failures. Either way, after the repair 26–29% of the masks are still wrong.
+pipeline. Given a turn, the checker after decoding gets the most right (free + lint repair, 74%), and a
+check that shows the selection, choosing among 3 grammar samples, leaves the fewest silent failures
+(22%, against 25% for free + lint). Either way about a quarter of the masks are still wrong.
 
 ## Caveats
 
@@ -304,13 +319,15 @@ silent failures. Either way, after the repair 26–29% of the masks are still wr
 - **report.py rescores every stored mask with ambmask on each run**, now about 10 minutes.
 - **The ladder's single-run rows are triage**, not results: one sample of each of 4 sheets.
 - **The forced newline.** Every constrained arm decoded before 2026-10-04's `qwen.Sheet` fix had to write
-  a newline before its reply could end: all of a 'task' arm, the last task of each sheet. The 7B
-  constrained arms and the 27B checked arm marked "newline forced" carry it; the 27B and Gemma sheets carry
-  it on 4 of 125 tasks, and those do not move either grammar arm (the 27B gets 12 of its 20 sheet-last
-  answers right; Gemma's grammar arm is 52% with them and without them).
+  a newline before its reply could end: all of a 'task' arm, the last task of each sheet. Before the fix:
+  the 7B constrained arms, the 27B checked arm marked "newline forced", all 5 of the 27B's grammar sheets
+  and Gemma's nf4 sheets. After it: the 27B per-task pair and every Gemma bf16 arm (bundle commits in the
+  run logs). On the sheets it acted on 4 of 125 tasks: 8 of the 27B's 20 sheet-last masks run to 76–79
+  characters (`bnbs-hg-wildcard` hits 79 in all 5 runs). The rates barely move without those tasks (27B
+  50.2% against 49.9%; Gemma nf4 52.0% against 52.1%).
 - **The 27B per-task comparison after the fix is one run** (n = 125 per arm).
-- **The pick result is one judge pass** (n = 125, one per task), and the judge is the served 27B while the
-  candidates come from the local nf4 run.
+- **Each pick result is one judge pass** (n = 125, one per task). The judges are served models (27B,
+  Ultra, Gemma) and the 27B's candidates come from the local nf4 run.
 - **Two 4-bit schemes.** The GPU runs use bitsandbytes nf4, the MLX runs MLX 4-bit. Their free arms agree
   (1% each).
 - **The 14B's re-parse is not the protocol** Claude was held to. Its sheet arm ran out of GPU memory

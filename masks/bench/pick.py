@@ -103,8 +103,11 @@ def judge(model, task, cands):
         except (KeyError, IndexError, RuntimeError) as e:
             reply = f"ERROR: {e!r}"[:300]
             time.sleep(20 * (attempt + 1))
-    m = re.search(r"\b(NONE|[A-H])\b", reply.upper()) if not reply.startswith("ERROR") else None
-    return reply, (m.group(1) if m else None)
+    # The last standalone letter, matched in the reply's own case: Gemma sometimes reasons first, and matching
+    # the uppercased reply read the article "a" as candidate A
+    found = re.findall(r"\b(NONE|None|none|[A-H])\b", reply) if not reply.startswith("ERROR") else []
+    choice = found[-1].upper() if found else None
+    return reply, (choice if choice == "NONE" or choice is None or LETTERS.index(choice) < len(cands) else None)
 
 
 def main(model, out, files):
