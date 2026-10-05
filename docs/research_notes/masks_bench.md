@@ -405,6 +405,15 @@ first tries are the local ones (3 runs × 125); the loop is the served model at 
   45 of its free-start ones).
 - **What is left after the loop is partly loud.** Its corrections are not held to the grammar, and 72 of
   the 27B's free-start masks and 41 of the 122B's end rejected (Gemma's: 4).
+- **Showing PDB numbers and running 5 rounds add a few points at most.** `--pdb` adds each selected
+  residue's PDB number to the card, which makes a numbering error visible (`:57,85` for Arg83 and Arg87
+  now reads "ARG 57 (PDB A:59) … ARG 85 (PDB A:87)"). With it and 5 rounds: Gemma 286 and 278 (from 286
+  and 275), the 122B 198 and 202 (from 194 and 199). The 27B's runs moved to OpenRouter's paid endpoint
+  (its free one was withdrawn); there, with 5 rounds, the plain card gives 259 and 249 and the PDB card 283
+  and 256, but 8 of the +24 are lipid tasks, where the two cards are identical: run-to-run noise of that
+  size. Rounds 4 and 5 add 0–10. What stays wrong is mostly kept, not miscorrected: asked for Arg83 and
+  Arg87, Gemma keeps `:57,81` though the card says it selects Arg59 and Arg83. The model has the
+  information and does not compare it with the task.
 
 ## Caveats
 

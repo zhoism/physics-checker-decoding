@@ -59,6 +59,11 @@ FILES = {  # label -> results file, in table order
        for name, stem in (("Gemma-4-31B bf16", "gemma-4-31b-it"), ("Qwen3.5-122B-A10B fp8", "qwen3.5-122b-a10b"),
                           ("Qwen3.8-27B nf4", "qwen3.8-27b"))
        for start in ("free", "grammar2")},
+    **{f"{name} {start} first try + selection loop, {label}": f"{stem}_verify_{start}_{suffix}.jsonl"
+       for name, stem in (("Gemma-4-31B bf16", "gemma-4-31b-it"), ("Qwen3.5-122B-A10B fp8", "qwen3.5-122b-a10b"),
+                          ("Qwen3.8-27B nf4", "qwen3.8-27b"))
+       for start in ("free", "grammar2")
+       for suffix, label in (("pdb5", "PDB numbers shown, 5 rounds"), ("plain5", "5 rounds"))},  # plain5: 27B only
     "Qwen3.8-27B picks among grammar v2 + free samples (pick.py)": "qwen3.8-27b_pick_both.jsonl",
     "Qwen2.5-7B-4bit free, view": "qwen_free_view.jsonl",
     "Qwen2.5-7B-4bit grammar, view": "qwen_grammar_view.jsonl",
