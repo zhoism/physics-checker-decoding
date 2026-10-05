@@ -8,6 +8,7 @@ singled out by the gold: right and wrong answers are shown alike, so the loop ca
 The first tries come from a results file (any decode arm); the loop itself calls a served model.
     .venv/bin/python masks/bench/verify.py <openrouter model id> <rounds> <out.jsonl> <results.jsonl> [runs] [--pdb]
 --pdb also shows the PDB numbering of the selected residues (from the grounding map), for the three PDB systems.
+--think turns the served model's reasoning on for the check (every other arm in this bench runs with it off).
 """
 import json
 import sys
@@ -40,11 +41,11 @@ def prompt(system, tasks, masks, pdb=False):
             f"system (from ambmask):\n\n{body}{ASK}")
 
 
-def ask(model, text):
+def ask(model, text, think=False):
     for attempt in range(4):
         try:
             body = call("openrouter", "chat/completions", {"model": model, "temperature": 0.7, "max_tokens": 16000,
-                                                           "reasoning": {"enabled": False},
+                                                           "reasoning": {"enabled": think},
                                                            "messages": [{"role": "user", "content": text}]})
             return body["choices"][0]["message"].get("content") or "", None
         except (KeyError, IndexError, RuntimeError) as e:
@@ -53,7 +54,7 @@ def ask(model, text):
     return "", err
 
 
-def sheet(model, rounds, system, run, tasks, first, pdb=False):
+def sheet(model, rounds, system, run, tasks, first, pdb=False, think=False):
     """One sheet through the loop: per task, the mask after each round (round 0 is the first try)."""
     masks = dict(first)
     history = {t["id"]: [first[t["id"]]] for t in tasks}
@@ -62,7 +63,7 @@ def sheet(model, rounds, system, run, tasks, first, pdb=False):
     for rnd in range(1, rounds + 1):
         if not open_:
             break
-        reply, err = ask(model, prompt(system, open_, masks, pdb))
+        reply, err = ask(model, prompt(system, open_, masks, pdb), think)
         got = parse(reply)
         log.append({"round": rnd, "asked": [t["id"] for t in open_], "reply": reply, "error": err})
         still = []
@@ -77,7 +78,7 @@ def sheet(model, rounds, system, run, tasks, first, pdb=False):
     return history, log
 
 
-def main(model, rounds, out, src, runs=None, pdb=False):
+def main(model, rounds, out, src, runs=None, pdb=False, think=False):
     rows = [json.loads(line) for line in Path(src).read_text().splitlines()]
     if runs is not None:
         rows = [r for r in rows if r["run"] < runs]
@@ -86,13 +87,13 @@ def main(model, rounds, out, src, runs=None, pdb=False):
         by[(r["system"], r["run"])][r["id"]] = r["mask"]
     jobs = [(s, run, [t for t in TASKS if t["system"] == s], first) for (s, run), first in sorted(by.items())]
     with ThreadPoolExecutor(4) as ex:
-        done = list(ex.map(lambda j: sheet(model, rounds, *j, pdb=pdb), jobs))
+        done = list(ex.map(lambda j: sheet(model, rounds, *j, pdb=pdb, think=think), jobs))
     outrows = []
     for (s, run, tasks, _), (history, log) in zip(jobs, done):
         for t in tasks:
             gold = from_ranges(t["gold"])
             h = history[t["id"]]
-            outrows.append({"model": f"openrouter:{model}", "decode": "verify", "arm": "view", "source": Path(src).name, "card": "pdb" if pdb else "plain",
+            outrows.append({"model": f"openrouter:{model}", "decode": "verify", "arm": "view", "source": Path(src).name, "card": "pdb" if pdb else "plain", "think": think,
                             "run": run, "system": s, "id": t["id"], "category": t["category"],
                             "difficulty": t["difficulty"], "split": t["split"], "mask": h[0],
                             "verdict": verdict(s, h[0], gold), "verify_mask": h[-1],
@@ -113,5 +114,6 @@ def main(model, rounds, out, src, runs=None, pdb=False):
 
 
 if __name__ == "__main__":
-    args = [a for a in sys.argv[1:] if a != "--pdb"]
-    main(args[0], int(args[1]), args[2], args[3], int(args[4]) if len(args) > 4 else None, pdb="--pdb" in sys.argv)
+    args = [a for a in sys.argv[1:] if a not in ("--pdb", "--think")]
+    main(args[0], int(args[1]), args[2], args[3], int(args[4]) if len(args) > 4 else None, pdb="--pdb" in sys.argv,
+         think="--think" in sys.argv)
