@@ -46,6 +46,9 @@ FILES = {  # label -> results file, in table order
     "Qwen3.8-27B nf4 checked, task, newline forced before the end": "qwen3.8-27b-nf4_checked_task_forced-newline.jsonl",
     **{f"Qwen3.8-27B nf4 {decode}, task": f"qwen3.8-27b-nf4_{decode}_task.jsonl" for decode in ("grammar2", "checked")},
     **{f"Gemma-4-31B nf4 {decode}, sheet": f"gemma-4-31b-it-nf4_{decode}_sheet.jsonl" for decode in ("free", "grammar2")},
+    "Gemma-4-31B picks among 3 grammar v2 samples (pick.py)": "gemma-4-31b-it_pick_grammar2.jsonl",
+    **{f"Gemma-4-31B bf16 {decode}, {layout}": f"gemma-4-31b-it-bf16_{decode}_{layout}.jsonl"  # modal_app.py, A100
+       for decode, layout in (("free", "sheet"), ("grammar2", "sheet"), ("grammar2", "task"), ("checked", "task"))},
     "Qwen3.8-27B picks among grammar v2 + free samples (pick.py)": "qwen3.8-27b_pick_both.jsonl",
     "Qwen2.5-7B-4bit free, view": "qwen_free_view.jsonl",
     "Qwen2.5-7B-4bit grammar, view": "qwen_grammar_view.jsonl",
