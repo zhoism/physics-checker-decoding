@@ -2,6 +2,12 @@
 
 Dead ends and first occurrences only; newest first. Decisions live in commit messages.
 
+watch: 2026-10-05 Qwen3.5-122B-A10B-FP8 keeps quantization_config on its outer vision-language config; AutoModelForCausalLM builds the text model from the inner config and transformers loaded the FP8 weights as bf16 (every `*_scale_inv` key UNEXPECTED, 228 GiB, offloaded to the CPU). Check the load report for UNEXPECTED keys; `PrefixLM.prequantized` passes the config on.
+
+watch: 2026-10-05 `modal run --detach` stopped twice when the laptop's connection to Modal dropped (once mid-run, once mid-download). Deploy the app and `spawn` the call (`colab/modal_app.py`); poll the FunctionCall.
+
+watch: 2026-10-04 `qwen.Sheet` accepted the end of a reply only after a newline following the last mask, so a model that wanted to stop after its mask was pushed on toward the 79-character cap: every answer in a one-task prompt, the last of each sheet. Median mask 77 characters on the 27B checked arm, 15 after the fix; `tests/test_mask_decode.py` covers it.
+
 watch: 2026-10-04 a 4-bit Qwen3.8-27B across two T4s: `device_map="auto"` put 5.4 GiB on one and filled the other, which ran out of memory on the first prompt; a per-GPU `max_memory` cap then made the bitsandbytes loader refuse to start ("dispatched on the CPU"). `PrefixLM.device_map` splits the layers by hand.
 
 watch: 2026-10-02 transformers 5.17 `DynamicCache.crop(n)` keeps n tokens when n > 0 (a deprecated legacy meaning) and removes |n| when n < 0, though the parameter is named `tokens_to_remove`. `decode.PrefixLM` crops with a negative count; `tests/test_mask_decode.py` fails on the other reading.

@@ -87,7 +87,8 @@ class PrefixLM(AsyncLM):
         them). 'auto' put 5.4 GiB of the 4-bit 27B on one T4 and filled the other, which then ran out on the
         first prompt; capping each GPU instead made the 4-bit loader refuse to start. Module names come from an
         empty copy of the model: Gemma 4 nests its text model under model.language_model. On one GPU, all of
-        it there: 'auto' sent part of the FP8 122B to the CPU though the H200 had room for all of it."""
+        it there: a model that does not fit should fail, not crawl. 'auto' moved the 122B (loaded as bf16 by
+        mistake, see prequantized) partly to the CPU, and a two-task sheet ran for minutes."""
         if n_gpu < 2:
             return {"": 0} if n_gpu else None
         from transformers import AutoConfig, AutoModelForCausalLM
