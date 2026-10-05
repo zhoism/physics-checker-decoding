@@ -29,6 +29,8 @@ def rescore(r):
         if f"{stage}_mask" in r:
             again = judge(r["system"], r["id"], r[f"{stage}_mask"])
             r[f"{stage}_verdict"] = "EXACT" if r["verdict"] == "EXACT" else again
+    if "verify_mask" in r:  # the selection loop sees right answers too, and can break them: judged on its own
+        r["verify_verdict"] = judge(r["system"], r["id"], r["verify_mask"])
     return r
 
 
@@ -53,6 +55,10 @@ FILES = {  # label -> results file, in table order
     **{f"Qwen3.5-122B-A10B fp8 {decode}, sheet": f"qwen3.5-122b-a10b-fp8-fp8_{decode}_sheet.jsonl"  # modal_app.py, H200
        for decode in ("free", "grammar2")},
     "Qwen3.5-122B-A10B picks among 3 fp8 grammar v2 samples (pick.py)": "qwen3.5-122b-a10b_pick_grammar2.jsonl",
+    **{f"{name} {start} first try + selection loop (verify.py)": f"{stem}_verify_{start}.jsonl"
+       for name, stem in (("Gemma-4-31B bf16", "gemma-4-31b-it"), ("Qwen3.5-122B-A10B fp8", "qwen3.5-122b-a10b"),
+                          ("Qwen3.8-27B nf4", "qwen3.8-27b"))
+       for start in ("free", "grammar2")},
     "Qwen3.8-27B picks among grammar v2 + free samples (pick.py)": "qwen3.8-27b_pick_both.jsonl",
     "Qwen2.5-7B-4bit free, view": "qwen_free_view.jsonl",
     "Qwen2.5-7B-4bit grammar, view": "qwen_grammar_view.jsonl",
@@ -64,7 +70,8 @@ FILES = {  # label -> results file, in table order
     **{f"Qwen2.5-7B nf4 {decode}, task, after the qwen.Sheet fix": f"qwen2.5-7b-instruct-nf4_{decode}_task_fixed.jsonl"
        for decode in ("grammar1", "grammar2", "checked")},  # grammar1: 218 of 375 rows (Kaggle quota)
 }
-STAGES = [("verdict", "first try"), ("checker_verdict", "+ checker repair"), ("lint_verdict", "+ lint repair")]
+STAGES = [("verdict", "first try"), ("checker_verdict", "+ checker repair"), ("lint_verdict", "+ lint repair"),
+          ("verify_verdict", "+ selection loop (verify.py)")]
 
 
 def rate(rows, key="verdict"):
@@ -94,11 +101,12 @@ def main():
                    + f" | {c['rejected']} / {c['empty']} / {c['wrong atoms']} / {c['missing']} |")
 
     for split in ("dev", "test"):
-        out += ["", f"## First try and lint repair, {split} split", "",
-                "| arm | first try | + lint repair |", "|---|---|---|"]
+        out += ["", f"## First try, lint repair and selection loop, {split} split", "",
+                "| arm | first try | + lint repair | + selection loop |", "|---|---|---|---|"]
         for label, rows in runs.items():
             rs = [r for r in rows if r["split"] == split]
-            out.append(f"| {label} | {rate(rs)} | {rate(rs, 'lint_verdict') if 'lint_verdict' in rows[0] else '–'} |")
+            later = [rate(rs, k) if k in rows[0] else "–" for k in ("lint_verdict", "verify_verdict")]
+            out.append(f"| {label} | {rate(rs)} | " + " | ".join(later) + " |")
 
     cats = sorted({r["category"] for rows in runs.values() for r in rows})
     out += ["", "## First try by category", "", "| category | " + " | ".join(runs) + " |",
