@@ -93,7 +93,8 @@ Held-out split, first try → after lint repair: Haiku view 73/123 (59%) → 111
 free 2 → 3, grammar v1 14 → 23 (19%), grammar v2 15 → 19, checked 15 → 21, sheet 16 → 16 (of 123).
 Qwen3.8-27B: OpenRouter 36 → 67, nf4 free 46 → 75, grammar v2 56 → 75 (runs 0–2), checked 36 → 43 (of 123).
 Gemma-4-31B: OpenRouter 54 → 91, bf16 free 52 → 90, bf16 grammar v2 76 → 87 (of 123). The nf4 Gemma arms
-and the per-task arms are in the Gemma section.
+and the per-task arms are in the Gemma section. Qwen3.5-122B-A10B: OpenRouter 13 → 22 (of 41), fp8 free
+35 → 64, fp8 grammar v2 51 → 70 (of 123).
 
 ## The answer
 
@@ -134,7 +135,8 @@ and the per-task arms are in the Gemma section.
 
 ## Checker in the decoder or after it: the answer across three models
 
-Decoded locally, 3 runs × 125 tasks each, sheet layout (the 27B's grammar rates are its runs 0–2):
+Decoded locally, 3 runs × 125 tasks each, sheet layout. The 27B's grammar rates are its runs 0–2, decoded
+before the `qwen.Sheet` fix; Gemma's and the 122B's ran after it. The pick column is one judge pass.
 
 | model | free, first try | grammar v2, first try | free + lint repair | grammar + lint repair | picks among 3 grammar samples |
 |---|---|---|---|---|---|
@@ -142,22 +144,25 @@ Decoded locally, 3 runs × 125 tasks each, sheet layout (the 27B's grammar rates
 | Gemma-4-31B, bf16 (A100) | 46% | 64% | 74% | 71% | 66% |
 | Qwen3.5-122B-A10B, fp8 (H200) | 32% | 45% | 51% | 53% | 54% |
 
-- **Inside the decoder, the grammar raises the first try 11–18 points** on every model, in every run, with
-  nothing added to the prompt and no second turn.
+- **Inside the decoder, the grammar raises the first try 11–18 points** on every model (pooled over 3 runs;
+  higher in every run, by 6–18 points), with nothing added to the prompt and no second turn.
 - **After the decoder, one lint repair reaches the same place** (within 4 points either way). The two do
-  not add up: grammar + lint is no better than free + lint.
+  not add up: grammar + lint is not distinguishable from free + lint (+3.5, −2.9 and +1.6 points).
 - **The grammar makes every remaining failure silent.** Free + lint leaves some masks pmemd would reject (5
   to 73 of 375); grammar + lint leaves none, and more valid masks on the wrong atoms.
 - **A checker potential on finished masks** (ambmask must read the mask and select something) adds nothing
   over the grammar: 46 against 46 of 125 on the 27B and 223 against 223 of 375 on Gemma, one task per prompt.
   It strands masks whose conjunction already selects nothing.
 - **A check that shows the selection, used to choose among 3 of the model's own grammar samples,** comes
-  within 8 points of one repair without spending a turn (62% against 60–64% on the 27B, 66% against 71–74%
-  on Gemma, 54% against 51–53% on the 122B), and leaves fewer silent failures than any grammar arm (22–26%,
-  against 29–47% for grammar + lint), most clearly where the samples disagree.
+  within 8 points of one repair without a repair turn, at the cost of 3 samples and one judge call that
+  carries each candidate's selection (62% against 60–64% on the 27B, 66% against 71–74% on Gemma, 54%
+  against 51–53% on the 122B). It leaves fewer silent failures than any grammar arm (22–26%, against 29–47%
+  for grammar + lint), most clearly where the samples disagree; on the 27B, free + lint leaves fewer still
+  (20%), plus 19% that pmemd would reject.
 
 So the decoder is the place for the checker when the pipeline cannot spend a turn or context on it; given
-a turn, after the decoder does as well and keeps failures loud. None of these makes a semi-reliable model
+a turn, after the decoder does as well, and some of the failures it leaves are ones pmemd rejects (5 to 73
+of 375) rather than none, though most are silent either way. None of these makes a semi-reliable model
 reliable: the best arm per model ends at 54–74%.
 
 ## Checker in the decoder or after it: Qwen 7B, 3 runs × 125
@@ -356,10 +361,12 @@ Qwen's own FP8 checkpoint on one H200 (Modal, 115 GiB loaded): sheet layout, 3 r
   system (bnbs 34 → 45, dna 43 → 58, memb 22 → 29, tryp 20 → 37); held-out 28% → 41%.
 - **After one lint repair the grammar adds nothing**: 51% free, 53% grammar. Free + lint leaves 60 loud and 124
   silent failures, grammar + lint 0 loud and 178 silent.
-- **Many of its free failures are another tool's syntax**: `around 5.0 :102`, `:!WAT`, `WAT&around 3.0 ...`
-  (VMD-style distance and negation), which the grammar removes and lint's distance hint repairs.
-- **Picking among its own samples does best here**: 67/125 (54%), 26% silent. Its samples disagree more
-  than Gemma's (54 of 125 pools hold one selection, against 93), so there is more to choose from. A right
+- **Some of its free failures are another tool's syntax**: 19 of its 125 rejected first tries use `around` or
+  `within` (VMD-style distance: `around 5.0 :102`), which the grammar removes. Lint repaired none of the 19;
+  of the 31 rejected distance-task masks it fixed one.
+- **Picking among its own samples does as well as a repair**: 67/125 (54%) against 51–53%, one judge pass,
+  with 26% silent. Its samples disagree more than Gemma's (56 of 125 pools hold one distinct selection,
+  against 95), so there is more to choose from. A right
   candidate was there for 70 tasks and was picked in 67; with none (55) it said NONE 24 times.
 
 **Answer for the 122B.** The same pattern as the 27B and Gemma, on a weaker model: the grammar lifts the
@@ -380,13 +387,13 @@ well as a repair (54%) with the fewest silent failures (26%). About half its mas
 - **The forced newline.** Every constrained arm decoded before 2026-10-04's `qwen.Sheet` fix had to write
   a newline before its reply could end: all of a 'task' arm, the last task of each sheet. Before the fix:
   the 7B constrained arms, the 27B checked arm marked "newline forced", all 5 of the 27B's grammar sheets
-  and Gemma's nf4 sheets. After it: the 27B per-task pair and every Gemma bf16 arm (bundle commits in the
-  run logs). On the sheets it acted on 4 of 125 tasks: 8 of the 27B's 20 sheet-last masks run to 76–79
+  and Gemma's nf4 sheets. After it: the 27B per-task pair, every Gemma bf16 arm and the 122B (bundle
+  commits in the run logs). On the sheets it acted on 4 of 125 tasks: 8 of the 27B's 20 sheet-last masks run to 76–79
   characters (`bnbs-hg-wildcard` hits 79 in all 5 runs). The rates barely move without those tasks (27B
   50.2% against 49.9%; Gemma nf4 52.0% against 52.1%).
 - **The 27B per-task comparison after the fix is one run** (n = 125 per arm).
 - **Each pick result is one judge pass** (n = 125, one per task). The judges are served models (27B,
-  Ultra, Gemma) and the 27B's candidates come from the local nf4 run.
+  Ultra, Gemma, 122B); the Ultra's candidates are its own served samples, the others' come from local runs.
 - **Two 4-bit schemes.** The GPU runs use bitsandbytes nf4, the MLX runs MLX 4-bit. Their free arms agree
   (1% each).
 - **The 14B's re-parse is not the protocol** Claude was held to. Its sheet arm ran out of GPU memory
