@@ -55,7 +55,43 @@ def ranges(nums):
     return ",".join(out)
 
 
-def card(system, mask):
+@functools.cache
+def pdb_numbers(system):
+    """Topology residue number -> (chain, PDB number with insertion code), from views/<system>.map.txt (the
+    grounding map: tleap's order, insertion codes kept); {} for a system built without a PDB (memb)."""
+    path = HERE / "views" / f"{system}.map.txt"
+    out = {}
+    for line in path.read_text().splitlines()[1:] if path.exists() else []:
+        chain, _, items = line.partition(": ")
+        for item in items.split():
+            m = re.fullmatch(r"([A-Z]+)(-?\d+[A-Z]?)=(\d+)", item)
+            if m:
+                out[int(m[3])] = (chain.split()[-1], m[2])
+    return out
+
+
+def pdb_ranges(res, pdb):
+    """'chain D 60-63,66-70' for these topology residues; a run breaks at a gap or an insertion code."""
+    by = defaultdict(list)
+    for r in res:
+        if r in pdb:
+            by[pdb[r][0]].append(pdb[r][1])
+    parts = []
+    for chain, nums in by.items():
+        runs, prev = [], None
+        for n in nums:
+            v = int(n) if n.lstrip("-").isdigit() else None
+            if v is not None and prev is not None and v == prev + 1:
+                runs[-1][1] = n
+            else:
+                runs.append([n, n])
+            prev = v
+        parts.append(f"chain {chain} " + ",".join(a if a == b else f"{a}-{b}" for a, b in runs))
+    return "; ".join(parts)
+
+
+def card(system, mask, pdb=False):
+    """What ambmask selects, as a checking tool would show it. pdb: also the PDB numbering of the residues."""
     sel, err = select(system, mask)
     if sel is None:
         return f"ambmask rejects it ({err[:80]})."
@@ -68,14 +104,17 @@ def card(system, mask):
         by_res[r].append(an)
         rname[r] = rn
     res = sorted(by_res)
+    nums = pdb_numbers(system) if pdb else {}
     if len(res) <= 6:
-        where = "; ".join(f"{rname[r]} {r} ({'all' if len(by_res[r]) == size[r] else len(by_res[r])} of {size[r]} atoms)"
-                          for r in res)
+        where = "; ".join(f"{rname[r]} {r}{f' (PDB {nums[r][0]}:{nums[r][1]})' if r in nums else ''} "
+                          f"({'all' if len(by_res[r]) == size[r] else len(by_res[r])} of {size[r]} atoms)" for r in res)
     else:
         kinds = Counter(rname[r] for r in res)
         full = sum(len(by_res[r]) == size[r] for r in res)
         where = (f"residues {ranges(res)[:120]}; names {', '.join(f'{k}x{v}' for k, v in kinds.most_common(6))}"
                  f"{' ...' if len(kinds) > 6 else ''}; {full} of {len(res)} residues whole")
+        if nums:
+            where += f"; PDB numbering {pdb_ranges(res, nums)[:160]}"
     names = Counter(n for ns in by_res.values() for n in ns)
     atom_part = ", ".join(sorted(names)) if len(names) <= 12 else f"{len(names)} distinct names"
     plural = lambda n, w: f"{n} {w}{'' if n == 1 else 's'}"

@@ -6,7 +6,8 @@ lint's hints when there are any, and answers KEEP or a corrected mask. Correctio
 in the next round, until every task is kept or the rounds run out. Unlike blind.py's repairs, no task is
 singled out by the gold: right and wrong answers are shown alike, so the loop can also break a right mask.
 The first tries come from a results file (any decode arm); the loop itself calls a served model.
-    .venv/bin/python masks/bench/verify.py <openrouter model id> <rounds> <out.jsonl> <results.jsonl> [runs]
+    .venv/bin/python masks/bench/verify.py <openrouter model id> <rounds> <out.jsonl> <results.jsonl> [runs] [--pdb]
+--pdb also shows the PDB numbering of the selected residues (from the grounding map), for the three PDB systems.
 """
 import json
 import sys
@@ -28,13 +29,13 @@ ASK = ("For each task, if your mask selects exactly the atoms the task asks for,
        "=== <id> ===\n<KEEP or mask>\n=== <next id> ===\n<KEEP or mask>")
 
 
-def prompt(system, tasks, masks):
+def prompt(system, tasks, masks, pdb=False):
     body = ""
     for t in tasks:
         m = masks[t["id"]]
         hints = "".join(f"Hint: {h}\n" for h in lint(m or "", LANG[system].top)) if m else ""
         body += (f"TASK {t['id']}\nSelect {t['text']}.\nYour mask: {m or '(none)'}\n"
-                 f"What it selects: {card(system, m) if m else 'nothing (no mask given)'}\n{hints}\n")
+                 f"What it selects: {card(system, m, pdb) if m else 'nothing (no mask given)'}\n{hints}\n")
     return (f"{system_prompt(system, 'view')}Your answers to these tasks, each with what it selects in this "
             f"system (from ambmask):\n\n{body}{ASK}")
 
@@ -52,7 +53,7 @@ def ask(model, text):
     return "", err
 
 
-def sheet(model, rounds, system, run, tasks, first):
+def sheet(model, rounds, system, run, tasks, first, pdb=False):
     """One sheet through the loop: per task, the mask after each round (round 0 is the first try)."""
     masks = dict(first)
     history = {t["id"]: [first[t["id"]]] for t in tasks}
@@ -61,7 +62,7 @@ def sheet(model, rounds, system, run, tasks, first):
     for rnd in range(1, rounds + 1):
         if not open_:
             break
-        reply, err = ask(model, prompt(system, open_, masks))
+        reply, err = ask(model, prompt(system, open_, masks, pdb))
         got = parse(reply)
         log.append({"round": rnd, "asked": [t["id"] for t in open_], "reply": reply, "error": err})
         still = []
@@ -76,7 +77,7 @@ def sheet(model, rounds, system, run, tasks, first):
     return history, log
 
 
-def main(model, rounds, out, src, runs=None):
+def main(model, rounds, out, src, runs=None, pdb=False):
     rows = [json.loads(line) for line in Path(src).read_text().splitlines()]
     if runs is not None:
         rows = [r for r in rows if r["run"] < runs]
@@ -85,13 +86,13 @@ def main(model, rounds, out, src, runs=None):
         by[(r["system"], r["run"])][r["id"]] = r["mask"]
     jobs = [(s, run, [t for t in TASKS if t["system"] == s], first) for (s, run), first in sorted(by.items())]
     with ThreadPoolExecutor(4) as ex:
-        done = list(ex.map(lambda j: sheet(model, rounds, *j), jobs))
+        done = list(ex.map(lambda j: sheet(model, rounds, *j, pdb=pdb), jobs))
     outrows = []
     for (s, run, tasks, _), (history, log) in zip(jobs, done):
         for t in tasks:
             gold = from_ranges(t["gold"])
             h = history[t["id"]]
-            outrows.append({"model": f"openrouter:{model}", "decode": "verify", "arm": "view", "source": Path(src).name,
+            outrows.append({"model": f"openrouter:{model}", "decode": "verify", "arm": "view", "source": Path(src).name, "card": "pdb" if pdb else "plain",
                             "run": run, "system": s, "id": t["id"], "category": t["category"],
                             "difficulty": t["difficulty"], "split": t["split"], "mask": h[0],
                             "verdict": verdict(s, h[0], gold), "verify_mask": h[-1],
@@ -112,4 +113,5 @@ def main(model, rounds, out, src, runs=None):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], int(sys.argv[2]), sys.argv[3], sys.argv[4], int(sys.argv[5]) if len(sys.argv) > 5 else None)
+    args = [a for a in sys.argv[1:] if a != "--pdb"]
+    main(args[0], int(args[1]), args[2], args[3], int(args[4]) if len(args) > 4 else None, pdb="--pdb" in sys.argv)

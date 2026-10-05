@@ -162,8 +162,10 @@ before the `qwen.Sheet` fix; Gemma's and the 122B's ran after it. The pick colum
 
 So the decoder is the place for the checker when the pipeline cannot spend a turn or context on it; given
 a turn, after the decoder does as well, and some of the failures it leaves are ones pmemd rejects (5 to 73
-of 375) rather than none, though most are silent either way. None of these makes a semi-reliable model
-reliable: the best arm per model ends at 54–74%.
+of 375) rather than none, though most are silent either way. The lint repairs in this table were given only
+to tasks the gold marked wrong, which a pipeline cannot do; the selection loop (its own section below)
+needs no gold, shows every answer what it selects, and ends higher: 66%, 76% and 52% from the free first
+try. None of these makes a semi-reliable model reliable.
 
 ## Checker in the decoder or after it: Qwen 7B, 3 runs × 125
 
@@ -372,6 +374,37 @@ Qwen's own FP8 checkpoint on one H200 (Modal, 115 GiB loaded): sheet layout, 3 r
 **Answer for the 122B.** The same pattern as the 27B and Gemma, on a weaker model: the grammar lifts the
 first try 13 points, one repair catches up, and choosing among samples with the selection shown does as
 well as a repair (54%) with the fewest silent failures (26%). About half its masks are still wrong.
+
+## The selection loop: a check that needs no answer key
+
+Every repair above was given only to the tasks the gold marked wrong, and for a valid mask its message
+("check that these are the atoms the task asks for") said so. A pipeline cannot single tasks out that way:
+it can only see that ambmask rejects a mask. Repairing only those, free + lint is 54% (27B), 66% (Gemma)
+and 44% (122B), against 60%, 74% and 51% with the gold choosing; with the grammar nothing is rejected, so
+nothing gets a repair. `verify.py` is the check a pipeline could run. Every answer, right or wrong, is shown
+what it selects (`pick.card`: the atom count, residues and atom names, or ambmask's rejection) with lint's
+hints, and the model answers KEEP or a corrected mask; corrections are shown again, up to 3 rounds. The
+first tries are the local ones (3 runs × 125); the loop is the served model at temperature 0.7.
+
+| model | free first try → + loop | grammar first try → + loop | free + lint, gold-chosen / rejected only | broke a right mask |
+|---|---|---|---|---|
+| Qwen3.8-27B | 39% → 66% (247/375) | 50% → 65% (244) | 60% / 54% | 0, 0 |
+| Gemma-4-31B | 46% → 76% (286) | 64% → 73% (275) | 74% / 66% | 0, 0 |
+| Qwen3.5-122B-A10B | 32% → 52% (194) | 45% → 53% (199) | 51% / 44% | 2, 3 |
+
+- **The loop matches or beats the gold-chosen repair on every model, without the gold**, and almost never
+  breaks a right mask. Most of the gain comes in the first round (Gemma free 172 → 269 → 285 → 286); the
+  27B is still rising at round 3 (205 → 230 → 247).
+- **It fixes some silent failures, not only syntax.** From Gemma's free start it fixed 72 of 104 rejected
+  masks and 42 of 99 valid wrong or empty ones; from its grammar start, 36 of 136 (the gold-chosen repair
+  fixed 32 and 28). What it keeps wrong is mostly numbering and protonation: lists of residue numbers the
+  selection does not show to be wrong (`:57,85&@NE,NH1,NH2` for Arg83 and Arg87).
+- **Decoding and the loop do not stack.** From the grammar's start the loop ends 3 points lower on Gemma and
+  the 27B and 1 higher on the 122B: the loop recovers the grammar's syntax gain, and a valid wrong mask is
+  harder to doubt than a rejected one (81 of Gemma's grammar-start wrong answers were kept unchanged,
+  45 of its free-start ones).
+- **What is left after the loop is partly loud.** Its corrections are not held to the grammar, and 72 of
+  the 27B's free-start masks and 41 of the 122B's end rejected (Gemma's: 4).
 
 ## Caveats
 
