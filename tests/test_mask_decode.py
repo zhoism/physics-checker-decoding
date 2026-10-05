@@ -105,3 +105,23 @@ def test_sheet_may_end_right_after_its_last_mask():
     assert not two.ok("=== a ===\n:1\n=== b ===\n:", done=True)  # not a whole mask
     assert two.ok("=== a ===\n:1\n=== b ===\n:", done=False)
     assert not two.ok("=== a ===\n:1x", done=False)
+
+
+def test_a_prequantized_vision_language_checkpoint_keeps_its_quantization():
+    """Qwen3.5-122B-A10B-FP8 keeps its FP8 config on the outer config; built from the inner text config without
+    it, transformers loaded the FP8 weights as bf16 and dropped their scales. Models without one are untouched."""
+    from transformers import AutoConfig
+    from transformers.quantizers.auto import get_hf_quantizer
+    from decode import PrefixLM
+    try:
+        AutoConfig.from_pretrained("Qwen/Qwen3.5-122B-A10B-FP8")
+    except OSError:
+        pytest.skip("no Qwen3.5-122B-A10B-FP8 config in the Hugging Face cache")
+    kw = PrefixLM.prequantized("Qwen/Qwen3.5-122B-A10B-FP8")
+    q = get_hf_quantizer(kw["config"], None, {"": 0}, True, {})
+    assert type(q[0] if isinstance(q, tuple) else q).__name__ == "FineGrainedFP8HfQuantizer"
+    for name in ("google/gemma-4-31B-it", "Qwen/Qwen3.8-27B"):
+        try:
+            assert PrefixLM.prequantized(name) == {}
+        except OSError:
+            pass

@@ -61,9 +61,23 @@ class PrefixLM(AsyncLM):
         # a T4 has no bf16; an A100 has. fp8: a checkpoint quantized by its maker (Qwen3.5-122B-A10B-FP8), loaded
         # with its own config; bitsandbytes cannot pack that model's experts, which are 3D tensors, not Linear layers
         dtype = {"fp32": torch.float32, "bf16": torch.bfloat16, "fp8": torch.bfloat16}.get(quant, torch.float16)
-        model = AutoModelForCausalLM.from_pretrained(name, quantization_config=q, dtype=dtype,
+        model = AutoModelForCausalLM.from_pretrained(name, quantization_config=q, dtype=dtype, **cls.prequantized(name),
                                                      device_map=cls.device_map(name, torch.cuda.device_count(), quant))
         return cls(model.eval(), AutoTokenizer.from_pretrained(name))
+
+    @staticmethod
+    def prequantized(name):
+        """{'config': ...} for a vision-language checkpoint quantized by its maker (Qwen3.5-122B-A10B-FP8). Its
+        quantization config sits on the outer config, but AutoModelForCausalLM builds the text model from the
+        inner one, which has none: transformers then loaded the FP8 weights as plain bf16 without their scales
+        (every *_scale_inv key 'UNEXPECTED'), 228 GiB, mostly offloaded to the CPU. {} for every other model."""
+        from transformers import AutoConfig
+        config = AutoConfig.from_pretrained(name)
+        text = config.get_text_config()
+        if text is config or not getattr(config, "quantization_config", None) or getattr(text, "quantization_config", None):
+            return {}
+        text.quantization_config = config.quantization_config
+        return {"config": text}
 
     @staticmethod
     def device_map(name, n_gpu, quant="nf4"):
