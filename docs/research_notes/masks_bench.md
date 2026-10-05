@@ -411,7 +411,7 @@ first tries are the local ones (3 runs × 125); the loop is the served model at 
   and 275), the 122B 198 and 202 (from 194 and 199). The 27B's runs moved to OpenRouter's paid endpoint
   (its free one was withdrawn); there, with 5 rounds, the plain card gives 259 and 249 and the PDB card 283
   and 256, but 8 of the +24 are lipid tasks, where the two cards are identical: run-to-run noise of that
-  size. Rounds 4 and 5 add 0–10. What stays wrong is mostly kept, not miscorrected: asked for Arg83 and
+  size. Rounds 4 and 5 add 0–16 (the most on the 27B, still rising at round 3). What stays wrong is mostly kept, not miscorrected: asked for Arg83 and
   Arg87, Gemma keeps `:57,81` though the card says it selects Arg59 and Arg83. The model has the
   information and does not compare it with the task.
 
