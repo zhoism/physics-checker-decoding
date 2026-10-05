@@ -61,6 +61,8 @@ FILES = {  # label -> results file, in table order
        for size in ("7B", "14B")
        for decode, layout in (("free", "task"), ("grammar1", "task"), ("grammar2", "task"), ("checked", "task"),
                               ("grammar2", "sheet"))},
+    **{f"Qwen2.5-7B nf4 {decode}, task, after the qwen.Sheet fix": f"qwen2.5-7b-instruct-nf4_{decode}_task_fixed.jsonl"
+       for decode in ("grammar1", "grammar2", "checked")},  # grammar1: 218 of 375 rows (Kaggle quota)
 }
 STAGES = [("verdict", "first try"), ("checker_verdict", "+ checker repair"), ("lint_verdict", "+ lint repair")]
 

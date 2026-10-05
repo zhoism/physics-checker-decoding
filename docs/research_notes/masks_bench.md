@@ -168,12 +168,12 @@ reliable: the best arm per model ends at 54–74%.
 ## Checker in the decoder or after it: Qwen 7B, 3 runs × 125
 
 These arms ran before `qwen.Sheet` was fixed (2026-10-04): a constrained reply could end only after a
-newline that followed its last mask. A model that wanted to stop after its mask could not, and when a
-newline was less likely than ` &` it kept writing toward the 79-character cap. In one task per prompt
-every answer is a last answer (128 of grammar v2's 375 masks and 174 of the checked arm's are 60
-characters or longer); in a sheet only the last task is (its median length is 79, against 23 for the
-others). So the constrained 7B numbers below measure that too. The 27B rerun after the fix is the clean
-comparison of grammar and checker.
+newline that followed its last mask, which pushed a model that wanted to stop toward the 79-character
+cap (every answer in one task per prompt, the last of each sheet). The per-task arms were rerun after the
+fix with the same seeds (`*_task_fixed.jsonl`; grammar v1 has 218 of 375 rows, when Kaggle's weekly
+quota ran out) and barely moved: grammar v2 35 → 33, grammar v2 + checker 32 → 33 (still 76 stranded),
+grammar v1 26 → 26 on the same 218 rows. Masks of 60 characters or more: 128 → 121 and 174 → 171. The 7B's
+runaway masks are its own; the 27B's were mostly the newline (80 stranded → 17).
 
 - **The grammar in the decoder helps, a little.** First try goes from 1% (free) to 9–10% under every
   grammar arm, in each of the 3 runs (7–15 right per run against 1–2) and in all 4 systems, so it is
@@ -185,8 +185,8 @@ comparison of grammar and checker.
 - **The checker potential adds nothing on top.** grammar2 + checker scores 32/375 against grammar2's 35.
   With one particle the decoder cannot back out of a mask that will select nothing: the model keeps
   writing to the 79-character cap and strands there (76 of 375 first tries), still selecting nothing.
-  Most of them are probably the forced newline above: all 76 are 77–79 characters, and on the 27B the
-  fix cut strandings from 80 to 17.
+  They are not the forced newline: after the fix the arm strands the same 76, and the two arms tie at 33
+  against 33, each right on 11 (run, task) pairs the other misses.
 - **The checker after decoding works only on valid masks.** The lint repair takes free from 4 to 5, and
   the grammar arms up by 8 to 18 (best: grammar v1, 37 → 55, 15%). So the two combine, modestly: the
   grammar makes the masks AMBER, then the hints have something to act on.
@@ -204,8 +204,8 @@ comparison of grammar and checker.
 **Answer.** For an open 7B, the checker inside the decoder (the grammar) beats the checker after it
 (lint repair alone does nothing), but only on easy tasks. The checker potential on finished masks adds
 nothing with one particle. The two combine to 11–15%. That is far from usable, and a 14B prompted alone
-is not much better, so the model where decoding could matter is larger. (These arms carry the forced
-newline; a rerun with the fix is in progress.)
+is not much better, so the model where decoding could matter is larger. (A rerun after the forced-newline
+fix gives the same numbers.)
 
 ## Qwen3.8-27B: a semi-reliable model, decoded
 
@@ -386,7 +386,8 @@ well as a repair (54%) with the fewest silent failures (26%). About half its mas
 - **The ladder's single-run rows are triage**, not results: one sample of each of 4 sheets.
 - **The forced newline.** Every constrained arm decoded before 2026-10-04's `qwen.Sheet` fix had to write
   a newline before its reply could end: all of a 'task' arm, the last task of each sheet. Before the fix:
-  the 7B constrained arms, the 27B checked arm marked "newline forced", all 5 of the 27B's grammar sheets
+  the 7B constrained arms (its per-task arms rerun after it: no change), the 27B checked arm marked
+  "newline forced", all 5 of the 27B's grammar sheets
   and Gemma's nf4 sheets. After it: the 27B per-task pair, every Gemma bf16 arm and the 122B (bundle
   commits in the run logs). On the sheets it acted on 4 of 125 tasks: 8 of the 27B's 20 sheet-last masks run to 76–79
   characters (`bnbs-hg-wildcard` hits 79 in all 5 runs). The rates barely move without those tasks (27B
