@@ -425,6 +425,30 @@ first tries are the local ones (3 runs × 125); the loop is the served model at 
   repair. Gemma's reasoning costs little ($0.004 a sheet, about 6k tokens); the 27B's
   ran to 41k tokens and $0.13 a sheet, so its reasoning loop was not run. Both Gemma arms cost $0.52.
 
+## Think, then answer: the grammar after reasoning
+
+Reasoning fixes meaning but not syntax (Gemma's first try with reasoning on is 64% right and 22% rejected);
+the grammar fixes syntax but not meaning. `think.py` tests whether they stack: Gemma-4-31B (bf16, one A100 on
+Modal) reasons freely over a whole sheet in its thinking mode, and from that same reasoning the answer is
+decoded twice, free and held to grammar v2, so each pair shares its thought. The run stopped at 307 of 375
+rows (trypsin runs 1 and 2 missing): reasoning ran at about 8.5 tokens a second, 9k tokens a large sheet.
+
+| Gemma-4-31B, same reasoning, 10 sheets | right | rejected | valid but wrong or empty |
+|---|---|---|---|
+| answer decoded free | 197/307 (64%) | 82 | 28 |
+| answer held to grammar v2 | 206/307 (67%) | 0 | 101 |
+
+- **The local reasoning matches the served one**: 197 against 196 of the same 307 for the OpenRouter run with
+  reasoning on.
+- **The grammar after reasoning adds a little, and only in one direction**: right where free was wrong on 9
+  tasks, wrong where free was right on none. 3 points, under the noise rule, but a 9-to-0 split.
+- **Mostly it converts loud failures into silent ones.** Of the 82 free answers ambmask rejects, the grammar
+  makes 8 right, 66 valid masks on the wrong atoms and 8 that select nothing: the syntax it forces does not
+  carry the meaning the reasoning was after.
+
+So decoding stacks with reasoning only weakly. Its value stays where the earlier sections put it: a first
+try with no reasoning and no second turn.
+
 ## Caveats
 
 - **Sheets cluster.** A model's failures move together within one sheet (one system, one sample), so
@@ -445,6 +469,8 @@ first tries are the local ones (3 runs × 125); the loop is the served model at 
   characters (`bnbs-hg-wildcard` hits 79 in all 5 runs). The rates barely move without those tasks (27B
   50.2% against 49.9%; Gemma nf4 52.0% against 52.1%).
 - **The 27B per-task comparison after the fix is one run** (n = 125 per arm).
+- **Spend.** Modal's $30 monthly credit ran out during the think.py run, which went 6.7 hours against an
+  estimate of 1–2, and $1.25 was billed past the workspace's $0 spend limit before the run was cancelled.
 - **Each pick result is one judge pass** (n = 125, one per task). The judges are served models (27B,
   Ultra, Gemma, 122B); the Ultra's candidates are its own served samples, the others' come from local runs.
 - **Two 4-bit schemes.** The GPU runs use bitsandbytes nf4, the MLX runs MLX 4-bit. Their free arms agree
