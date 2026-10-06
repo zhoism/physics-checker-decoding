@@ -15,6 +15,7 @@ import json
 import sys
 import time
 from collections import defaultdict
+from itertools import groupby
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -88,8 +89,21 @@ def main(model, rounds, out, src, runs=None, pdb=False, think=False):
     for r in rows:
         by[(r["system"], r["run"])][r["id"]] = r["mask"]
     jobs = [(s, run, [t for t in TASKS if t["system"] == s], first) for (s, run), first in sorted(by.items())]
+    # Resume: a sheet already in out whose calls all succeeded is kept; one with an API error (the key's spend
+    # limit stopped some) is run again from its first try.
+    kept = {}
+    if Path(out).exists():
+        prev = [json.loads(line) for line in Path(out).read_text().splitlines()]
+        for (s, run), rs in groupby(sorted(prev, key=lambda r: (r["system"], r["run"])), key=lambda r: (r["system"], r["run"])):
+            rs = list(rs)
+            log = next(r["log"] for r in rs if r["log"] is not None)
+            if not any(entry["error"] for entry in log):
+                kept[(s, run)] = ({r["id"]: r["masks"] for r in rs}, log)
+    todo = [j for j in jobs if (j[0], j[1]) not in kept]
+    print(f"{len(jobs) - len(todo)} sheets kept from {out}, {len(todo)} to run", flush=True)
     with ThreadPoolExecutor(4) as ex:
-        done = list(ex.map(lambda j: sheet(model, rounds, *j, pdb=pdb, think=think), jobs))
+        ran = dict(zip([(j[0], j[1]) for j in todo], ex.map(lambda j: sheet(model, rounds, *j, pdb=pdb, think=think), todo)))
+    done = [kept.get((j[0], j[1])) or ran[(j[0], j[1])] for j in jobs]
     outrows = []
     for (s, run, tasks, _), (history, log) in zip(jobs, done):
         for t in tasks:
