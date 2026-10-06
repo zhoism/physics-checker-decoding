@@ -10,6 +10,7 @@ The first tries come from a results file (any decode arm); the loop itself calls
 --pdb also shows the PDB numbering of the selected residues (from the grounding map), for the three PDB systems.
 --think turns the served model's reasoning on for the check (every other arm in this bench runs with it off).
 """
+import http.client
 import json
 import sys
 import time
@@ -44,11 +45,12 @@ def prompt(system, tasks, masks, pdb=False):
 def ask(model, text, think=False):
     for attempt in range(4):
         try:
-            body = call("openrouter", "chat/completions", {"model": model, "temperature": 0.7, "max_tokens": 16000,
+            body = call("openrouter", "chat/completions", {"model": model, "temperature": 0.7,
+                                                           "max_tokens": 32000 if think else 16000,
                                                            "reasoning": {"enabled": think},
                                                            "messages": [{"role": "user", "content": text}]})
             return body["choices"][0]["message"].get("content") or "", None
-        except (KeyError, IndexError, RuntimeError) as e:
+        except (KeyError, IndexError, RuntimeError, OSError, http.client.HTTPException) as e:  # a long reply's stream can drop
             err = repr(e)[:300]
             time.sleep(20 * (attempt + 1))
     return "", err

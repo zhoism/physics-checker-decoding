@@ -5,7 +5,7 @@
 #   bash masks/bench/colab/bundle.sh
 set -euo pipefail
 cd "$(dirname "$0")/../../.."
-files=(masks/bench/{blind,decode,lint,mask_grammar2,qwen,tasks}.py masks/bench/{tasks.jsonl,SHA256SUMS}
+files=(masks/bench/{blind,decode,lint,mask_grammar2,qwen,tasks,think}.py masks/bench/{tasks.jsonl,SHA256SUMS}
        masks/bench/views/*.txt masks/pilot/mask_grammar.py masks/bench/systems/{bnbs,tryp,dna,memb}/sys.{parm7,rst7})
 for f in "${files[@]}"; do
   [ -f "$f" ] || { echo "missing $f (systems: bash masks/bench/build.sh)" >&2; exit 1; }

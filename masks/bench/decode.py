@@ -218,9 +218,10 @@ async def answer(llm, decode, system, prompt, ids, seed):
     is -inf when a grammar arm reached max_tokens unfinished (genlm then forces EOS, which the grammar refuses;
     'truncated' in the row), or when no token was valid. With the grammar alone that cannot happen; with the
     checker it can, at the length cap, when every way to finish the mask selects nothing. The reply then ends
-    on a rejected token, which is dropped, so the answer is the model's own last valid prefix."""
-    llm.prompt_ids = chat_ids(llm, prompt)
-    llm.model.checkpoint(head_ids(llm, system))
+    on a rejected token, which is dropped, so the answer is the model's own last valid prefix. prompt is text, or
+    token ids already built (think.py: the prompt and the model's reasoning), which are then also the checkpoint."""
+    llm.prompt_ids = chat_ids(llm, prompt) if isinstance(prompt, str) else list(prompt)
+    llm.model.checkpoint(head_ids(llm, system) if isinstance(prompt, str) else list(prompt))
     torch.manual_seed(seed)
     if decode == "free":
         sampler = direct_token_sampler(llm)

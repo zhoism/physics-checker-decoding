@@ -49,7 +49,7 @@ print(f"{len(rows)}/{len(rows)} golds reproduce with this ambmask", flush=True)
 """
 
 
-def arms_fn(model, quant, runs, limit, arms):
+def arms_fn(model, quant, runs, limit, arms, script="decode.py"):  # script: decode.py or think.py
     os.makedirs("/root/maskbench", exist_ok=True)
     subprocess.run(["tar", "-xzf", "/root/bundle.tar.gz", "-C", "/root/maskbench"], check=True)
     print(open("/root/maskbench/masks/bench/colab/MANIFEST").readline().strip(), flush=True)
@@ -58,7 +58,7 @@ def arms_fn(model, quant, runs, limit, arms):
     for lim in str(limit).split(","):  # "2,all": a smoke run, then the full run on the same download
         out = "/results" if lim == "all" else "/results/smoke"  # smoke rows must not seed a full run's resume
         os.makedirs(out, exist_ok=True)
-        proc = subprocess.Popen(["python", "/root/maskbench/masks/bench/decode.py", model, quant,
+        proc = subprocess.Popen(["python", f"/root/maskbench/masks/bench/{script}", model, quant,
                                  str(1 if lim != "all" else runs), out, lim, *arms.split(",")])
         try:
             while proc.poll() is None:  # commit rows as they are written, so a lost container keeps them
@@ -70,7 +70,7 @@ def arms_fn(model, quant, runs, limit, arms):
         finally:
             results.commit()
         if proc.returncode:
-            raise RuntimeError(f"decode.py exited {proc.returncode} (limit {lim})")
+            raise RuntimeError(f"{script} exited {proc.returncode} (limit {lim})")
 
 
 GPU = os.environ.get("MASK_BENCH_GPU", "A100-80GB")
