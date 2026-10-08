@@ -73,3 +73,6 @@ it stops matching. Empty on purpose; do not seed it with someone else's.*
 - ambmask reads at most 79 characters; at 80 and more it fails with `pop_evalstack`, so a right but long
   mask scores "rejected". Score it as a union of short pieces (`tasks.select`, `AMBMASK_MAX = 79`).
   (2026-10-02 an 84-character answer; 2026-10-02 again at exactly 80, with the cut-off set to 80.)
+- A model copies the TASK line into its answer headers (`=== TASK 1 ===` for `=== 1 ===`); `blind.parse` reads
+  none of them and the answers count as missing. Read replies with `mask_tool.answers`. (2026-10-08 one round
+  of the 122B's reasoning loop, 9 answers; 2026-10-08 every answer of mask_tool's first live run.)

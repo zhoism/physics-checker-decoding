@@ -57,6 +57,12 @@ def system_text(d: Path, leap: Path | None, pdb: Path | None) -> str:
     return f"{INSTRUCTIONS}\n\nSYSTEM\n" + "\n\n".join(parts) + "\n\n"
 
 
+def answers(reply: str) -> dict:
+    """blind.parse, also reading '=== TASK 1 ===': with numbered tasks Gemma copies the TASK line into every header
+    (with the bench's named ids it never did)."""
+    return parse(re.sub(r"(?m)^=== TASK ", "=== ", reply))
+
+
 def first_prompt(head: str, tasks: list[dict]) -> str:
     """blind.one_system's prompt."""
     body = "".join(f"TASK {t['id']}\nSelect {t['text']}.\n\n" for t in tasks)
@@ -80,7 +86,7 @@ def run(model: str, rounds: int, head: str, top: dict, system: str, tasks: list[
     reply, err = ask(model, first_prompt(head, tasks), False)
     if err:
         raise SystemExit(f"the first try failed: {err}")
-    got = parse(reply)
+    got = answers(reply)
     masks = {t["id"]: got.get(t["id"]) for t in tasks}
     status = {t["id"]: "not checked" for t in tasks}
     open_ = list(tasks)
@@ -91,7 +97,7 @@ def run(model: str, rounds: int, head: str, top: dict, system: str, tasks: list[
         if err:
             print(f"round {rnd} failed, the masks stand as they were: {err}", file=sys.stderr)
             break
-        got = parse(reply)
+        got = answers(reply)
         still = []
         for t in open_:
             new = got.get(t["id"])

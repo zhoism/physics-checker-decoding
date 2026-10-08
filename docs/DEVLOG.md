@@ -71,3 +71,5 @@ watch: 2026-09-27 genlm-control 0.4.0 `recursive_awrs` crashed on `assert log_q 
 watch: 2026-09-27 a Hugging Face xet download stalled for 10 min with a 0-byte `.incomplete` blob; `HF_HUB_DISABLE_XET=1` fetched the same model in 30 s.
 
 watch: 2026-09-27 read pmemd's parsed values from mdout's CONTROL DATA section, never the input echo above it; reading the echo got the duplicate-key probe backwards.
+
+watch: 2026-10-08 Gemma answered numbered tasks with `=== TASK 1 ===` headers and blind.parse read none (mask_tool scored 0/12); the 122B did it once in its reasoning loop. Seen twice, so it is on the CLAUDE.md watch-list.

@@ -1,0 +1,150 @@
+{
+ "rows": [
+  {
+   "id": "1",
+   "request": "the amine nitrogens at the tip of every lysine side chain",
+   "ref": ":LYS@NZ",
+   "first": "@NZ",
+   "first_ok": true,
+   "final": "@NZ",
+   "final_ok": true,
+   "status": "kept in round 1"
+  },
+  {
+   "id": "2",
+   "request": "the two oxygens of the C-terminal carboxylate",
+   "ref": ":76@O,OXT",
+   "first": ":76&@O,OXT",
+   "first_ok": true,
+   "final": ":76&@O,OXT",
+   "final_ok": true,
+   "status": "kept in round 1"
+  },
+  {
+   "id": "3",
+   "request": "the hydrogens on the side chain of Ile44",
+   "ref": ":44@HB,HG12,HG13,HG21,HG22,HG23,HD11,HD12,HD13",
+   "first": ":44&@*H&!@H,HA,HB,HG*,HD*",
+   "first_ok": false,
+   "final": ":44&@H= & !@H & !@HA",
+   "final_ok": true,
+   "status": "kept in round 3"
+  },
+  {
+   "id": "4",
+   "request": "the residues with any atom within 6 Angstrom of Ile44's CD1 atom, not counting Ile44 itself",
+   "ref": "(:44@CD1<:6.0)&!:44",
+   "first": "(:44@CD1).within=6.0&!:44",
+   "first_ok": false,
+   "final": ":44@CD1<:6.0&!:44",
+   "final_ok": true,
+   "status": "kept in round 3"
+  },
+  {
+   "id": "5",
+   "request": "the backbone heavy atoms (N, CA, C, O) of residues 1 through 10",
+   "ref": ":1-10@N,CA,C,O",
+   "first": ":1-10&@N,CA,C,O",
+   "first_ok": true,
+   "final": ":1-10&@N,CA,C,O",
+   "final_ok": true,
+   "status": "kept in round 1"
+  },
+  {
+   "id": "6",
+   "request": "the hydroxyl hydrogens of all serines and threonines",
+   "ref": ":SER@HG|:THR@HG1",
+   "first": "(:SER,THR)&@HG,HG1",
+   "first_ok": true,
+   "final": "(:SER,THR)&@HG,HG1",
+   "final_ok": true,
+   "status": "kept in round 1"
+  },
+  {
+   "id": "7",
+   "request": "the only histidine residue, all atoms",
+   "ref": ":68",
+   "first": ":68",
+   "first_ok": true,
+   "final": ":68",
+   "final_ok": true,
+   "status": "kept in round 1"
+  },
+  {
+   "id": "8",
+   "request": "every heavy atom, no hydrogens",
+   "ref": "!@H=",
+   "first": "!@H*",
+   "first_ok": false,
+   "final": "!@H=",
+   "final_ok": true,
+   "status": "kept in round 2"
+  },
+  {
+   "id": "9",
+   "request": "the sulfur atom of the methionine",
+   "ref": ":MET@SD",
+   "first": ":1@SD",
+   "first_ok": true,
+   "final": ":1@SD",
+   "final_ok": true,
+   "status": "kept in round 1"
+  },
+  {
+   "id": "10",
+   "request": "the hydrophobic patch residues Leu8, Ile44 and Val70, all atoms",
+   "ref": ":8,44,70",
+   "first": ":8,44,70",
+   "first_ok": true,
+   "final": ":8,44,70",
+   "final_ok": true,
+   "status": "kept in round 1"
+  },
+  {
+   "id": "11",
+   "request": "the atoms of the VMD selection 'resid 40 to 45 and name CA'",
+   "ref": ":40-45@CA",
+   "first": ":40-45&@CA",
+   "first_ok": true,
+   "final": ":40-45&@CA",
+   "final_ok": true,
+   "status": "kept in round 1"
+  },
+  {
+   "id": "12",
+   "request": "the three hydrogens on the N-terminal nitrogen",
+   "ref": ":1@H1,H2,H3",
+   "first": ":1&@H1,H2,H3",
+   "first_ok": true,
+   "final": ":1&@H1,H2,H3",
+   "final_ok": true,
+   "status": "kept in round 1"
+  }
+ ],
+ "log": [
+  {
+   "think": false,
+   "reply": "=== TASK 1 ===\n@NZ\n=== TASK 2 ===\n:76&@O,OXT\n=== TASK 3 ===\n:44&@*H&!@H,HA,HB,HG*,HD*\n=== TASK 4 ===\n(:44@CD1).within=6.0&!:44\n=== TASK 5 ===\n:1-10&@N,CA,C,O\n=== TASK 6 ===\n(:SER,THR)&@HG,HG1\n=== TASK 7 ===\n:68\n=== TASK 8 ===\n!@H*\n=== TASK 9 ===\n:1@SD\n=== TASK 10 ===\n:8,44,70\n=== TASK 11 ===\n:40-45&@CA\n=== TASK 12 ===\n:1&@H1,H2,H3",
+   "error": null,
+   "s": 5
+  },
+  {
+   "think": true,
+   "reply": "=== TASK 1 ===\nKEEP\n=== TASK 2 ===\nKEEP\n=== TASK 3 ===\n:44&@H=!@H,HA\n=== TASK 4 ===\n<:44@CD1,6.0&!:44\n=== TASK 5 ===\nKEEP\n=== TASK 6 ===\nKEEP\n=== TASK 7 ===\nKEEP\n=== TASK 8 ===\n!@H=\n=== TASK 9 ===\nKEEP\n=== TASK 10 ===\nKEEP\n=== TASK 11 ===\nKEEP\n=== TASK 12 ===\nKEEP",
+   "error": null,
+   "s": 120
+  },
+  {
+   "think": true,
+   "reply": "=== TASK 3 ===\n:44&@H= & !@H & !@HA\n=== TASK 4 ===\n:44@CD1<:6.0&!:44\n=== TASK 8 ===\nKEEP",
+   "error": null,
+   "s": 93
+  },
+  {
+   "think": true,
+   "reply": "=== TASK 3 ===\nKEEP\n=== TASK 4 ===\nKEEP",
+   "error": null,
+   "s": 127
+  }
+ ]
+}

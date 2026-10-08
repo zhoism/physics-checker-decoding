@@ -8,3 +8,6 @@ masks/bench/systems/
 masks/bench/runs/
 masks/bench/colab/bundle.tar.gz
 masks/bench/colab/MANIFEST
+masks/ubq/*.pdb
+masks/ubq/ubq.*
+masks/ubq/leap.log

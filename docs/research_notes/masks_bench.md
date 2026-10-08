@@ -453,6 +453,33 @@ rows (trypsin runs 1 and 2 missing): reasoning ran at about 8.5 tokens a second,
 So decoding stacks with reasoning only weakly. Its value stays where the earlier sections put it: a first
 try with no reasoning and no second turn.
 
+## The recipe as a tool: `masks/mask_tool.py`
+
+The 93% recipe for any AMBER system: a prmtop, an inpcrd (NetCDF is converted) and plain-English requests in;
+Gemma's first try (reasoning off), then the selection loop (reasoning on, 3 rounds); each mask out with what it
+selects and whether the model kept it. Its prompts are the bench's (`tests/test_mask_tool.py` replays the 93%
+run through it and gets that run's masks).
+
+On a system it had never seen (ubiquitin, 1UBQ, ff14SB in implicit solvent, no water), 12 new requests with
+references checked in ambmask, 3 runs (`google/gemma-4-31b-it` on OpenRouter; `masks/ubq/`, the table is
+`check.py --score`):
+
+| | right | of 36 |
+|---|---|---|
+| first try | 27 | 75% |
+| after the loop | 35 | 97% |
+
+- The loop fixed `@H*` → `@H=` (every run), an invented distance syntax (`.within=6.0`, `%6`) → `<:6.0` in 2
+  of 3 runs, and Ile44's side-chain hydrogens. The miss is that distance request in the third run: its
+  last correction selects nothing, and the output says so ("selects no atoms", "corrected in round 3, not
+  checked again"). It is loud, not silent.
+- These requests are easier than the bench (first try 75% here against 46% there), and n is 36 from 12
+  requests: a check that the tool works on a new system, not a second measurement of the 93%.
+- A run costs under a cent and 4–8 minutes (reasoning rounds of 30–270 s).
+- The first live run scored 0: with numbered tasks Gemma writes `=== TASK 1 ===`, which `blind.parse` does not
+  read. The tool now reads both. The same headers appear in one round of the 122B's reasoning loop (bnbs run 1,
+  round 3): 9 answers counted as no answer, 3 of them corrections, so at most 3 of its partial 236/375 move.
+
 ## Caveats
 
 - **Sheets cluster.** A model's failures move together within one sheet (one system, one sample), so

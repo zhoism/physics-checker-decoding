@@ -67,7 +67,9 @@ def test_netcdf_restart_is_converted(tool, tmp_path):
 
 
 def test_main_prints_each_request(tool, monkeypatch, capsys):
-    replies = iter(["=== 1 ===\n:K+\n=== 2 ===\n@P31\n", "=== 1 ===\nKEEP\n=== 2 ===\n:PC@P31\n", "=== 2 ===\nKEEP\n"])
+    # Gemma's headers on numbered tasks (2026-10-08, the first live run): '=== TASK 1 ===', not '=== 1 ==='
+    replies = iter(["=== TASK 1 ===\n:K+\n=== TASK 2 ===\n@P31\n", "=== 1 ===\nKEEP\n=== 2 ===\n:PC@P31\n",
+                    "=== TASK 2 ===\nKEEP\n"])
     monkeypatch.setattr(tool, "ask", lambda model, text, think: (next(replies), None))
     memb = BENCH / "systems" / "memb"
     monkeypatch.setattr(sys, "argv", ["mask_tool.py", str(memb / "sys.parm7"), str(memb / "sys.rst7"),

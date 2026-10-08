@@ -1,0 +1,12 @@
+[["the amine nitrogens at the tip of every lysine side chain", ":LYS@NZ"],
+ ["the two oxygens of the C-terminal carboxylate", ":76@O,OXT"],
+ ["the hydrogens on the side chain of Ile44", ":44@HB,HG12,HG13,HG21,HG22,HG23,HD11,HD12,HD13"],
+ ["the residues with any atom within 6 Angstrom of Ile44's CD1 atom, not counting Ile44 itself", "(:44@CD1<:6.0)&!:44"],
+ ["the backbone heavy atoms (N, CA, C, O) of residues 1 through 10", ":1-10@N,CA,C,O"],
+ ["the hydroxyl hydrogens of all serines and threonines", ":SER@HG|:THR@HG1"],
+ ["the only histidine residue, all atoms", ":68"],
+ ["every heavy atom, no hydrogens", "!@H="],
+ ["the sulfur atom of the methionine", ":MET@SD"],
+ ["the hydrophobic patch residues Leu8, Ile44 and Val70, all atoms", ":8,44,70"],
+ ["the atoms of the VMD selection 'resid 40 to 45 and name CA'", ":40-45@CA"],
+ ["the three hydrogens on the N-terminal nitrogen", ":1@H1,H2,H3"]]
