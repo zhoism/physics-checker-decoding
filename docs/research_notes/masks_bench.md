@@ -423,7 +423,11 @@ first tries are the local ones (3 runs × 125); the loop is the served model at 
   reasoning on (`blind.py openrouter-think:`, the same protocol, 3 runs) is 241/375 (64%), and its
   gold-chosen lint repair 335 (89%). Haiku's view arm is 59% first try and 88% after the gold-chosen
   repair. Gemma's reasoning costs little ($0.004 a sheet, about 6k tokens); the 27B's
-  ran to 41k tokens and $0.13 a sheet, so its reasoning loop was not run. Both Gemma arms cost $0.52.
+  ran to 41k tokens and $0.13 a sheet. Both Gemma arms cost $0.52.
+- **The 122B's and 27B's reasoning loops are partial** (`*_verify_free_think.jsonl`): the OpenRouter key's
+  $5 limit stopped 6 of each one's 12 sheets. The 122B still reached 236/375 (63%) from its free start,
+  against 194 with reasoning off; the 27B's 167 is not a result (4 sheets never checked). `verify.py`
+  resumes them, rerunning only the stopped sheets.
 
 ## Think, then answer: the grammar after reasoning
 
