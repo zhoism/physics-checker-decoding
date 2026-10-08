@@ -49,18 +49,20 @@ def atom_table(sid: str) -> str:
     return "\n".join(lines)
 
 
-def pdb_residues(sid: str) -> str:
-    pdbid, chains = SOURCES[sid]
+def pdb_residues(path: Path, chains: str | None = None) -> str:
+    """The residues of a PDB file per chain; chains: the ones to list (every chain in the file when None)."""
+    records = [line for line in path.read_text().splitlines() if line[:6] in ("ATOM  ", "HETATM")]
+    chains = chains or "".join(dict.fromkeys(line[21] for line in records))
     seen, water = defaultdict(list), defaultdict(int)
-    for line in (HERE / "systems" / sid / f"{pdbid}.pdb").read_text().splitlines():
-        if line[:6] in ("ATOM  ", "HETATM") and line[21] in chains:
+    for line in records:
+        if line[21] in chains:
             name, num, chain = line[17:20].strip(), line[22:27].strip(), line[21]
             if name == "HOH":
                 water[chain] += line[12:16].strip() == "O"
             elif not seen[chain] or seen[chain][-1] != f"{name}{num}":
                 seen[chain].append(f"{name}{num}")
     out = [f"chain {c}: {' '.join(seen[c])}" + (f"  (+ {water[c]} HOH)" if water[c] else "") for c in chains]
-    return f"$ residues of chain(s) {', '.join(chains)} in {pdbid}.pdb (ATOM and HETATM records)\n" + "\n".join(out)
+    return f"$ residues of chain(s) {', '.join(chains)} in {path.name} (ATOM and HETATM records)\n" + "\n".join(out)
 
 
 def numbering_map(sid: str) -> str:
@@ -94,16 +96,24 @@ def view(sid: str) -> str:
                 else " by packmol-memgen.")]
     if leap.exists():
         parts.append("$ cat leap.in\n" + leap.read_text().rstrip())
-    parts.append("$ cpptraj -p sys.parm7")
+    parts += topology(sid)
+    if SOURCES[sid]:
+        parts.append(pdb_residues(HERE / "systems" / sid / f"{SOURCES[sid][0]}.pdb", SOURCES[sid][1]))
+    return "\n\n".join(parts) + "\n"
+
+
+def topology(sid: str) -> list[str]:
+    """cpptraj's listings of sys.parm7, the part of the view every system has. sid is a bench id, or the absolute
+    path of any directory holding sys.parm7 (pathlib lets an absolute path replace HERE / "systems")."""
+    parts = ["$ cpptraj -p sys.parm7"]
     for cmd in ("parminfo", "molinfo :* short", "resinfo !:WAT"):
         parts.append(f"> {cmd}\n{cpptraj(sid, cmd)}")
     wat = [int(x) for x in re.findall(r"^\s*(\d+) WAT", cpptraj(sid, "resinfo :WAT"), re.M)]
-    parts.append(f"> resinfo :WAT   (condensed)\nWAT residues {ranges(wat)}")
+    if wat:  # an implicit-solvent system has none
+        parts.append(f"> resinfo :WAT   (condensed)\nWAT residues {ranges(wat)}")
     parts.append(f"> atominfo   (condensed: atom name(type) for each residue name; residues with the same atoms "
                  f"grouped)\n{atom_table(sid)}")
-    if SOURCES[sid]:
-        parts.append(pdb_residues(sid))
-    return "\n\n".join(parts) + "\n"
+    return parts
 
 
 if __name__ == "__main__":
