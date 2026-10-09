@@ -66,6 +66,9 @@ FILES = {  # label -> results file, in table order
        for suffix, label in (("pdb5", "PDB numbers shown, 5 rounds"), ("plain5", "5 rounds"))},  # plain5: 27B only
     **{f"Gemma-4-31B bf16 {start} first try + selection loop, reasoning on": f"gemma-4-31b-it_verify_{start}_think.jsonl"
        for start in ("free", "grammar2")},
+    **{f"Gemma-4-31B bf16 free first try + the loop's control, reasoning on, {label}":  # verify.py --show
+       f"gemma-4-31b-it_verify_free_think_show-{show}.jsonl"
+       for show, label in (("hints", "lint's hints but not the selection"), ("none", "the mask alone"))},
     "Gemma-4-31B-it (OpenRouter), view, reasoning on": "gemma-4-31b-it_think_view.jsonl",
     **{f"Gemma-4-31B bf16 reasons, then answers {d} (think.py; 307 of 375 rows)": f"gemma-4-31b-it-bf16_think-{d}_sheet.jsonl"
        for d in ("free", "grammar2")},

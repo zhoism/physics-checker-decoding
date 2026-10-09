@@ -424,6 +424,22 @@ first tries are the local ones (3 runs × 125); the loop is the served model at 
   gold-chosen lint repair 335 (89%). Haiku's view arm is 59% first try and 88% after the gold-chosen
   repair. Gemma's reasoning costs little ($0.004 a sheet, about 6k tokens); the 27B's
   ran to 41k tokens and $0.13 a sheet. Both Gemma arms cost $0.52.
+- **The control: it is the hints and ambmask's verdict, not a second pass, and not the selection summary.**
+  Same first tries, reasoning on, 3 rounds, each answer shown alone (`verify.py --show=none`) or with lint's
+  hints but not what it selects (`--show=hints`):
+
+  | each answer shown with | right after the loop | rejected first try fixed (of 104) | valid wrong first try fixed (of 99) | rejected / silent after |
+  |---|---|---|---|---|
+  | nothing: a second pass | 213 (57%) | 0 | 44 | 117 / 45 |
+  | lint's hints | 320 (85%) | 66 | 84 | 24 / 31 |
+  | hints and what it selects | 347 (93%) | 95 | 81 | 0 / 28 |
+
+  A second pass alone fixes none of the rejected masks: the model cannot see its own syntax errors. The hints
+  give most of the gain, and on valid but wrong masks as much as the full card (84 against 81). What the
+  selection summary adds is the rejected masks it reports as rejected; numbering, where it should help most,
+  is 44, 52 and 47 of 57 (reasoning alone does most of it). Untested: hints plus only ambmask's accept or
+  reject. One loop per arm; the card-to-hints gap is 7 points overall but 29 of the 104 rejected masks. The two
+  controls cost $0.23.
 - **The 122B's and 27B's reasoning loops are partial** (`*_verify_free_think.jsonl`): the OpenRouter key's
   $5 limit stopped 6 of each one's 12 sheets. The 122B still reached 236/375 (63%) from its free start,
   against 194 with reasoning off; the 27B's 167 is not a result (4 sheets never checked). `verify.py`

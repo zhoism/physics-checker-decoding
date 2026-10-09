@@ -9,6 +9,7 @@ The first tries come from a results file (any decode arm); the loop itself calls
     .venv/bin/python masks/bench/verify.py <openrouter model id> <rounds> <out.jsonl> <results.jsonl> [runs] [--pdb]
 --pdb also shows the PDB numbering of the selected residues (from the grounding map), for the three PDB systems.
 --think turns the served model's reasoning on for the check (every other arm in this bench runs with it off).
+--show=hints or --show=none: the controls, the answer shown with lint's hints only, or with nothing.
 """
 import http.client
 import json
@@ -32,15 +33,18 @@ ASK = ("For each task, if your mask selects exactly the atoms the task asks for,
        "=== <id> ===\n<KEEP or mask>\n=== <next id> ===\n<KEEP or mask>")
 
 
-def prompt(system, tasks, masks, pdb=False):
+def prompt(system, tasks, masks, pdb=False, show="card"):
+    """show: what each answer comes with. 'card' is what ambmask selects and lint's hints; the controls for
+    whether the selection is what helps are 'hints' (lint's hints only) and 'none' (the mask alone)."""
     body = ""
     for t in tasks:
         m = masks[t["id"]]
-        hints = "".join(f"Hint: {h}\n" for h in lint(m or "", LANG[system].top)) if m else ""
-        body += (f"TASK {t['id']}\nSelect {t['text']}.\nYour mask: {m or '(none)'}\n"
-                 f"What it selects: {card(system, m, pdb) if m else 'nothing (no mask given)'}\n{hints}\n")
-    return (f"{system_prompt(system, 'view')}Your answers to these tasks, each with what it selects in this "
-            f"system (from ambmask):\n\n{body}{ASK}")
+        hints = "".join(f"Hint: {h}\n" for h in lint(m or "", LANG[system].top)) if m and show != "none" else ""
+        sel = f"What it selects: {card(system, m, pdb) if m else 'nothing (no mask given)'}\n" if show == "card" else ""
+        body += f"TASK {t['id']}\nSelect {t['text']}.\nYour mask: {m or '(none)'}\n{sel}{hints}\n"
+    lead = ("Your answers to these tasks, each with what it selects in this system (from ambmask):" if show == "card"
+            else "Your answers to these tasks:")
+    return f"{system_prompt(system, 'view')}{lead}\n\n{body}{ASK}"
 
 
 def ask(model, text, think=False):
@@ -57,7 +61,7 @@ def ask(model, text, think=False):
     return "", err
 
 
-def sheet(model, rounds, system, run, tasks, first, pdb=False, think=False):
+def sheet(model, rounds, system, run, tasks, first, pdb=False, think=False, show="card"):
     """One sheet through the loop: per task, the mask after each round (round 0 is the first try)."""
     masks = dict(first)
     history = {t["id"]: [first[t["id"]]] for t in tasks}
@@ -66,7 +70,7 @@ def sheet(model, rounds, system, run, tasks, first, pdb=False, think=False):
     for rnd in range(1, rounds + 1):
         if not open_:
             break
-        reply, err = ask(model, prompt(system, open_, masks, pdb), think)
+        reply, err = ask(model, prompt(system, open_, masks, pdb, show), think)
         got = parse(reply)
         log.append({"round": rnd, "asked": [t["id"] for t in open_], "reply": reply, "error": err})
         still = []
@@ -81,7 +85,7 @@ def sheet(model, rounds, system, run, tasks, first, pdb=False, think=False):
     return history, log
 
 
-def main(model, rounds, out, src, runs=None, pdb=False, think=False):
+def main(model, rounds, out, src, runs=None, pdb=False, think=False, show="card"):
     rows = [json.loads(line) for line in Path(src).read_text().splitlines()]
     if runs is not None:
         rows = [r for r in rows if r["run"] < runs]
@@ -102,14 +106,14 @@ def main(model, rounds, out, src, runs=None, pdb=False, think=False):
     todo = [j for j in jobs if (j[0], j[1]) not in kept]
     print(f"{len(jobs) - len(todo)} sheets kept from {out}, {len(todo)} to run", flush=True)
     with ThreadPoolExecutor(4) as ex:
-        ran = dict(zip([(j[0], j[1]) for j in todo], ex.map(lambda j: sheet(model, rounds, *j, pdb=pdb, think=think), todo)))
+        ran = dict(zip([(j[0], j[1]) for j in todo], ex.map(lambda j: sheet(model, rounds, *j, pdb=pdb, think=think, show=show), todo)))
     done = [kept.get((j[0], j[1])) or ran[(j[0], j[1])] for j in jobs]
     outrows = []
     for (s, run, tasks, _), (history, log) in zip(jobs, done):
         for t in tasks:
             gold = from_ranges(t["gold"])
             h = history[t["id"]]
-            outrows.append({"model": f"openrouter:{model}", "decode": "verify", "arm": "view", "source": Path(src).name, "card": "pdb" if pdb else "plain", "think": think,
+            outrows.append({"model": f"openrouter:{model}", "decode": "verify", "arm": "view", "source": Path(src).name, "card": show if show != "card" else "pdb" if pdb else "plain", "think": think,
                             "run": run, "system": s, "id": t["id"], "category": t["category"],
                             "difficulty": t["difficulty"], "split": t["split"], "mask": h[0],
                             "verdict": verdict(s, h[0], gold), "verify_mask": h[-1],
@@ -130,6 +134,6 @@ def main(model, rounds, out, src, runs=None, pdb=False, think=False):
 
 
 if __name__ == "__main__":
-    args = [a for a in sys.argv[1:] if a not in ("--pdb", "--think")]
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
     main(args[0], int(args[1]), args[2], args[3], int(args[4]) if len(args) > 4 else None, pdb="--pdb" in sys.argv,
-         think="--think" in sys.argv)
+         think="--think" in sys.argv, show=next((a[7:] for a in sys.argv if a.startswith("--show=")), "card"))
