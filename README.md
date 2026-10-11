@@ -4,8 +4,7 @@ When a language model writes simulation input, where should a deterministic chec
 (constrained decoding), or after it (a loop that feeds the checker's verdict back)? This repo tested that on
 AMBER, mostly on atom masks (`:1-10@CA`, `(:1<:6.0)&:WAT`), where cheap and open models fail often.
 
-**Status: closed (2026-10-08).** Only the AMBER work ran. The planned OpenFOAM, GRPO and LAMMPS phases in
-`docs/ONBOARDING.md` did not.
+**Status: closed (2026-10-08).**
 
 ## Result
 
